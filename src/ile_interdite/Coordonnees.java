@@ -10,6 +10,14 @@ package ile_interdite;
  * @author reboulef
  */
 public class Coordonnees {
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
     private int x;
     private int y;
     
