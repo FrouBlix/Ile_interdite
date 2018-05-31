@@ -10,5 +10,12 @@ package ile_interdite;
  * @author reboulef
  */
 public class Plongeur extends Aventurier{
+
+    public Plongeur(int PA, Tuile spawn) {
+        super(PA, spawn);
+    }
+    
     
 }
+
+
