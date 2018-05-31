@@ -13,7 +13,7 @@ public enum Special {
     rien,
     cristal,
     calice,
-    oierre,
+    pierre,
     griffon,
     heliport
 }
