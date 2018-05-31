@@ -12,5 +12,14 @@ import java.util.HashMap;
  * @author reboulef
  */
 public class Grille {
+
+    public Grille() {
+        this.tuiles = new HashMap<>();
+    }
     private HashMap<Coordonnees,Tuile> tuiles;
+    
+    public void addTuile(Tuile tuile){
+        this.tuiles.put(tuile.getCoordonnees(), tuile);
+    }
+    
 }
