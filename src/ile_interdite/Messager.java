@@ -10,5 +10,11 @@ package ile_interdite;
  * @author reboulef
  */
 public class Messager extends Aventurier{
+
+    public Messager(int PA, Tuile spawn) {
+        super(PA, spawn);
+    }
+    
+    
     
 }

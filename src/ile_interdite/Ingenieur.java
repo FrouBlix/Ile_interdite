@@ -10,5 +10,11 @@ package ile_interdite;
  * @author reboulef
  */
 public class Ingenieur extends Aventurier{
+
+    public Ingenieur(int PA, Tuile spawn) {
+        super(PA, spawn);
+    }
+    
+    
     
 }

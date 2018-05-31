@@ -10,5 +10,11 @@ package ile_interdite;
  * @author reboulef
  */
 public class Navigateur extends Aventurier{
+
+    public Navigateur(int PA, Tuile spawn) {
+        super(PA, spawn);
+    }
+    
+    
     
 }

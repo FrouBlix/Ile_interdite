@@ -10,5 +10,10 @@ package ile_interdite;
  * @author reboulef
  */
 public class Pilote extends Aventurier{
+
+    public Pilote(int PA, Tuile spawn) {
+        super(PA, spawn);
+    }
+    
     
 }

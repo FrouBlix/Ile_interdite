@@ -13,6 +13,11 @@ public abstract class Aventurier {
     private int pointsAction;       //Points d'action de l'aventurier
     private Tuile tuileOccupe;      //Tuile occupée par l'aventurier
 
+    public Aventurier(int PA, Tuile spawn){
+        this.pointsAction = PA;
+        this.tuileOccupe = spawn;
+    }
+    
     public int getPointsAction() {
         return pointsAction;
     }
