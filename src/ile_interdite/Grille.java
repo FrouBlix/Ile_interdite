@@ -51,4 +51,8 @@ public class Grille {
         throw new Exception("Grille: sorti de la boucle en ajoutant " + tuile);
     }
     
+    public Tuile getTuile(Coordonnees coords){
+        return this.tuiles.get(coords);
+    }
+    
 }
