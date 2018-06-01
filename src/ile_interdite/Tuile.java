@@ -40,6 +40,10 @@ public class Tuile {
         return this.coordonnees;
     }
     
+    public void setCoordonnees(Coordonnees coords){
+        this.coordonnees = coords;
+    }
+    
     public String getNom(){
         return this.nom;
     }
