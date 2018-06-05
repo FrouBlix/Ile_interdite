@@ -34,49 +34,52 @@ public abstract class Aventurier {
     
     public HashMap<Tuile, Integer> getDeplacementPossible(Grille grille){
         Tuile tdd  = this.getTuileOccupe();//tuile de depart
-        
-        for (Tuile tuile : this.propager(grille,tdd)) {
-             //TODO: je sais pas c'est complique
-             //mais c'est pas fini
-             
-        }
-        
+        this.saveDP.put(tdd,0); //rester au meme endroit ne coute rien
+        this.propager(grille, tdd, 1);
         return this.saveDP;
     }
     
     
-    public ArrayList<Tuile> propager(Grille grille, Tuile tuileDeDepart){ //TODO: commenter mon code lolmdr
-        ArrayList<Tuile> al = new ArrayList<>();        
+    public void propager(Grille grille, Tuile tuileDeDepart, int cout){ //TODO: commenter mon code lolmdr
         Coordonnees coords = tuileDeDepart.getCoordonnees();
-        
+        ArrayList<Tuile> al = new ArrayList<>(); // cet arraylist contient les tuiles nouvellement considerees
         coords.setXplus(-1);
         Tuile tuile = grille.getTuile(coords);
-        if (tuile != null  && tuile.getEtat() != EtatsTuiles.sombree && !this.saveDP.containsKey(tuile)) {
+        if (tuile != null  && tuile.getEtat() != EtatsTuiles.sombree && this.saveDP.get(tuile)>cout) { //la tuile existe (on ne sort pas de la map), elle n'est pas sombree, et l'eventuel chemin trouve precedemment est plus cher.
+            this.saveDP.put(tuile, cout);
             al.add(tuile);
         }
         
         coords.setXplus(1);
         coords.setYplus(-1);
         tuile = grille.getTuile(coords);
-        if (tuile != null  && tuile.getEtat() != EtatsTuiles.sombree && !this.saveDP.containsKey(tuile)) {
+        if (tuile != null  && tuile.getEtat() != EtatsTuiles.sombree && this.saveDP.get(tuile)>cout) {
+            this.saveDP.put(tuile, cout);
             al.add(tuile);
         }
         
         coords.setXplus(1);
         coords.setYplus(1);
         tuile = grille.getTuile(coords);
-        if (tuile != null  && tuile.getEtat() != EtatsTuiles.sombree && !this.saveDP.containsKey(tuile)) {
+        if (tuile != null  && tuile.getEtat() != EtatsTuiles.sombree && this.saveDP.get(tuile)>cout) {
+            this.saveDP.put(tuile, cout);
             al.add(tuile);
         }
         
         coords.setXplus(-1);
         coords.setYplus(1);
         tuile = grille.getTuile(coords);
-        if (tuile != null  && tuile.getEtat() != EtatsTuiles.sombree && !this.saveDP.containsKey(tuile)) {
+        if (tuile != null  && tuile.getEtat() != EtatsTuiles.sombree && this.saveDP.get(tuile)>cout) {
+            this.saveDP.put(tuile, cout);
             al.add(tuile);
         }
-        
-        return al;
+        if (cout < this.getPointsAction()) {
+            for(Tuile tdd: al){
+                this.propager(grille, tdd, cout+1);
+            }      
+        }
     }
+    
+    
 }
 
