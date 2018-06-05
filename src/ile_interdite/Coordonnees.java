@@ -11,13 +11,6 @@ package ile_interdite;
  */
 public class Coordonnees {
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
     private int x;
     private int y;
     
@@ -34,5 +27,28 @@ public class Coordonnees {
         return y;
     }
     
+    public int getXplus(int delta){
+        return x + delta;
+    }
+    
+    public int getYplus(int delta){
+        return y + delta;
+    }
+    
+    public void setXplus(int delta) {
+        this.x = this.x + delta;
+    }
+
+    public void setYplus(int delta) {
+        this.y = this.y + delta;
+    }
+    
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
 }
 

@@ -37,9 +37,9 @@ public class Grille {
     
     public void autoAddTuile(Tuile tuile) throws Exception{
         Coordonnees coords = new Coordonnees(0, 0);
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 6; i++) {
             coords.setX(i);
-            for (int j = 0; j < 5; j++) {
+            for (int j = 0; j < 6; j++) {
                 coords.setY(j);
                 if (!this.tuiles.containsKey(coords)) {
                     tuile.setCoordonnees(coords);
@@ -49,6 +49,10 @@ public class Grille {
             }
         }
         throw new Exception("Grille: sorti de la boucle en ajoutant " + tuile);
+    }
+    
+    public Tuile getTuile(Coordonnees coords){
+        return this.tuiles.get(coords);
     }
     
 }
