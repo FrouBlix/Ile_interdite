@@ -31,12 +31,8 @@ public abstract class Aventurier {
     public Tuile getTuileOccupe(){
         return this.tuileOccupe;
     }
-<<<<<<< HEAD
-    
-    //public void bouger(Tuile){
-    //
-    //}
-=======
+
+
 
     public void setPointsAction(int pointsAction) {
         this.pointsAction = pointsAction;
@@ -106,7 +102,4 @@ public abstract class Aventurier {
         }
     }
     
-    
->>>>>>> olivier
 }
-
