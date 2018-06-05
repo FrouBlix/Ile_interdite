@@ -31,8 +31,18 @@ public abstract class Aventurier {
     public Tuile getTuileOccupe(){
         return this.tuileOccupe;
     }
+
+    public void setPointsAction(int pointsAction) {
+        this.pointsAction = pointsAction;
+    }
+
+    public void setTuileOccupe(Tuile tuileOccupe) {
+        this.tuileOccupe = tuileOccupe;
+    }
     
-    public HashMap<Tuile, Integer> getDeplacementPossible(Grille grille){
+    
+    
+    public HashMap<Tuile, Integer> getDeplacementPossible(Grille grille){ // cette methode renvoie un Hashmap qui pour chaque tuile renvoie le cout de s'y deplacer.
         Tuile tdd  = this.getTuileOccupe();//tuile de depart
         this.saveDP.put(tdd,0); //rester au meme endroit ne coute rien
         this.propager(grille, tdd, 1);
@@ -40,7 +50,7 @@ public abstract class Aventurier {
     }
     
     
-    public void propager(Grille grille, Tuile tuileDeDepart, int cout){ //TODO: commenter mon code lolmdr
+    public void propager(Grille grille, Tuile tuileDeDepart, int cout){ 
         Coordonnees coords = tuileDeDepart.getCoordonnees();
         ArrayList<Tuile> al = new ArrayList<>(); // cet arraylist contient les tuiles nouvellement considerees
         coords.setXplus(-1);
@@ -53,7 +63,7 @@ public abstract class Aventurier {
         coords.setXplus(1);
         coords.setYplus(-1);
         tuile = grille.getTuile(coords);
-        if (tuile != null  && tuile.getEtat() != EtatsTuiles.sombree && this.saveDP.get(tuile)>cout) {
+        if (tuile != null  && tuile.getEtat() != EtatsTuiles.sombree && this.saveDP.get(tuile)>cout) {//ouais je me repete.
             this.saveDP.put(tuile, cout);
             al.add(tuile);
         }
@@ -61,7 +71,7 @@ public abstract class Aventurier {
         coords.setXplus(1);
         coords.setYplus(1);
         tuile = grille.getTuile(coords);
-        if (tuile != null  && tuile.getEtat() != EtatsTuiles.sombree && this.saveDP.get(tuile)>cout) {
+        if (tuile != null  && tuile.getEtat() != EtatsTuiles.sombree && this.saveDP.get(tuile)>cout) {//le compilateur optimisera tout ca
             this.saveDP.put(tuile, cout);
             al.add(tuile);
         }
@@ -69,14 +79,24 @@ public abstract class Aventurier {
         coords.setXplus(-1);
         coords.setYplus(1);
         tuile = grille.getTuile(coords);
-        if (tuile != null  && tuile.getEtat() != EtatsTuiles.sombree && this.saveDP.get(tuile)>cout) {
+        if (tuile != null  && tuile.getEtat() != EtatsTuiles.sombree && this.saveDP.get(tuile)>cout) {//enfin j'espere
             this.saveDP.put(tuile, cout);
             al.add(tuile);
         }
         if (cout < this.getPointsAction()) {
             for(Tuile tdd: al){
-                this.propager(grille, tdd, cout+1);
+                this.propager(grille, tdd, cout+1); //I'll save you! Recursion powrs Activate!
             }      
+        }
+    }
+    
+    public boolean seDeplacer(Tuile destination){
+        if(this.saveDP.get(destination) !=null && this.saveDP.get(destination) <= this.getPointsAction()){
+            this.setTuileOccupe(destination);
+            this.saveDP = new HashMap<>();
+            return true;
+        }else{
+            return false;
         }
     }
     
