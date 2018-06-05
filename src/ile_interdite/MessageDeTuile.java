@@ -7,14 +7,13 @@ package ile_interdite;
 
 /**
  *
- * @author reboulef
+ * @author senno
  */
-public class Ile_interdite {
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        Controlleur cont = new Controlleur();
+public class MessageDeTuile extends Message {
+    public Tuile tuileDOrigine;
+    public MessageDeTuile(String contenu, Tuile tuileDOrigine) {
+        super(contenu);
+        this.tuileDOrigine = tuileDOrigine;
     }
     
 }

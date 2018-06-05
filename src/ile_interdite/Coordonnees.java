@@ -50,5 +50,24 @@ public class Coordonnees {
     public void setY(int y) {
         this.y = y;
     }
+
+    @Override
+    public String toString() {
+        return "Coordonnees{" + "x=" + x + ", y=" + y + '}';
+    }
+    
+    @Override
+    public boolean equals(Object o){
+        return this.hashCode() == o.hashCode();
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 97 * hash + this.x;
+        hash = 97 * hash + this.y;
+        return hash;
+    }
+    
 }
 

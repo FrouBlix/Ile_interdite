@@ -13,6 +13,7 @@ import java.util.HashMap;
  * @author reboulef
  */
 public class Grille {
+    private HashMap<Coordonnees,Tuile> tuiles;
 
     public Grille() {
         this.tuiles = new HashMap<>();
@@ -28,8 +29,8 @@ public class Grille {
         this.tuiles.put(new Coordonnees(4, 5), null);
         this.tuiles.put(new Coordonnees(5, 4), null);
         this.tuiles.put(new Coordonnees(5, 5), null);
+        addTuile(new Tuile(Special.cristal, "saucisse", new Coordonnees(3, 3)));
     }
-    private HashMap<Coordonnees,Tuile> tuiles;
     
     public void addTuile(Tuile tuile){
         this.tuiles.put(tuile.getCoordonnees(), tuile);
