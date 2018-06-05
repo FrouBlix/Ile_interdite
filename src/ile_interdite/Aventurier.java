@@ -55,38 +55,35 @@ public abstract class Aventurier {
         ArrayList<Tuile> al = new ArrayList<>(); // cet arraylist contient les tuiles nouvellement considerees
         coords.setXplus(-1);
         Tuile tuile = grille.getTuile(coords);
-        if (tuile != null  && tuile.getEtat() != EtatsTuiles.sombree && this.saveDP.get(tuile)>cout) { //la tuile existe (on ne sort pas de la map), elle n'est pas sombree, et l'eventuel chemin trouve precedemment est plus cher.
-            this.saveDP.put(tuile, cout);
-            al.add(tuile);
-        }
+        testTuile(tuile, al, cout);
         
         coords.setXplus(1);
         coords.setYplus(-1);
         tuile = grille.getTuile(coords);
-        if (tuile != null  && tuile.getEtat() != EtatsTuiles.sombree && this.saveDP.get(tuile)>cout) {//ouais je me repete.
-            this.saveDP.put(tuile, cout);
-            al.add(tuile);
-        }
+        testTuile(tuile, al, cout);
         
         coords.setXplus(1);
         coords.setYplus(1);
         tuile = grille.getTuile(coords);
-        if (tuile != null  && tuile.getEtat() != EtatsTuiles.sombree && this.saveDP.get(tuile)>cout) {//le compilateur optimisera tout ca
-            this.saveDP.put(tuile, cout);
-            al.add(tuile);
-        }
+        testTuile(tuile, al, cout);
+
         
         coords.setXplus(-1);
         coords.setYplus(1);
         tuile = grille.getTuile(coords);
-        if (tuile != null  && tuile.getEtat() != EtatsTuiles.sombree && this.saveDP.get(tuile)>cout) {//enfin j'espere
-            this.saveDP.put(tuile, cout);
-            al.add(tuile);
-        }
+        testTuile(tuile, al, cout);
+        
         if (cout < this.getPointsAction()) {
             for(Tuile tdd: al){
                 this.propager(grille, tdd, cout+1); //I'll save you! Recursion powrs Activate!
             }      
+        }
+    }
+    
+    public void testTuile(Tuile tuile, ArrayList<Tuile> al, int cout){
+         if (tuile != null  && tuile.getEtat() != EtatsTuiles.sombree && this.saveDP.get(tuile)>cout) {//enfin j'espere
+            this.saveDP.put(tuile, cout);
+            al.add(tuile);
         }
     }
     
