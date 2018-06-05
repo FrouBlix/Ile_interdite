@@ -12,9 +12,14 @@ package ile_interdite;
 public class Controlleur implements Observateur{
 
     private Grille grille;
+    private IHM ihm;
 
     public Controlleur() {
+        Coordonnees coord1 = new Coordonnees(1, 0);
+        Coordonnees coord2 = new Coordonnees(1, 0);
+        System.out.println(coord1 == coord2);
         this.grille = new Grille();
+        this.ihm = new IHM(this,grille);
     }
     
     
