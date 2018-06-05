@@ -25,9 +25,6 @@ public abstract class Aventurier {
     public Tuile getTuileOccupe(){
         return this.tuileOccupe;
     }
-    
-    //public void bouger(Tuile){
-    //
-    //}
+
 }
 
