@@ -57,7 +57,9 @@ public abstract class Aventurier {
     public HashMap<Tuile, Integer> getDeplacementPossible(Grille grille){ // cette methode renvoie un Hashmap qui pour chaque tuile renvoie le cout de s'y deplacer.
         Tuile tdd  = this.getTuileOccupee();//tuile de depart
         this.saveDP.put(tdd,0); //rester au meme endroit ne coute rien
-        this.propager(grille, tdd, 1);
+        if(this.getPointsAction() >0){
+                    this.propager(grille, tdd, 1);
+        }
         return this.saveDP;
     }
     
