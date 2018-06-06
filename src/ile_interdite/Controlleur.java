@@ -32,6 +32,7 @@ public class Controlleur implements Observateur{
         this.ajouterJoueur(joueurTest);
         this.ajouterJoueur(joueur2);
         this.grille.getTuilebyName("La Porte de Bronze").setEtat(EtatsTuiles.inondee);
+        this.grille.getTuilebyName("Les Dunes de l’Illusion").setEtat(EtatsTuiles.sombree);
         //fin de la demo
         
         
@@ -46,13 +47,18 @@ public class Controlleur implements Observateur{
         
     }
     
+    public void resetAction(){
+        this.actionEnCours = ActionEnCours.rien;
+        this.stopDeplacement();
+    }
+    
     public Aventurier prochainJoueur(){
         this.joueurEnCours ++;
         this.joueurEnCours %= this.nombreDeJoueurs;
         Aventurier a = this.listeDesJoueurs.get(joueurEnCours);
         a.setPointsAction(3);
-        this.actionEnCours = ActionEnCours.rien;
         this.aventurierEnCours = a;
+        this.resetAction();
         return a;
     }
     
@@ -62,24 +68,26 @@ public class Controlleur implements Observateur{
     }
     
     public void actionDeplacer(){
-        System.out.println(this.aventurierEnCours);
+//        System.out.println(this.aventurierEnCours);
         this.actionEnCours = ActionEnCours.bouger;
-        System.out.println(this.aventurierEnCours.getClass().getName());
+//        System.out.println(this.aventurierEnCours.getClass().getName());
         this.ihm.getGrille().surligner(aventurierEnCours.getDeplacementPossible(grille));
     }
     
     public void selectDeplacement(Tuile t){
-        this.actionEnCours = ActionEnCours.rien;
-        this.ihm.getGrille().stopSurligner();
         this.aventurierEnCours.seDeplacer(t);
+        this.resetAction();
+    }
+    
+    public void stopDeplacement(){
+        this.ihm.getGrille().stopSurligner();
         this.ihm.getVueAventurier().setBouger(false);
         this.ihm.getGrille().updateAll();
     }
     
-    
     @Override
     public void traiterMessage(Message msg) {
-        System.out.println("message: " + msg.contenu);
+//        System.out.println("message: " + msg.contenu);
         if(msg.contenu == "fin de tour"){
             this.prochainJoueur();
         }
