@@ -5,14 +5,17 @@
  */
 package ile_interdite;
 
+import java.awt.Color;
+
 /**
  *
  * @author reboulef
  */
 public class Navigateur extends Aventurier{
 
-    public Navigateur(int PA, Tuile spawn) {
-        super(PA, spawn);
+    public Navigateur(Tuile spawn) {
+        super(spawn);
+        this.getPion().setColor(Color.decode("#228B22"));
     }
     
     

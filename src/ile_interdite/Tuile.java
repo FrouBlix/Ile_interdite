@@ -5,6 +5,8 @@
  */
 package ile_interdite;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author reboulef
@@ -17,6 +19,21 @@ public class Tuile extends Observe{
     private final Special special;
     private final String nom;
     private Coordonnees coordonnees;
+    private ArrayList<Aventurier> aventuriers;
+    
+    public void addAventurier(Aventurier a){
+        if (!this.aventuriers.contains(a)) {
+            this.aventuriers.add(a);
+        }
+    }
+    
+    public void removeAventurier(Aventurier a){
+        this.aventuriers.remove(a);
+    }
+    
+    public ArrayList<Aventurier> getAventuriers(){
+        return this.aventuriers;
+    }
     
     public Special getSpecial() {
         return special;
@@ -36,6 +53,7 @@ public class Tuile extends Observe{
         this.nom = nom;
         this.coordonnees = coordonnees;
         this.etat = etat.seche; // une tuile nouvellement cree est forcement seche
+        this.aventuriers = new ArrayList<>();
     }
 
     public Coordonnees getCoordonnees(){

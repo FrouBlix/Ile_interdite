@@ -39,5 +39,15 @@ public class VueGrille extends JPanel {
         }
     }
     
+    public void updateAll(){
+        for (Map.Entry<Tuile, VueTuile> entry : tuiles.entrySet()) {
+            Tuile key = entry.getKey();
+            VueTuile value = entry.getValue();
+            value.traiterMessage(new Message("update etat"));
+            value.traiterMessage(new Message("update players"));
+
+        }
+    }
+    
     
 }

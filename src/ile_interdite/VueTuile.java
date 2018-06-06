@@ -12,6 +12,7 @@ import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.HashMap;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -23,11 +24,12 @@ import javax.swing.border.Border;
  */
 public class VueTuile extends Observe implements Observateur{
     private JPanel panelTuile;
+    private JPanel panelPions;
     private JLabel labelTuile;
     private Tuile tuile;
     public VueTuile(Tuile tuile, Observateur obs) {
         this.addObservateur(obs);
-        panelTuile = new JPanel();
+        panelTuile = new JPanel(new BorderLayout());
         panelTuile.addMouseListener(new MouseListener() {
             
             @Override
@@ -52,18 +54,8 @@ public class VueTuile extends Observe implements Observateur{
             }
         });
         this.labelTuile = new JLabel(tuile.getNom());
-        panelTuile.add(this.labelTuile);
-        
-        this.tuile = tuile;
-        switch(this.tuile.getEtat()){
-                case seche: this.panelTuile.setBackground(Color.green);
-                    break;
-                case inondee: this.panelTuile.setBackground(Color.blue);
-                    this.labelTuile.setForeground(Color.white);
-                    break;
-                case sombree: this.panelTuile.setBackground(Color.darkGray);
-                    this.labelTuile.setForeground(Color.white);
-            }
+        panelTuile.add(this.labelTuile, BorderLayout.NORTH);
+        this.tuile = tuile;   
         this.panelTuile.setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
         this.tuile.addObservateur(this);
     }
@@ -86,7 +78,20 @@ public class VueTuile extends Observe implements Observateur{
                     this.labelTuile.setForeground(Color.white);
 
             }
+        }else if(msg.contenu == "update players"){
+            if (panelPions != null) {
+                this.panelTuile.remove(panelPions);
+            }
+            this.panelPions = new JPanel();
+            for (Aventurier aventurier : this.tuile.getAventuriers()) {
+                this.panelPions.add(aventurier.getPion());
+                aventurier.getPion().repaint();
+            }
+            this.panelPions.setOpaque(false);
+            this.panelTuile.add(panelPions, BorderLayout.CENTER);
+
         }
+        
     }
     
     

@@ -11,8 +11,8 @@ package ile_interdite;
  */
 public class Pilote extends Aventurier{
 
-    public Pilote(int PA, Tuile spawn) {
-        super(PA, spawn);
+    public Pilote(Tuile spawn) {
+        super(spawn);
     }
     
     

@@ -5,14 +5,17 @@
  */
 package ile_interdite;
 
+import java.awt.Color;
+
 /**
  *
  * @author reboulef
  */
 public class Messager extends Aventurier{
 
-    public Messager(int PA, Tuile spawn) {
-        super(PA, spawn);
+    public Messager(Tuile spawn) {
+        super(spawn);
+        this.getPion().setColor(Color.white);
     }
     
     

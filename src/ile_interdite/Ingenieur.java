@@ -11,8 +11,8 @@ package ile_interdite;
  */
 public class Ingenieur extends Aventurier{
 
-    public Ingenieur(int PA, Tuile spawn) {
-        super(PA, spawn);
+    public Ingenieur(Tuile spawn) {
+        super(spawn);
     }
     
     

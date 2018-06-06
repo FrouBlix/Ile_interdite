@@ -15,35 +15,46 @@ import java.util.Map;
  */
 public abstract class Aventurier {
     private int pointsAction;       //Points d'action de l'aventurier
-    private Tuile tuileOccupe;      //Tuile occupée par l'aventurier
+    private Tuile tuileOccupee;      //Tuile occupée par l'aventurier
     private HashMap<Tuile,Integer> saveDP; //deplacements possibles
+    private Pion pion;
 
-    public Aventurier(int PA, Tuile spawn){
-        this.pointsAction = PA;
-        this.tuileOccupe = spawn;
+    public Aventurier(Tuile spawn){
+        this.setTuileOccupee(spawn);
         this.saveDP = new HashMap<>();
+        this.pion = new Pion();
+    }
+    
+    public Pion getPion(){
+        return this.pion;
     }
     
     public int getPointsAction() {
         return pointsAction;
     }
     
-    public Tuile getTuileOccupe(){
-        return this.tuileOccupe;
+    public Tuile getTuileOccupee(){
+        return this.tuileOccupee;
     }
 
     public void setPointsAction(int pointsAction) {
         this.pointsAction = pointsAction;
     }
 
-    public void setTuileOccupe(Tuile tuileOccupe) {
-        this.tuileOccupe = tuileOccupe;
+    public void setTuileOccupee(Tuile tuileOccupee) {
+        if (this.tuileOccupee != null) {
+            this.tuileOccupee.removeAventurier(this);
+
+        }
+        this.tuileOccupee = tuileOccupee;
+        this.tuileOccupee.addAventurier(this);
+
     }
     
     
     
     public HashMap<Tuile, Integer> getDeplacementPossible(Grille grille){ // cette methode renvoie un Hashmap qui pour chaque tuile renvoie le cout de s'y deplacer.
-        Tuile tdd  = this.getTuileOccupe();//tuile de depart
+        Tuile tdd  = this.getTuileOccupee();//tuile de depart
         this.saveDP.put(tdd,0); //rester au meme endroit ne coute rien
         this.propager(grille, tdd, 1);
         return this.saveDP;
@@ -81,7 +92,7 @@ public abstract class Aventurier {
     }
     
     public void testTuile(Tuile tuile, ArrayList<Tuile> al, int cout){
-         if (tuile != null  && tuile.getEtat() != EtatsTuiles.sombree && this.saveDP.get(tuile)>cout) {//enfin j'espere
+         if (tuile != null  && tuile.getEtat() != EtatsTuiles.sombree && (this.saveDP.get(tuile) == null ? 0 : this.saveDP.get(tuile))>cout) {//enfin j'espere
             this.saveDP.put(tuile, cout);
             al.add(tuile);
         }
@@ -89,7 +100,7 @@ public abstract class Aventurier {
     
     public boolean seDeplacer(Tuile destination){
         if(this.saveDP.get(destination) !=null && this.saveDP.get(destination) <= this.getPointsAction()){
-            this.setTuileOccupe(destination);
+            this.setTuileOccupee(destination);
             this.saveDP = new HashMap<>();
             return true;
         }else{
