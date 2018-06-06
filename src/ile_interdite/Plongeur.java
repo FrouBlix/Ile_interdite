@@ -11,8 +11,8 @@ package ile_interdite;
  */
 public class Plongeur extends Aventurier{
 
-    public Plongeur(int PA, Tuile spawn) {
-        super(PA, spawn);
+    public Plongeur(Tuile spawn) {
+        super(spawn);
     }
     
     

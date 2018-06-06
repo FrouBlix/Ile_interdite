@@ -7,14 +7,11 @@ package ile_interdite;
 
 /**
  *
- * @author reboulef
+ * @author senno
  */
-public class Ingenieur extends Aventurier{
-
-    public Ingenieur(Tuile spawn) {
-        super(spawn);
-    }
-    
-    
-    
+public enum ActionEnCours {
+    rien,
+    bouger,
+    assecher,
+    pouvoir,
 }

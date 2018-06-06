@@ -2,3 +2,7 @@
 *.properties
 
 nbproject/private/
+
+*.class
+/dist/
+/build/

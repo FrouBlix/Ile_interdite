@@ -26,18 +26,41 @@ public class VueGrille extends JPanel {
                 coords.setX(i);
                 coords.setY(j);
                 Tuile tuile = grille.getTuile(coords);
-                System.out.println(tuile + coords.toString());
                 if(tuile != null){
-                    System.out.println("ping");
-                    VueTuile vueTuile = new VueTuile(tuile);
+                    VueTuile vueTuile = new VueTuile(tuile, observateurdesTuiles);
                     tuiles.put(tuile, vueTuile);
                     this.add(vueTuile.asJPanel());
-                    vueTuile.addObservateur(observateurdesTuiles);
+                }else{
+                    this.add(new JPanel());
                 }
                 
             }
         }
     }
     
+    public void updateAll(){
+        for (Map.Entry<Tuile, VueTuile> entry : tuiles.entrySet()) {
+            Tuile key = entry.getKey();
+            VueTuile value = entry.getValue();
+            value.traiterMessage(new Message("update etat"));
+            value.traiterMessage(new Message("update players"));
+
+        }
+    }
+    
+    public void surligner(HashMap<Tuile, Integer> tuilesASur){
+        for (Map.Entry<Tuile, Integer> entrySet : tuilesASur.entrySet()) {
+            Tuile key = entrySet.getKey();
+            Integer value = entrySet.getValue();
+            this.tuiles.get(key).surligner(value);
+        }
+    }
+    public void stopSurligner(){
+        for (Map.Entry<Tuile, VueTuile> entrySet : tuiles.entrySet()) {
+            Tuile key = entrySet.getKey();
+            VueTuile value = entrySet.getValue();
+            value.surligner(0);
+        }
+    }
     
 }

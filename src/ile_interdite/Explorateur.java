@@ -11,8 +11,8 @@ package ile_interdite;
  */
 public class Explorateur extends Aventurier{
 
-    public Explorateur(int PA, Tuile spawn) {
-        super(PA, spawn);
+    public Explorateur(Tuile spawn) {
+        super(spawn);
     }
     
     
