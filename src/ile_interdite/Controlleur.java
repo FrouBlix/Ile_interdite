@@ -18,6 +18,7 @@ public class Controlleur implements Observateur{
     private IHM ihm;
     private ArrayList<Aventurier> listeDesJoueurs;
     private int joueurEnCours =0;
+    private Aventurier aventurierEnCours;
     private int nombreDeJoueurs=0;
     private ActionEnCours actionEnCours = ActionEnCours.rien;
     
@@ -38,7 +39,8 @@ public class Controlleur implements Observateur{
         this.ihm = new IHM(this,grille);
 
         this.ihm.getGrille().updateAll(); //on update toutes les tuiles apres avoir fini le chargement
-        
+        this.joueurEnCours = nombreDeJoueurs -1;
+        this.prochainJoueur();
         
         
         
@@ -50,6 +52,7 @@ public class Controlleur implements Observateur{
         Aventurier a = this.listeDesJoueurs.get(joueurEnCours);
         a.setPointsAction(3);
         this.actionEnCours = ActionEnCours.rien;
+        this.aventurierEnCours = a;
         return a;
     }
     
@@ -59,15 +62,18 @@ public class Controlleur implements Observateur{
     }
     
     public void actionDeplacer(){
+        System.out.println(this.aventurierEnCours);
         this.actionEnCours = ActionEnCours.bouger;
-        System.out.println(this.listeDesJoueurs.get(joueurEnCours).getClass().getName());
-        this.ihm.getGrille().surligner(this.listeDesJoueurs.get(joueurEnCours).getDeplacementPossible(grille));
+        System.out.println(this.aventurierEnCours.getClass().getName());
+        this.ihm.getGrille().surligner(aventurierEnCours.getDeplacementPossible(grille));
     }
     
     public void selectDeplacement(Tuile t){
         this.actionEnCours = ActionEnCours.rien;
         this.ihm.getGrille().stopSurligner();
-        this.listeDesJoueurs.get(joueurEnCours).seDeplacer(t);
+        this.aventurierEnCours.seDeplacer(t);
+        this.ihm.getVueAventurier().setBouger(false);
+        this.ihm.getGrille().updateAll();
     }
     
     
@@ -79,6 +85,9 @@ public class Controlleur implements Observateur{
         }
         if(msg.contenu == "bouger"){
             this.actionDeplacer();
+        }
+        if (msg.contenu == "stop bouger") {
+            this.selectDeplacement(this.aventurierEnCours.getTuileOccupee()); //on annule le deplacement. pour quitter proprement, on dit juste qu'on bouge en direction du meme endroit
         }
         
         

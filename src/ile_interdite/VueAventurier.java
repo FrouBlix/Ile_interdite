@@ -5,6 +5,7 @@
  */
 package ile_interdite;
 
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -22,12 +23,14 @@ public class VueAventurier extends Observe{
     private JPanel panel;
     private JButton boutonBouger;
     private boolean bouger = false;
+    private JButton boutonPasser;
 
     public VueAventurier(Observateur obs) {
         this.panel = new JPanel();
+        this.panel.setLayout(new GridLayout(0, 1));
         this.addObservateur(obs);
         this.boutonBouger = new JButton("Se deplacer");
-        this.boutonBouger.setPreferredSize(this.boutonBouger.getPreferredSize());
+        this.boutonBouger.setPreferredSize(this.boutonBouger.getPreferredSize()); // fixe la taille du bouton
         this.boutonBouger.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -37,7 +40,16 @@ public class VueAventurier extends Observe{
             }
         });
         
+        this.boutonPasser = new JButton("Passer le tour");
+        this.boutonPasser.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                notifierObservateur(new Message("fin de tour"));
+            }
+        });
+
         this.panel.add(boutonBouger);
+        this.panel.add(boutonPasser);
     }
     
     public void setBouger(boolean bouger){

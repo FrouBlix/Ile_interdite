@@ -65,36 +65,35 @@ public abstract class Aventurier {
     public void propager(Grille grille, Tuile tuileDeDepart, int cout){ 
         Coordonnees coords = tuileDeDepart.getCoordonnees();
         ArrayList<Tuile> al = new ArrayList<>(); // cet arraylist contient les tuiles nouvellement considerees
-        coords.setXplus(-1);
-        Tuile tuile = grille.getTuile(coords);
+        Tuile tuile = grille.getTuile(coords.getPlus(-1, 0));
         testTuile(tuile, al, cout);
         
-        coords.setXplus(1);
-        coords.setYplus(-1);
-        tuile = grille.getTuile(coords);
-        testTuile(tuile, al, cout);
-        
-        coords.setXplus(1);
-        coords.setYplus(1);
-        tuile = grille.getTuile(coords);
+        tuile = grille.getTuile(coords.getPlus(0, -1));
         testTuile(tuile, al, cout);
 
-        
-        coords.setXplus(-1);
-        coords.setYplus(1);
-        tuile = grille.getTuile(coords);
+        tuile = grille.getTuile(coords.getPlus(1, 0));
+        testTuile(tuile, al, cout);
+
+        tuile = grille.getTuile(coords.getPlus(0, 1));
         testTuile(tuile, al, cout);
         
 //        if (cout < this.getPointsAction()) {
 //            for(Tuile tdd: al){
-//                this.propager(grille, tdd, cout+1); //I'll save you! Recursion powrs Activate!
+//                this.propager(grille, tdd, cout+1); //I'll save you! Recursion powers Activate!
 //            }      
 //        }
     }
     
     public void testTuile(Tuile tuile, ArrayList<Tuile> al, int cout){
-        System.out.println(tuile.toString()); 
-        if (tuile != null  && tuile.getEtat() != EtatsTuiles.sombree && ((this.saveDP.get(tuile) == null ? 0 : this.saveDP.get(tuile))>cout)) { //fixme
+//        System.out.println(tuile.toString()); 
+//        System.out.println(this.saveDP);
+//        int oldCout;
+//        if(this.saveDP.get(tuile) == null){
+//            oldCout =0;
+//        }else{
+//            oldCout = this.saveDP.get(tuile);
+//        }
+        if (tuile != null  && tuile.getEtat() != EtatsTuiles.sombree /*&& oldCout > cout*/) { //fixme
             this.saveDP.put(tuile, cout);
              System.out.println("=====ACCEPT=====");
             al.add(tuile);
@@ -111,6 +110,12 @@ public abstract class Aventurier {
             return false;
         }
     }
+
+    @Override
+    public String toString() {
+        return "Aventurier{\n" + "pointsAction=" + pointsAction + ", \ntuileOccupee=" + tuileOccupee + '}';
+    }
+    
     
     
 }

@@ -50,6 +50,10 @@ public class Coordonnees {
     public void setY(int y) {
         this.y = y;
     }
+    
+    public Coordonnees getPlus(int deltaX, int deltaY){
+        return new Coordonnees(this.getXplus(deltaX), this.getYplus(deltaY));
+    }
 
     @Override
     public String toString() {
