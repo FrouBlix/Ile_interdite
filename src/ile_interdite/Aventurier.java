@@ -77,27 +77,46 @@ public abstract class Aventurier {
         tuile = grille.getTuile(coords.getPlus(0, 1));
         testTuile(tuile, al, cout);
         
-//        if (cout < this.getPointsAction()) {
-//            for(Tuile tdd: al){
-//                this.propager(grille, tdd, cout+1); //I'll save you! Recursion powers Activate!
-//            }      
-//        }
+        if (cout < this.getPointsAction()) {
+            for(Tuile tdd: al){
+                this.propager(grille, tdd, cout+1); //I'll save you! Recursion powers Activate!
+            }      
+        }
     }
     
     public void testTuile(Tuile tuile, ArrayList<Tuile> al, int cout){
+        
+            
+            
+            
 //        System.out.println(tuile.toString()); 
 //        System.out.println(this.saveDP);
-//        int oldCout;
-//        if(this.saveDP.get(tuile) == null){
-//            oldCout =0;
-//        }else{
-//            oldCout = this.saveDP.get(tuile);
-//        }
-        if (tuile != null  && tuile.getEtat() != EtatsTuiles.sombree /*&& oldCout > cout*/) { //fixme
-            this.saveDP.put(tuile, cout);
-             System.out.println("=====ACCEPT=====");
-            al.add(tuile);
+        
+        
+        if (tuile != null && tuile.getEtat() != EtatsTuiles.sombree) {
+            
+            int oldCout;
+            if(this.saveDP.get(tuile) == null){
+                oldCout = 4;
+            }else{
+                oldCout = this.saveDP.get(tuile);
+            }
+//            System.out.println(oldCout);
+            if (oldCout > cout) {
+                this.saveDP.put(tuile, cout);
+//                System.out.println("=====ACCEPT=====");
+                al.add(tuile);
+            }
+            
+            
         }
+        
+        
+        
+        
+        
+        
+
     }
     
     public boolean seDeplacer(Tuile destination){

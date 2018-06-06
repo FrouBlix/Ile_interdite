@@ -28,7 +28,7 @@ public class Pion extends JPanel{
         g.fillOval(0, 0, h, w);
         g.setColor(Color.black);
         g.drawOval(0, 0, h, w);
-        System.out.println("painting pion.");
+//        System.out.println("painting pion.");
     }
     
     public void setColor(Color c){
