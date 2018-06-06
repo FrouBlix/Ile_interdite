@@ -6,6 +6,7 @@
 package ile_interdite;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -16,17 +17,17 @@ import javax.swing.JPanel;
  *
  * @author senno
  */
-public class VueTuile extends Observe {
+public class VueTuile extends Observe implements Observateur{
     private JPanel panelTuile;
     private Tuile tuile;
-    public VueTuile(Tuile tuile) {
+    public VueTuile(Tuile tuile, Observateur obs) {
+        this.addObservateur(obs);
         panelTuile = new JPanel();
         panelTuile.addMouseListener(new MouseListener() {
-
+            
             @Override
             public void mouseClicked(MouseEvent e) {
                 notifierObservateur(new MessageDeTuile("clic",tuile));
-                System.out.println("clic");
             }
 
             @Override
@@ -46,11 +47,33 @@ public class VueTuile extends Observe {
             }
         });
         panelTuile.add(new JLabel(tuile.getNom()));
+        
         this.tuile = tuile;
+        switch(this.tuile.getEtat()){
+                case seche: this.panelTuile.setBackground(Color.green);
+                    break;
+                case inondee: this.panelTuile.setBackground(Color.blue);
+                    break;
+                case sombree: this.panelTuile.setBackground(Color.darkGray);
+            }
+        this.tuile.addObservateur(this);
     }
     
     public JPanel asJPanel(){
         return this.panelTuile;
+    }
+
+    @Override
+    public void traiterMessage(Message msg) {
+        if (msg.contenu == "update etat") {
+            switch(this.tuile.getEtat()){
+                case seche: this.panelTuile.setBackground(Color.green);
+                    break;
+                case inondee: this.panelTuile.setBackground(Color.blue);
+                    break;
+                case sombree: this.panelTuile.setBackground(Color.darkGray);
+            }
+        }
     }
     
     

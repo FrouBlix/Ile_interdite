@@ -9,7 +9,8 @@ package ile_interdite;
  *
  * @author reboulef
  */
-public class Tuile {
+public class Tuile extends Observe{
+
 
  
     private EtatsTuiles etat;
@@ -27,13 +28,14 @@ public class Tuile {
 
     public void setEtat(EtatsTuiles etat) {
         this.etat = etat;
+        this.notifierObservateur(new Message("update etat"));
     }
 
     public Tuile(Special special, String nom, Coordonnees coordonnees) {
         this.special = special;
         this.nom = nom;
         this.coordonnees = coordonnees;
-        this.setEtat(EtatsTuiles.seche); // une tuile nouvellement cree est forcement seche
+        this.etat = etat.seche; // une tuile nouvellement cree est forcement seche
     }
 
     public Coordonnees getCoordonnees(){
@@ -47,7 +49,8 @@ public class Tuile {
     public String getNom(){
         return this.nom;
     }
-    
+
+
        @Override
     public String toString() {
         return "Tuile :" + this.getCoordonnees() + "\n"

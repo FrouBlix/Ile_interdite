@@ -28,11 +28,11 @@ public class VueGrille extends JPanel {
                 Tuile tuile = grille.getTuile(coords);
                 System.out.println(tuile + coords.toString());
                 if(tuile != null){
-                    System.out.println("ping");
-                    VueTuile vueTuile = new VueTuile(tuile);
+                    VueTuile vueTuile = new VueTuile(tuile, observateurdesTuiles);
                     tuiles.put(tuile, vueTuile);
                     this.add(vueTuile.asJPanel());
-                    vueTuile.addObservateur(observateurdesTuiles);
+                }else{
+                    this.add(new JPanel());
                 }
                 
             }
