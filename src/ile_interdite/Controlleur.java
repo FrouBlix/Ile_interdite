@@ -33,7 +33,13 @@ public class Controlleur implements Observateur{
             MessageDeTuile msgDT = (MessageDeTuile) msg;
             if (msg.contenu == "clic") {
                 System.out.println("Controlleur: clic de:\n" + msgDT.tuileDOrigine);
-                msgDT.tuileDOrigine.setEtat(EtatsTuiles.sombree);
+                switch(msgDT.tuileDOrigine.getEtat()){
+                    case inondee: msgDT.tuileDOrigine.setEtat(EtatsTuiles.sombree);
+                    break;
+                    case seche: msgDT.tuileDOrigine.setEtat(EtatsTuiles.inondee);
+                    break;
+                    case sombree: msgDT.tuileDOrigine.setEtat(EtatsTuiles.seche);
+                }
             }
         }
 

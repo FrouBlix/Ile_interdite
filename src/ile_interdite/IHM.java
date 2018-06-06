@@ -22,6 +22,7 @@ public class IHM extends Observe{
     
     private JFrame fenetreJeu;
     private VueGrille grille;
+    private VueAventurier vueAventurier;
 
     public IHM(Observateur observateur, Grille grilleaAfficher) {
         
@@ -35,6 +36,9 @@ public class IHM extends Observe{
         
         grille = new VueGrille(observateur, grilleaAfficher);
         fenetreJeu.add(grille);
+        
+        vueAventurier = new VueAventurier(observateur);
+        fenetreJeu.add(vueAventurier.asJPanel());
         
         fenetreJeu.setVisible(true);
         

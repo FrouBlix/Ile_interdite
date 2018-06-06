@@ -8,10 +8,14 @@ package ile_interdite;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Insets;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 /**
  *
@@ -19,6 +23,7 @@ import javax.swing.JPanel;
  */
 public class VueTuile extends Observe implements Observateur{
     private JPanel panelTuile;
+    private JLabel labelTuile;
     private Tuile tuile;
     public VueTuile(Tuile tuile, Observateur obs) {
         this.addObservateur(obs);
@@ -46,16 +51,20 @@ public class VueTuile extends Observe implements Observateur{
             public void mouseExited(MouseEvent e) {
             }
         });
-        panelTuile.add(new JLabel(tuile.getNom()));
+        this.labelTuile = new JLabel(tuile.getNom());
+        panelTuile.add(this.labelTuile);
         
         this.tuile = tuile;
         switch(this.tuile.getEtat()){
                 case seche: this.panelTuile.setBackground(Color.green);
                     break;
                 case inondee: this.panelTuile.setBackground(Color.blue);
+                    this.labelTuile.setForeground(Color.white);
                     break;
                 case sombree: this.panelTuile.setBackground(Color.darkGray);
+                    this.labelTuile.setForeground(Color.white);
             }
+        this.panelTuile.setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
         this.tuile.addObservateur(this);
     }
     
@@ -68,10 +77,14 @@ public class VueTuile extends Observe implements Observateur{
         if (msg.contenu == "update etat") {
             switch(this.tuile.getEtat()){
                 case seche: this.panelTuile.setBackground(Color.green);
+                    this.labelTuile.setForeground(Color.darkGray);
                     break;
                 case inondee: this.panelTuile.setBackground(Color.blue);
+                    this.labelTuile.setForeground(Color.white);
                     break;
                 case sombree: this.panelTuile.setBackground(Color.darkGray);
+                    this.labelTuile.setForeground(Color.white);
+
             }
         }
     }
