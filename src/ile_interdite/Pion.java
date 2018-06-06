@@ -7,6 +7,9 @@ package ile_interdite;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 /**
@@ -25,6 +28,7 @@ public class Pion extends JPanel{
         g.fillOval(0, 0, h, w);
         g.setColor(Color.black);
         g.drawOval(0, 0, h, w);
+        System.out.println("painting pion.");
     }
     
     public void setColor(Color c){

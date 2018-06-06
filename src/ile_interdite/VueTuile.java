@@ -26,6 +26,7 @@ public class VueTuile extends Observe implements Observateur{
     private JPanel panelTuile;
     private JPanel panelPions;
     private JLabel labelTuile;
+    private JLabel labelCout;
     private Tuile tuile;
     public VueTuile(Tuile tuile, Observateur obs) {
         this.addObservateur(obs);
@@ -57,11 +58,27 @@ public class VueTuile extends Observe implements Observateur{
         panelTuile.add(this.labelTuile, BorderLayout.NORTH);
         this.tuile = tuile;   
         this.panelTuile.setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
+        this.labelCout = new JLabel();
+        this.panelTuile.add(labelCout, BorderLayout.SOUTH);
         this.tuile.addObservateur(this);
     }
     
     public JPanel asJPanel(){
         return this.panelTuile;
+    }
+    
+    public void surligner(Integer cout){
+        if(cout >0){
+            this.panelTuile.setBorder(BorderFactory.createLineBorder(Color.yellow, 1, true));
+            this.labelCout.setText(cout.toString() + " PA");
+        }else{
+            this.panelTuile.setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
+            this.labelCout.setText("");
+        }
+        
+        this.panelTuile.repaint();
+        this.labelCout.revalidate();
+        this.labelCout.repaint();
     }
 
     @Override
@@ -82,17 +99,21 @@ public class VueTuile extends Observe implements Observateur{
             if (panelPions != null) {
                 this.panelTuile.remove(panelPions);
             }
-            this.panelPions = new JPanel();
+            this.panelPions = new JPanel();            
+            this.panelPions.setOpaque(false);
             for (Aventurier aventurier : this.tuile.getAventuriers()) {
                 this.panelPions.add(aventurier.getPion());
+                aventurier.getPion().revalidate(); //ouais au fait c'est REpaint
                 aventurier.getPion().repaint();
             }
-            this.panelPions.setOpaque(false);
+
             this.panelTuile.add(panelPions, BorderLayout.CENTER);
 
         }
         
     }
+    
+    
     
     
 }

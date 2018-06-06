@@ -23,6 +23,7 @@ public abstract class Aventurier {
         this.setTuileOccupee(spawn);
         this.saveDP = new HashMap<>();
         this.pion = new Pion();
+        this.setPointsAction(3);
     }
     
     public Pion getPion(){
@@ -84,16 +85,18 @@ public abstract class Aventurier {
         tuile = grille.getTuile(coords);
         testTuile(tuile, al, cout);
         
-        if (cout < this.getPointsAction()) {
-            for(Tuile tdd: al){
-                this.propager(grille, tdd, cout+1); //I'll save you! Recursion powrs Activate!
-            }      
-        }
+//        if (cout < this.getPointsAction()) {
+//            for(Tuile tdd: al){
+//                this.propager(grille, tdd, cout+1); //I'll save you! Recursion powrs Activate!
+//            }      
+//        }
     }
     
     public void testTuile(Tuile tuile, ArrayList<Tuile> al, int cout){
-         if (tuile != null  && tuile.getEtat() != EtatsTuiles.sombree && (this.saveDP.get(tuile) == null ? 0 : this.saveDP.get(tuile))>cout) {//enfin j'espere
+        System.out.println(tuile.toString()); 
+        if (tuile != null  && tuile.getEtat() != EtatsTuiles.sombree && ((this.saveDP.get(tuile) == null ? 0 : this.saveDP.get(tuile))>cout)) { //fixme
             this.saveDP.put(tuile, cout);
+             System.out.println("=====ACCEPT=====");
             al.add(tuile);
         }
     }
@@ -101,6 +104,7 @@ public abstract class Aventurier {
     public boolean seDeplacer(Tuile destination){
         if(this.saveDP.get(destination) !=null && this.saveDP.get(destination) <= this.getPointsAction()){
             this.setTuileOccupee(destination);
+            this.pointsAction -= this.saveDP.get(destination);
             this.saveDP = new HashMap<>();
             return true;
         }else{

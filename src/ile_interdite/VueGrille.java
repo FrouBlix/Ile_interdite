@@ -26,7 +26,6 @@ public class VueGrille extends JPanel {
                 coords.setX(i);
                 coords.setY(j);
                 Tuile tuile = grille.getTuile(coords);
-                System.out.println(tuile + coords.toString());
                 if(tuile != null){
                     VueTuile vueTuile = new VueTuile(tuile, observateurdesTuiles);
                     tuiles.put(tuile, vueTuile);
@@ -49,5 +48,19 @@ public class VueGrille extends JPanel {
         }
     }
     
+    public void surligner(HashMap<Tuile, Integer> tuilesASur){
+        for (Map.Entry<Tuile, Integer> entrySet : tuilesASur.entrySet()) {
+            Tuile key = entrySet.getKey();
+            Integer value = entrySet.getValue();
+            this.tuiles.get(key).surligner(value);
+        }
+    }
+    public void stopSurligner(){
+        for (Map.Entry<Tuile, VueTuile> entrySet : tuiles.entrySet()) {
+            Tuile key = entrySet.getKey();
+            VueTuile value = entrySet.getValue();
+            value.surligner(0);
+        }
+    }
     
 }
