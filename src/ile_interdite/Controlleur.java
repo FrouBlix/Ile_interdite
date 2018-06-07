@@ -30,9 +30,11 @@ public class Controlleur implements Observateur{
         Messager joueurTest = new Messager(this.grille.getTuilebyName("Heliport"));
         Navigateur joueur2 = new Navigateur(this.grille.getTuilebyName("Heliport"));
         Explorateur joueur3 = new Explorateur(this.grille.getTuilebyName("Observatoire"));
+        Ingenieur joueur4 = new Ingenieur(this.grille.getTuilebyName("Le Palais des Marees"));
         this.ajouterJoueur(joueurTest);
         this.ajouterJoueur(joueur2);
         this.ajouterJoueur(joueur3);
+        this.ajouterJoueur(joueur4);
         this.grille.getTuilebyName("La Porte de Bronze").setEtat(EtatsTuiles.inondee);
         this.grille.getTuilebyName("Les Dunes de l’Illusion").setEtat(EtatsTuiles.sombree);
         this.grille.getTuilebyName("Le Lagon Perdu").setEtat(EtatsTuiles.inondee);

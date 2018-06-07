@@ -68,19 +68,24 @@ public class VueTuile extends Observe implements Observateur{
     }
     
     public void surligner(Integer cout){
-        if(cout >0){
-            this.panelTuile.setBorder(BorderFactory.createLineBorder(Color.yellow, 1, true));
-            this.labelCout.setText(cout.toString() + " PA");
-        }else{
-            this.panelTuile.setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
-            this.labelCout.setText("");
-        }
+        
+        this.panelTuile.setBorder(BorderFactory.createLineBorder(Color.yellow, 1, true));
+        this.labelCout.setText(cout.toString() + " PA");
+        
         
         this.panelTuile.repaint();
         this.labelCout.revalidate();
         this.labelCout.repaint();
     }
 
+    public void stopSurligner(){
+        this.panelTuile.setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
+        this.labelCout.setText("");
+        this.panelTuile.repaint();
+        this.labelCout.revalidate();
+        this.labelCout.repaint();
+    }
+    
     @Override
     public void traiterMessage(Message msg) {
         if (msg.contenu == "update etat") {
