@@ -44,6 +44,8 @@ public abstract class Aventurier {
         return this.tuileOccupee;
     }
 
+
+
     public void setPointsAction(int pointsAction) {
         this.pointsAction = pointsAction;
     }
@@ -189,6 +191,4 @@ public abstract class Aventurier {
     }
     
     
-    
 }
-
