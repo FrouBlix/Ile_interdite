@@ -15,7 +15,6 @@ public class Plongeur extends Aventurier{
         super(spawn);
     }
     
-    
 }
 
 
