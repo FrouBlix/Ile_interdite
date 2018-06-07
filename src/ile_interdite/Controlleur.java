@@ -29,8 +29,10 @@ public class Controlleur implements Observateur{
         //demo
         Messager joueurTest = new Messager(this.grille.getTuilebyName("Heliport"));
         Navigateur joueur2 = new Navigateur(this.grille.getTuilebyName("Heliport"));
+        Explorateur joueur3 = new Explorateur(this.grille.getTuilebyName("Observatoire"));
         this.ajouterJoueur(joueurTest);
         this.ajouterJoueur(joueur2);
+        this.ajouterJoueur(joueur3);
         this.grille.getTuilebyName("La Porte de Bronze").setEtat(EtatsTuiles.inondee);
         this.grille.getTuilebyName("Les Dunes de l’Illusion").setEtat(EtatsTuiles.sombree);
         //fin de la demo
@@ -49,7 +51,10 @@ public class Controlleur implements Observateur{
     
     public void resetAction(){
         this.actionEnCours = ActionEnCours.rien;
-        this.stopDeplacement();
+        this.ihm.getGrille().stopSurligner();
+        this.ihm.getVueAventurier().setBouger(false);
+        this.ihm.getVueAventurier().setAssecher(false);
+        this.ihm.getGrille().updateAll();
     }
     
     public Aventurier prochainJoueur(){
@@ -68,6 +73,8 @@ public class Controlleur implements Observateur{
     }
     
     public void actionDeplacer(){
+        this.resetAction();
+        this.ihm.getVueAventurier().setBouger(true);
 //        System.out.println(this.aventurierEnCours);
         this.actionEnCours = ActionEnCours.bouger;
 //        System.out.println(this.aventurierEnCours.getClass().getName());
@@ -79,34 +86,50 @@ public class Controlleur implements Observateur{
         this.resetAction();
     }
     
-    public void stopDeplacement(){
-        this.ihm.getGrille().stopSurligner();
-        this.ihm.getVueAventurier().setBouger(false);
-        this.ihm.getGrille().updateAll();
+
+    
+    public void actionAssecher(){
+        this.resetAction();
+        this.ihm.getVueAventurier().setAssecher(true);
+        this.actionEnCours = ActionEnCours.assecher;
+        this.ihm.getGrille().surligner(aventurierEnCours.getAssechementPossible(grille));
+    }
+    
+    public void selectAssechement(Tuile t){
+        if (t!=null) {
+            this.aventurierEnCours.assecher(t);
+        }
+        this.resetAction();
     }
     
     @Override
     public void traiterMessage(Message msg) {
 //        System.out.println("message: " + msg.contenu);
-        if(msg.contenu == "fin de tour"){
+        if("fin de tour".equals(msg.contenu)){
             this.prochainJoueur();
         }
-        if(msg.contenu == "bouger"){
+        if("bouger".equals(msg.contenu)){
             this.actionDeplacer();
         }
-        if (msg.contenu == "stop bouger") {
+        if ("stop bouger".equals(msg.contenu)) {
             this.selectDeplacement(this.aventurierEnCours.getTuileOccupee()); //on annule le deplacement. pour quitter proprement, on dit juste qu'on bouge en direction du meme endroit
         }
-        
+        if ("assecher".equals(msg.contenu)) {
+            this.actionAssecher();
+        }
+        if ("stop assecher".equals(msg.contenu)) {
+            this.selectAssechement(null);
+        }
         
         
         if (msg instanceof MessageDeTuile) { // le polymorphisme c'est chouette
             MessageDeTuile msgDT = (MessageDeTuile) msg;
-            if (msg.contenu == "clic") {
+            if ("clic".equals(msg.contenu)) {
                 switch(actionEnCours){
                     case bouger: this.selectDeplacement(msgDT.tuileDOrigine);
                         break;
-                    case assecher:
+                    case assecher: this.selectAssechement(msgDT.tuileDOrigine);
+                        break;
                     default: break;
                 }
             }

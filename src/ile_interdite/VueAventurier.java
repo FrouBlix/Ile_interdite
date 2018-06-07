@@ -23,6 +23,8 @@ public class VueAventurier extends Observe{
     private JPanel panel;
     private JButton boutonBouger;
     private boolean bouger = false;
+    private JButton boutonAssecher;
+    private boolean assecher = false;
     private JButton boutonPasser;
 
     public VueAventurier(Observateur obs) {
@@ -47,14 +49,32 @@ public class VueAventurier extends Observe{
                 notifierObservateur(new Message("fin de tour"));
             }
         });
+        
+        this.boutonAssecher = new JButton("Assecher");
+        this.boutonAssecher.setPreferredSize(this.boutonAssecher.getPreferredSize()); // fixe la taille du bouton
+        this.boutonAssecher.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                assecher = !assecher;
+                notifierObservateur(new Message(assecher? "assecher" : "stop assecher"));
+                boutonAssecher.setText(assecher? "Annuler" : "Assecher");
+            }
+        });
 
         this.panel.add(boutonBouger);
+        this.panel.add(boutonAssecher);
         this.panel.add(boutonPasser);
     }
     
     public void setBouger(boolean bouger){
         this.bouger = bouger;
         boutonBouger.setText(bouger? "Annuler" : "Se deplacer");
+    }
+    
+    public void setAssecher(boolean assecher){
+        this.assecher = assecher;
+        boutonAssecher.setText(bouger? "Annuler" : "Assecher");
+   
     }
     
     public JPanel asJPanel(){
