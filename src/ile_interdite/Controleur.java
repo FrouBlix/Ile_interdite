@@ -6,13 +6,12 @@
 package ile_interdite;
 
 import java.util.ArrayList;
-import org.omg.CORBA.INTERNAL;
 
 /**
  *
  * @author senno
  */
-public class Controlleur implements Observateur{
+public class Controleur implements Observateur{
 
     private Grille grille;
     private IHM ihm;
@@ -22,7 +21,7 @@ public class Controlleur implements Observateur{
     private int nombreDeJoueurs=0;
     private ActionEnCours actionEnCours = ActionEnCours.rien;
     
-    public Controlleur() {
+    public Controleur() {
         this.listeDesJoueurs = new ArrayList<>();
         this.grille = new Grille();
         
@@ -134,6 +133,7 @@ public class Controlleur implements Observateur{
     @Override
     public void traiterMessage(Message msg) {
 //        System.out.println("message: " + msg.contenu);
+        System.out.println(this.aventurierEnCours.getPointsAction());
         if("fin de tour".equals(msg.contenu)){
             this.prochainJoueur();
         }

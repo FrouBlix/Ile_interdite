@@ -30,7 +30,10 @@ public class Ingenieur extends Aventurier{
 
     @Override
     public boolean assecher(Tuile t) {
-        if (this.getPointsAction() >0 && this.getSaveAP().containsKey(t)) {
+        if ((this.getPointsAction() >0 || prochainAssechementGratuit)&& this.getSaveAP().containsKey(t)) {
+            if (!prochainAssechementGratuit) {
+                this.setPointsAction(this.getPointsAction() -1 );
+            }
             prochainAssechementGratuit = !prochainAssechementGratuit;
             
             t.setEtat(EtatsTuiles.seche);// pas besoin de tester plus: si la tuile est dans saveAP, elle est inondee.
@@ -45,6 +48,20 @@ public class Ingenieur extends Aventurier{
         if (tuile != null && tuile.getEtat() == EtatsTuiles.inondee) {
             this.getSaveAP().put(tuile, (this.prochainAssechementGratuit? 0 : 1));
         }
+    }
+
+    @Override
+    public HashMap<Tuile, Integer> getAssechementPossible(Grille grille) {
+        this.setSaveAP(new HashMap<>());
+        if (this.getPointsAction() > 0 || prochainAssechementGratuit) {
+            Coordonnees coords = this.getTuileOccupee().getCoordonnees();
+            this.testTuileAss(this.getTuileOccupee());
+            this.testTuileAss(grille.getTuile(coords.getPlus(0, -1)));
+            this.testTuileAss(grille.getTuile(coords.getPlus(-1, 0)));
+            this.testTuileAss(grille.getTuile(coords.getPlus(0, 1)));
+            this.testTuileAss(grille.getTuile(coords.getPlus(1, 0)));
+        }
+        return this.getSaveAP();
     }
 
 
