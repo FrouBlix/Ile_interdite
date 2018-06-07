@@ -31,10 +31,12 @@ public class Controlleur implements Observateur{
         Navigateur joueur2 = new Navigateur(this.grille.getTuilebyName("Heliport"));
         Explorateur joueur3 = new Explorateur(this.grille.getTuilebyName("Observatoire"));
         Ingenieur joueur4 = new Ingenieur(this.grille.getTuilebyName("Le Palais des Marees"));
+        Pilote joueur5 = new Pilote(this.grille.getTuilebyName("Heliport"));
         this.ajouterJoueur(joueurTest);
         this.ajouterJoueur(joueur2);
         this.ajouterJoueur(joueur3);
         this.ajouterJoueur(joueur4);
+        this.ajouterJoueur(joueur5);
         this.grille.getTuilebyName("La Porte de Bronze").setEtat(EtatsTuiles.inondee);
         this.grille.getTuilebyName("Les Dunes de l’Illusion").setEtat(EtatsTuiles.sombree);
         this.grille.getTuilebyName("Le Lagon Perdu").setEtat(EtatsTuiles.inondee);
@@ -64,6 +66,7 @@ public class Controlleur implements Observateur{
         this.ihm.getGrille().stopSurligner();
         this.ihm.getVueAventurier().setBouger(false);
         this.ihm.getVueAventurier().setAssecher(false);
+        this.ihm.getVueAventurier().setPouvoir(false);
         this.ihm.getGrille().updateAll();
     }
     
@@ -73,6 +76,8 @@ public class Controlleur implements Observateur{
         Aventurier a = this.listeDesJoueurs.get(joueurEnCours);
         a.setPointsAction(3);
         this.aventurierEnCours = a;
+        this.ihm.getVueAventurier().setPouvoirAActiver(a.pouvoirAActiver);
+        a.pouvoirDispo = true;
         this.resetAction();
         return a;
     }
@@ -112,6 +117,21 @@ public class Controlleur implements Observateur{
         this.resetAction();
     }
     
+    
+    public void actionPouvoir(){
+        this.resetAction();
+        this.ihm.getVueAventurier().setPouvoir(true);
+        this.actionEnCours = ActionEnCours.pouvoir;
+        this.ihm.getGrille().surligner(aventurierEnCours.getDeplacementPouvoir(grille));
+    }
+    
+    public void selectPouvoir(Tuile t){
+        aventurierEnCours.seDeplacer(t);
+        this.resetAction();
+        this.ihm.getVueAventurier().setPouvoirAActiver(aventurierEnCours.pouvoirDispo);
+    }
+    
+    
     @Override
     public void traiterMessage(Message msg) {
 //        System.out.println("message: " + msg.contenu);
@@ -130,6 +150,9 @@ public class Controlleur implements Observateur{
         if ("stop assecher".equals(msg.contenu)) {
             this.selectAssechement(null);
         }
+        if ("pouvoir".equals(msg.contenu)) {
+            this.actionPouvoir();
+        }
         
         
         if (msg instanceof MessageDeTuile) { // le polymorphisme c'est chouette
@@ -139,6 +162,8 @@ public class Controlleur implements Observateur{
                     case bouger: this.selectDeplacement(msgDT.tuileDOrigine);
                         break;
                     case assecher: this.selectAssechement(msgDT.tuileDOrigine);
+                        break;
+                    case pouvoir: this.selectPouvoir(msgDT.tuileDOrigine);
                         break;
                     default: break;
                 }

@@ -19,13 +19,18 @@ public abstract class Aventurier {
     private HashMap<Tuile,Integer> saveDP; //deplacements possibles
     private HashMap<Tuile, Integer> saveAP; // assechements possibles
     private Pion pion;
+    public boolean pouvoirAActiver;
+    public boolean pouvoirDispo = false;
 
     public Aventurier(Tuile spawn){
         this.setTuileOccupee(spawn);
         this.saveDP = new HashMap<>();
         this.pion = new Pion();
         this.setPointsAction(3);
+        this.pouvoirAActiver = false;
     }
+    
+    
     
     public Pion getPion(){
         return this.pion;
@@ -173,6 +178,11 @@ public abstract class Aventurier {
         }
     }
 
+    
+    public HashMap<Tuile, Integer> getDeplacementPouvoir(Grille g){
+        return null;
+    }
+    
     @Override
     public String toString() {
         return "Aventurier{\n" + "pointsAction=" + pointsAction + ", \ntuileOccupee=" + tuileOccupee + '}';

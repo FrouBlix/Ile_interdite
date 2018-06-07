@@ -104,8 +104,12 @@ public class Grille {
             }
             
         }
-        System.out.println("not found");
+        System.out.println("=======not found=======");
         return null;
+    }
+    
+    public HashMap<Coordonnees,Tuile> getAll(){
+        return this.tuiles;
     }
     
 }

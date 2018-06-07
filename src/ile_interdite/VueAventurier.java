@@ -25,6 +25,9 @@ public class VueAventurier extends Observe{
     private boolean bouger = false;
     private JButton boutonAssecher;
     private boolean assecher = false;
+    private JButton boutonPouvoir;
+    private boolean pouvoirAActiver = false;
+    private boolean pouvoir = false;
     private JButton boutonPasser;
 
     public VueAventurier(Observateur obs) {
@@ -60,9 +63,22 @@ public class VueAventurier extends Observe{
                 boutonAssecher.setText(assecher? "Annuler" : "Assecher");
             }
         });
-
+        
+        this.boutonPouvoir = new JButton("Activer pouvoir");
+        this.boutonPouvoir.setPreferredSize(this.boutonPouvoir.getPreferredSize()); // fixe la taille du bouton
+        this.boutonPouvoir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                pouvoir = !pouvoir;
+                notifierObservateur(new Message(pouvoir? "pouvoir" : "stop pouvoir"));
+                boutonPouvoir.setText(pouvoir? "Annuler" : "Activer pouvoir");
+            }
+        });
+        
+        
         this.panel.add(boutonBouger);
         this.panel.add(boutonAssecher);
+        this.panel.add(boutonPouvoir);
         this.panel.add(boutonPasser);
     }
     
@@ -75,6 +91,15 @@ public class VueAventurier extends Observe{
         this.assecher = assecher;
         boutonAssecher.setText(bouger? "Annuler" : "Assecher");
    
+    }
+    
+    public void setPouvoir(boolean pouvoir){
+        this.pouvoir = pouvoir;
+        boutonPouvoir.setText(pouvoir? "Annuler" : "Activer Pouvoir");
+    }
+    
+    public void setPouvoirAActiver(boolean p){
+        boutonPouvoir.setEnabled(p);
     }
     
     public JPanel asJPanel(){
