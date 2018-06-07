@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -29,6 +30,9 @@ public class VueAventurier extends Observe{
     private boolean pouvoirAActiver = false;
     private boolean pouvoir = false;
     private JButton boutonPasser;
+    private JPanel panelInfo;
+    private JLabel labelPA;
+    
 
     public VueAventurier(Observateur obs) {
         this.panel = new JPanel();
@@ -75,11 +79,15 @@ public class VueAventurier extends Observe{
             }
         });
         
+        this.panelInfo = new JPanel();
+        this.labelPA = new JLabel();
+        this.panelInfo.add(labelPA);
         
         this.panel.add(boutonBouger);
         this.panel.add(boutonAssecher);
         this.panel.add(boutonPouvoir);
         this.panel.add(boutonPasser);
+        this.panel.add(panelInfo);
     }
     
     public void setBouger(boolean bouger){
@@ -101,6 +109,11 @@ public class VueAventurier extends Observe{
     public void setPouvoirAActiver(boolean p){
         boutonPouvoir.setEnabled(p);
     }
+    
+    public void setInfo(String s){
+        this.labelPA.setText(s);
+    }
+    
     
     public JPanel asJPanel(){
         return this.panel;

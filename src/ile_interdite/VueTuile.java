@@ -69,27 +69,9 @@ public class VueTuile extends Observe implements Observateur{
     
     public void surligner(Integer cout){
         
-        this.panelTuile.setBorder(BorderFactory.createLineBorder(Color.yellow, 1, true));
+        this.panelTuile.setBorder(BorderFactory.createLineBorder(Color.red, 1, true));
         this.labelCout.setText(cout.toString() + " PA");
-        
-        
-        this.panelTuile.repaint();
-        this.labelCout.revalidate();
-        this.labelCout.repaint();
-    }
-
-    public void stopSurligner(){
-        this.panelTuile.setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
-        this.labelCout.setText("");
-        this.panelTuile.repaint();
-        this.labelCout.revalidate();
-        this.labelCout.repaint();
-    }
-    
-    @Override
-    public void traiterMessage(Message msg) {
-        if (msg.contenu == "update etat") {
-            switch(this.tuile.getEtat()){
+        switch(this.tuile.getEtat()){
                 case seche: this.panelTuile.setBackground(Color.green);
                     this.labelTuile.setForeground(Color.darkGray);
                     this.labelCout.setForeground(Color.darkGray);
@@ -105,7 +87,39 @@ public class VueTuile extends Observe implements Observateur{
 
 
             }
-        }else if(msg.contenu == "update players"){
+        this.panelTuile.repaint();
+        this.labelCout.revalidate();
+        this.labelCout.repaint();
+    }
+
+    public void stopSurligner(){
+        this.panelTuile.setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
+        this.labelCout.setText("");
+        this.panelTuile.repaint();
+        this.labelCout.revalidate();
+        this.labelCout.repaint();
+    }
+    
+    @Override
+    public void traiterMessage(Message msg) {
+        if ("update etat".equals(msg.contenu)) {
+            switch(this.tuile.getEtat()){
+                case seche: this.panelTuile.setBackground(Color.decode("#008800"));
+                    this.labelTuile.setForeground(Color.white);
+                    this.labelCout.setForeground(Color.white);
+
+                    break;
+                case inondee: this.panelTuile.setBackground(Color.decode("#000088"));
+                    this.labelTuile.setForeground(Color.white);
+                    this.labelCout.setForeground(Color.white);
+                    break;
+                case sombree: this.panelTuile.setBackground(Color.decode("#202020"));
+                    this.labelTuile.setForeground(Color.white);
+                    this.labelCout.setForeground(Color.white);
+
+
+            }
+        }else if("update players".equals(msg.contenu)){
             if (panelPions != null) {
                 this.panelTuile.remove(panelPions);
             }

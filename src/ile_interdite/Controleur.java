@@ -65,6 +65,8 @@ public class Controleur implements Observateur{
         this.ihm.getVueAventurier().setBouger(false);
         this.ihm.getVueAventurier().setAssecher(false);
         this.ihm.getVueAventurier().setPouvoir(false);
+                this.ihm.getVueAventurier().setInfo(aventurierEnCours.getClass().getName().substring(14) + ": " +aventurierEnCours.getPointsAction() +" PA");
+
         this.ihm.getGrille().updateAll();
     }
     
@@ -133,7 +135,7 @@ public class Controleur implements Observateur{
     @Override
     public void traiterMessage(Message msg) {
 //        System.out.println("message: " + msg.contenu);
-        System.out.println(this.aventurierEnCours.getPointsAction());
+//        System.out.println(this.aventurierEnCours.getPointsAction());
         if("fin de tour".equals(msg.contenu)){
             this.prochainJoueur();
         }
