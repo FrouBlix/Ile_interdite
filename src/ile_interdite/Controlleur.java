@@ -35,6 +35,14 @@ public class Controlleur implements Observateur{
         this.ajouterJoueur(joueur3);
         this.grille.getTuilebyName("La Porte de Bronze").setEtat(EtatsTuiles.inondee);
         this.grille.getTuilebyName("Les Dunes de l’Illusion").setEtat(EtatsTuiles.sombree);
+        this.grille.getTuilebyName("Le Lagon Perdu").setEtat(EtatsTuiles.inondee);
+        this.grille.getTuilebyName("Le Marais Brumeux").setEtat(EtatsTuiles.sombree);
+        this.grille.getTuilebyName("Observatoire").setEtat(EtatsTuiles.inondee);
+        this.grille.getTuilebyName("Le Rocher Fantome").setEtat(EtatsTuiles.sombree);
+        this.grille.getTuilebyName("La Caverne du Brasier").setEtat(EtatsTuiles.inondee);
+        this.grille.getTuilebyName("Le Temple de La Lune").setEtat(EtatsTuiles.sombree);
+        this.grille.getTuilebyName("Le Jardin des Murmures").setEtat(EtatsTuiles.inondee);
+
         //fin de la demo
         
         

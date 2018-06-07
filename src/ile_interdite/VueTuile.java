@@ -87,12 +87,17 @@ public class VueTuile extends Observe implements Observateur{
             switch(this.tuile.getEtat()){
                 case seche: this.panelTuile.setBackground(Color.green);
                     this.labelTuile.setForeground(Color.darkGray);
+                    this.labelCout.setForeground(Color.darkGray);
+
                     break;
                 case inondee: this.panelTuile.setBackground(Color.blue);
                     this.labelTuile.setForeground(Color.white);
+                    this.labelCout.setForeground(Color.white);
                     break;
                 case sombree: this.panelTuile.setBackground(Color.darkGray);
                     this.labelTuile.setForeground(Color.white);
+                    this.labelCout.setForeground(Color.white);
+
 
             }
         }else if(msg.contenu == "update players"){
