@@ -25,18 +25,13 @@ public class Ingenieur extends Aventurier{
         if (destination != this.getTuileOccupee()) {
             this.prochainAssechementGratuit = false;
         }
-        return super.seDeplacer(destination); //To change body of generated methods, choose Tools | Templates.
+        return super.seDeplacer(destination);
     }
 
     @Override
     public boolean assecher(Tuile t) {
         if (this.getPointsAction() >0 && this.getSaveAP().containsKey(t)) {
-            if (!prochainAssechementGratuit) {
-                this.setPointsAction(this.getPointsAction()-1);
-                prochainAssechementGratuit = true;
-            }else{
-                prochainAssechementGratuit = false;
-            }
+            prochainAssechementGratuit = !prochainAssechementGratuit;
             
             t.setEtat(EtatsTuiles.seche);// pas besoin de tester plus: si la tuile est dans saveAP, elle est inondee.
             this.setSaveAP(new HashMap<>());
