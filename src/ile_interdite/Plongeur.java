@@ -63,13 +63,16 @@ public class Plongeur extends Aventurier{
         tuile = grille.getTuile(coords.getPlus(0, 1));
         testTuile(tuile, al,allSaveDP, cout);
         
-        if (cout < this.getPointsAction()) {
+        if (cout <= this.getPointsAction()) {
             for(Tuile tdd: al){
                 
                 if (tdd.getEtat() != EtatsTuiles.seche) {
                     this.propager(grille, tdd,allSaveDP, cout); //I'll save you! Recursion powers Activate!
                 }else{
-                    this.propager(grille, tdd,allSaveDP, cout+1); //I'll save you! Recursion powers Activate!
+                    if (cout < this.getPointsAction()) {
+                        this.propager(grille, tdd,allSaveDP, cout+1); //I'll save you! Recursion powers Activate!
+
+                    }
                 }
                 
                 
