@@ -144,10 +144,6 @@ public abstract class Aventurier {
     }
     
     public void testTuile(Tuile tuile, ArrayList<Tuile> al, int cout){
-        
-            
-            
-            
 //        System.out.println(tuile.toString()); 
 //        System.out.println(this.saveDP);
         
@@ -159,6 +155,7 @@ public abstract class Aventurier {
                 oldCout = 4; // 4 sera toujours plus grand que cout.
             }else{
                 oldCout = this.saveDP.get(tuile);
+                System.out.println(this.saveDP.get(tuile));
             }
 //            System.out.println(oldCout);
             if (oldCout > cout) {
@@ -166,8 +163,6 @@ public abstract class Aventurier {
 //                System.out.println("=====ACCEPT=====");
                 al.add(tuile);
             }
-            
-            
         }
   
 

@@ -8,7 +8,7 @@ package ile_interdite;
 import java.util.ArrayList;
 import org.omg.CORBA.INTERNAL;
 
-/**
+/** 
  *
  * @author senno
  */
@@ -35,8 +35,6 @@ public class Controlleur implements Observateur{
         this.grille.getTuilebyName("Les Dunes de l’Illusion").setEtat(EtatsTuiles.sombree);
         //fin de la demo
         
-        
-        
         this.ihm = new IHM(this,grille);
 
         this.ihm.getGrille().updateAll(); //on update toutes les tuiles apres avoir fini le chargement
@@ -57,7 +55,7 @@ public class Controlleur implements Observateur{
         this.joueurEnCours %= this.nombreDeJoueurs;
         Aventurier a = this.listeDesJoueurs.get(joueurEnCours);
         a.setPointsAction(3);
-        this.aventurierEnCours = a;
+        setAventurierEnCours(a);
         this.resetAction();
         return a;
     }
@@ -111,8 +109,20 @@ public class Controlleur implements Observateur{
                 }
             }
         }
+        
+        
 
     }
+
+    public Aventurier getAventurierEnCours() {
+        return aventurierEnCours;
+    }
+
+    public void setAventurierEnCours(Aventurier aventurierEnCours) {
+        this.aventurierEnCours = aventurierEnCours;
+    }
+    
+    
     
     
     
