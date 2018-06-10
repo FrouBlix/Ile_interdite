@@ -14,7 +14,7 @@ public class Ile_interdite {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Controlleur cont = new Controlleur();
+        Controleur cont = new Controleur();
     }
     
 }

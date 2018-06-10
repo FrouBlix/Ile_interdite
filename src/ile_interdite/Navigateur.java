@@ -15,7 +15,7 @@ public class Navigateur extends Aventurier{
 
     public Navigateur(Tuile spawn) {
         super(spawn);
-        this.getPion().setColor(Color.decode("#228B22"));
+        this.getPion().setColor(Color.yellow);
     }
     
     

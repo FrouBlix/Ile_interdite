@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -23,7 +24,15 @@ public class VueAventurier extends Observe{
     private JPanel panel;
     private JButton boutonBouger;
     private boolean bouger = false;
+    private JButton boutonAssecher;
+    private boolean assecher = false;
+    private JButton boutonPouvoir;
+    private boolean pouvoirAActiver = false;
+    private boolean pouvoir = false;
     private JButton boutonPasser;
+    private JPanel panelInfo;
+    private JLabel labelPA;
+    
 
     public VueAventurier(Observateur obs) {
         this.panel = new JPanel();
@@ -47,15 +56,64 @@ public class VueAventurier extends Observe{
                 notifierObservateur(new Message("fin de tour"));
             }
         });
-
+        
+        this.boutonAssecher = new JButton("Assecher");
+        this.boutonAssecher.setPreferredSize(this.boutonAssecher.getPreferredSize()); // fixe la taille du bouton
+        this.boutonAssecher.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                assecher = !assecher;
+                notifierObservateur(new Message(assecher? "assecher" : "stop assecher"));
+                boutonAssecher.setText(assecher? "Annuler" : "Assecher");
+            }
+        });
+        
+        this.boutonPouvoir = new JButton("Activer pouvoir");
+        this.boutonPouvoir.setPreferredSize(this.boutonPouvoir.getPreferredSize()); // fixe la taille du bouton
+        this.boutonPouvoir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                pouvoir = !pouvoir;
+                notifierObservateur(new Message(pouvoir? "pouvoir" : "stop pouvoir"));
+                boutonPouvoir.setText(pouvoir? "Annuler" : "Activer pouvoir");
+            }
+        });
+        
+        this.panelInfo = new JPanel();
+        this.labelPA = new JLabel();
+        this.panelInfo.add(labelPA);
+        
         this.panel.add(boutonBouger);
+        this.panel.add(boutonAssecher);
+        this.panel.add(boutonPouvoir);
         this.panel.add(boutonPasser);
+        this.panel.add(panelInfo);
     }
     
     public void setBouger(boolean bouger){
         this.bouger = bouger;
         boutonBouger.setText(bouger? "Annuler" : "Se deplacer");
     }
+    
+    public void setAssecher(boolean assecher){
+        this.assecher = assecher;
+        boutonAssecher.setText(bouger? "Annuler" : "Assecher");
+   
+    }
+    
+    public void setPouvoir(boolean pouvoir){
+        this.pouvoir = pouvoir;
+        boutonPouvoir.setText(pouvoir? "Annuler" : "Activer Pouvoir");
+    }
+    
+    public void setPouvoirAActiver(boolean p){
+        boutonPouvoir.setEnabled(p);
+    }
+    
+    public void setInfo(String s){
+        this.labelPA.setText(s);
+    }
+    
     
     public JPanel asJPanel(){
         return this.panel;

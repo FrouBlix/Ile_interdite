@@ -59,7 +59,7 @@ public class VueGrille extends JPanel {
         for (Map.Entry<Tuile, VueTuile> entrySet : tuiles.entrySet()) {
             Tuile key = entrySet.getKey();
             VueTuile value = entrySet.getValue();
-            value.surligner(0);
+            value.stopSurligner();
         }
     }
     

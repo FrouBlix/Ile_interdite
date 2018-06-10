@@ -17,15 +17,20 @@ public abstract class Aventurier {
     private int pointsAction;       //Points d'action de l'aventurier
     private Tuile tuileOccupee;      //Tuile occupée par l'aventurier
     private HashMap<Tuile,Integer> saveDP; //deplacements possibles
-    private HashMap<Tuile,Integer> saveAP;//assechement possibles
+    private HashMap<Tuile, Integer> saveAP; // assechements possibles
     private Pion pion;
+    public boolean pouvoirAActiver;
+    public boolean pouvoirDispo = false;
 
     public Aventurier(Tuile spawn){
         this.setTuileOccupee(spawn);
         this.saveDP = new HashMap<>();
         this.pion = new Pion();
         this.setPointsAction(3);
+        this.pouvoirAActiver = false;
     }
+    
+    
     
     public Pion getPion(){
         return this.pion;
@@ -55,12 +60,63 @@ public abstract class Aventurier {
 
     }
     
+    public HashMap<Tuile, Integer> getSaveAP(){
+        return this.saveAP;
+    }
+
+    public void setSaveAP(HashMap<Tuile, Integer> saveAP) {
+        this.saveAP = saveAP;
+    }
+
+    
+    
+    public HashMap<Tuile, Integer> getSaveDP() {
+        return saveDP;
+    }
+
+    public void setSaveDP(HashMap<Tuile, Integer> saveDP) {
+        this.saveDP = saveDP;
+    }
+    
+    
+    
+    public HashMap<Tuile, Integer> getAssechementPossible(Grille grille){
+        this.saveAP = new HashMap<>();
+        if (this.getPointsAction() > 0) {
+            Coordonnees coords = this.getTuileOccupee().getCoordonnees();
+            this.testTuileAss(this.getTuileOccupee());
+            this.testTuileAss(grille.getTuile(coords.getPlus(0, -1)));
+            this.testTuileAss(grille.getTuile(coords.getPlus(-1, 0)));
+            this.testTuileAss(grille.getTuile(coords.getPlus(0, 1)));
+            this.testTuileAss(grille.getTuile(coords.getPlus(1, 0)));
+        }
+        return this.saveAP;
+    }
+    
+    
+    public void testTuileAss(Tuile tuile){
+        if (tuile != null && tuile.getEtat() == EtatsTuiles.inondee) {
+            this.saveAP.put(tuile, 1);
+        }
+    }
+    
+    public boolean assecher(Tuile t){
+        if (this.getPointsAction() >0 && this.saveAP.containsKey(t)) {
+            this.pointsAction --;
+            t.setEtat(EtatsTuiles.seche);// pas besoin de tester plus: si la tuile est dans saveAP, elle est inondee.
+            this.saveAP = new HashMap<>();
+            return true;
+        }
+        return false;
+    }
     
     
     public HashMap<Tuile, Integer> getDeplacementPossible(Grille grille){ // cette methode renvoie un Hashmap qui pour chaque tuile renvoie le cout de s'y deplacer.
         Tuile tdd  = this.getTuileOccupee();//tuile de depart
         this.saveDP.put(tdd,0); //rester au meme endroit ne coute rien
-        this.propager(grille, tdd, 1);
+        if(this.getPointsAction() >0){
+                    this.propager(grille, tdd, 1);
+        }
         return this.saveDP;
     }
     
@@ -96,7 +152,7 @@ public abstract class Aventurier {
             
             int oldCout;
             if(this.saveDP.get(tuile) == null){
-                oldCout = 4;
+                oldCout = 4; // 4 sera toujours plus grand que cout.
             }else{
                 oldCout = this.saveDP.get(tuile);
                 System.out.println(this.saveDP.get(tuile));
@@ -108,6 +164,7 @@ public abstract class Aventurier {
                 al.add(tuile);
             }
         }
+  
 
     }
     
@@ -122,6 +179,11 @@ public abstract class Aventurier {
         }
     }
 
+    
+    public HashMap<Tuile, Integer> getDeplacementPouvoir(Grille g){
+        return null;
+    }
+    
     @Override
     public String toString() {
         return "Aventurier{\n" + "pointsAction=" + pointsAction + ", \ntuileOccupee=" + tuileOccupee + '}';
