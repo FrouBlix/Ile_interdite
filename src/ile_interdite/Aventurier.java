@@ -144,6 +144,10 @@ public abstract class Aventurier {
     }
     
     public void testTuile(Tuile tuile, ArrayList<Tuile> al, int cout){
+        
+            
+            
+            
 //        System.out.println(tuile.toString()); 
 //        System.out.println(this.saveDP);
         
