@@ -75,7 +75,7 @@ public class Controleur implements Observateur{
         this.joueurEnCours %= this.nombreDeJoueurs;
         Aventurier a = this.listeDesJoueurs.get(joueurEnCours);
         a.setPointsAction(3);
-        this.aventurierEnCours = a;
+        setAventurierEnCours(a);
         this.ihm.getVueAventurier().setPouvoirAActiver(a.pouvoirAActiver);
         a.pouvoirDispo = true;
         this.resetAction();
@@ -109,6 +109,15 @@ public class Controleur implements Observateur{
         this.actionEnCours = ActionEnCours.assecher;
         this.ihm.getGrille().surligner(aventurierEnCours.getAssechementPossible(grille));
     }
+
+    public Aventurier getAventurierEnCours() {
+        return aventurierEnCours;
+    }
+
+    public void setAventurierEnCours(Aventurier aventurierEnCours) {
+        this.aventurierEnCours = aventurierEnCours;
+    }
+    
     
     public void selectAssechement(Tuile t){
         if (t!=null) {
