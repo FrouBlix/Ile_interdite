@@ -179,6 +179,7 @@ public class Controleur implements Observateur{
             }
             this.piocheTirage.remove(carte);
         }
+        
         if (aventurierEnCours.mainExcede){
             // TODO : afficher ecran pour afficher une carte puis retrait de celle-ci
             // TODO : IHM de supression
