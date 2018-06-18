@@ -18,6 +18,7 @@ public class Controleur implements Observateur{
     private IHM ihm;
     private IHM ihmSupression;
     private ArrayList<Aventurier> listeDesJoueurs;
+    private ArrayList<Joueur> joueurs;
     private int joueurEnCours =0;
     private Aventurier aventurierEnCours;
     private int nombreDeJoueurs=0;
@@ -30,6 +31,7 @@ public class Controleur implements Observateur{
     
     public Controleur() {
         this.listeDesJoueurs = new ArrayList<>();
+        this.joueurs = new ArrayList<>();
         this.grille = new Grille();
         
         //demo
@@ -51,12 +53,23 @@ public class Controleur implements Observateur{
         this.grille.getTuilebyName("La Caverne du Brasier").setEtat(EtatsTuiles.inondee);
         this.grille.getTuilebyName("Le Temple de La Lune").setEtat(EtatsTuiles.sombree);
         this.grille.getTuilebyName("Le Jardin des Murmures").setEtat(EtatsTuiles.inondee);
+        
+        //debug
+        
+        for (Aventurier aventurier : listeDesJoueurs) {
+            joueurs.add(new Joueur(aventurier, ""));
+        }
+        
+        
+        
+        
+        
 
         //fin de la demo
         
         
         
-        this.ihm = new IHM(this,grille);
+        this.ihm = new IHM(this, grille, joueurs);
 
         this.ihm.getGrille().updateAll(); //on update toutes les tuiles apres avoir fini le chargement
         this.joueurEnCours = nombreDeJoueurs -1;

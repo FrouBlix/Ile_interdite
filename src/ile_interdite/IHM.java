@@ -6,6 +6,7 @@
 package ile_interdite;
 
 import java.awt.BorderLayout;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 
 /**
@@ -17,8 +18,9 @@ public class IHM extends Observe{
     private JFrame fenetreJeu;
     private VueGrille grille;
     private VueAventurier vueAventurier;
+    private VueEquipe vueEquipe;
 
-    public IHM(Observateur observateur, Grille grilleaAfficher) {
+    public IHM(Observateur observateur, Grille grilleaAfficher, ArrayList<Joueur> joueurs) {
         
         
         
@@ -35,6 +37,9 @@ public class IHM extends Observe{
         vueAventurier = new VueAventurier(observateur);
         vueAventurier.addObservateur(observateur);
         fenetreJeu.add(vueAventurier.asJPanel(), BorderLayout.SOUTH);
+        
+        vueEquipe = new VueEquipe(observateur, joueurs);
+        fenetreJeu.add(vueEquipe.asJPanel(), BorderLayout.WEST);
         
         fenetreJeu.setVisible(true);
         

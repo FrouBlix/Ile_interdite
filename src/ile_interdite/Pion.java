@@ -7,9 +7,6 @@ package ile_interdite;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 /**
@@ -33,6 +30,15 @@ public class Pion extends JPanel{
     
     public void setColor(Color c){
         this.color = c;
+    }
+
+    public Pion setColorRet(Color c){
+        this.setColor(c);
+        return this;
+    }
+    
+    public Color getColor(){
+        return this.color;
     }
     
 }
