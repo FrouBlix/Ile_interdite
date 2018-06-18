@@ -26,6 +26,7 @@ public class Controleur implements Observateur{
     private ArrayList<CarteInondation> piocheInondation;
     private ArrayList<CarteTirage> defausseTirage;
     private ArrayList<CarteInondation> defausseInondation;
+    private MonteeDesEaux mde;
     
     public Controleur() {
         this.listeDesJoueurs = new ArrayList<>();
@@ -103,8 +104,6 @@ public class Controleur implements Observateur{
         this.resetAction();
     }
     
-
-    
     public void actionAssecher(){
         this.resetAction();
         this.ihm.getVueAventurier().setAssecher(true);
@@ -148,11 +147,18 @@ public class Controleur implements Observateur{
             CarteTirage carte = getCarteTirageHaut();
             if (carte.getNom() == "MDE"){
                 remettreCarteInondationEnPioche();
+                mde.incrementeCompteur();
             }
             else{
                 cartesTirees.add(carte);
             }
             this.piocheTirage.remove(carte);
+        }
+        for (int i = 0 ; i <= mde.getNbCarteInodation(); i++){
+            CarteInondation carte = CarteInondationHaut();
+            this.defausseInondation.add(carte);
+            this.piocheInondation.remove(carte);
+            //TODO : changer l'etat de la tuile corespondante
         }
         aventurierEnCours.piocheCartes(cartesTirees);
         
@@ -171,6 +177,10 @@ public class Controleur implements Observateur{
     
     public CarteTirage getCarteTirageHaut(){
         return this.piocheTirage.get(this.piocheTirage.size()-1);
+    }
+    
+    public CarteInondation CarteInondationHaut(){
+        return this.piocheInondation.get(this.piocheInondation.size()-1);
     }
     
     public void actionDonneCarte(CarteTirage carte, Aventurier a){
