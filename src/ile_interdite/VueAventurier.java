@@ -6,6 +6,7 @@
 package ile_interdite;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,6 +35,9 @@ public class VueAventurier extends Observe{
     private JButton boutonDonner;
     private JButton boutonPrendre;
     private boolean donner = false;
+    
+    private JButton boutonNext, boutonPrevious;
+    private JPanel panelCartesCentral;
     
 
 
@@ -121,15 +125,39 @@ public class VueAventurier extends Observe{
         
         panel.add(panelBoutons, BorderLayout.EAST);
         
+        panelCartes = new JPanel(new BorderLayout());
+        boutonNext = new JButton(">");
+        boutonNext.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                notifierObservateur(new Message("cartes next"));
+            }
+        });
+        boutonPrevious = new JButton("<");
+        boutonPrevious.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                notifierObservateur(new Message("cartes prev"));
+            }
+        });
         
-        panelCartes = new JPanel();
+        panelCartesCentral = new JPanel();
         
+        panelCartes.add(boutonPrevious, BorderLayout.WEST);
+        panelCartes.add(boutonNext, BorderLayout.EAST);
+        panelCartes.add(panelCartesCentral, BorderLayout.CENTER);
         
         
 
         panel.add(panelCartes,BorderLayout.CENTER);
         
-        //this.panel.add(panelInfo);
+        
+        
+        
+        
+        
     }
     
     public void setBouger(boolean bouger){
@@ -139,7 +167,7 @@ public class VueAventurier extends Observe{
     
     public void setAssecher(boolean assecher){
         this.assecher = assecher;
-        boutonAssecher.setText(bouger? "Annuler" : "Assecher");
+        boutonAssecher.setText(assecher? "Annuler" : "Assecher");
    
     }
     
@@ -161,6 +189,11 @@ public class VueAventurier extends Observe{
     public void setPrendreRelique(boolean b){
         boutonPrendre.setEnabled(b);
     }
+    
+    public void setColor(Color c){
+        panelCartesCentral.setBackground(c);
+        panelCartesCentral.repaint();
+    }
 
     
     public void resetBoutons(){
@@ -169,6 +202,14 @@ public class VueAventurier extends Observe{
         setDonner(false);
         setPouvoir(false);
     }
+    
+    
+    
+    
+      
+    
+    
+    
     
     
     public JPanel asJPanel(){
