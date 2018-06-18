@@ -76,14 +76,9 @@ public class VueCarte extends Observe{
         
         this.addObservateur(o);
     }
-
-    
     
     public JPanel asJPanel() {
         return panel;
     }
-    
-    
-    
     
 }

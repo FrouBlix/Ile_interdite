@@ -173,6 +173,10 @@ public class Controleur implements Observateur{
         return this.piocheTirage.get(this.piocheTirage.size()-1);
     }
     
+    public void actionDonneCarte(CarteTirage carte, Aventurier a){
+        aventurierEnCours.donneCarte(carte, a);
+    }
+    
     
     @Override
     public void traiterMessage(Message msg) {
