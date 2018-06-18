@@ -55,6 +55,11 @@ public class Controleur implements Observateur{
         this.grille.getTuilebyName("Le Temple de La Lune").setEtat(EtatsTuiles.sombree);
         this.grille.getTuilebyName("Le Jardin des Murmures").setEtat(EtatsTuiles.inondee);
         
+        piocheInondation = new ArrayList<>();
+        piocheTirage = new ArrayList<>();
+        defausseInondation = new ArrayList<>();
+        defausseTirage = new ArrayList<>();
+        
         piocheInondation.add(new CarteInondation("Le Pont des Abimes"));
         piocheInondation.add(new CarteInondation("La Porte de Bronze"));
         piocheInondation.add(new CarteInondation("La Caverne des Ombres"));
@@ -80,6 +85,24 @@ public class Controleur implements Observateur{
         piocheInondation.add(new CarteInondation("La Tour du Guet"));
         piocheInondation.add(new CarteInondation("Le Jardin des Murmures"));
         
+        Collections.shuffle(piocheInondation);
+        
+        
+        for (int i = 0; i < 5 ; i++){
+            piocheTirage.add(new CarteTresor("tresor",Special.calice));
+            piocheTirage.add(new CarteTresor("tresor",Special.griffon));
+            piocheTirage.add(new CarteTresor("tresor",Special.pierre));
+            piocheTirage.add(new CarteTresor("tresor",Special.cristal));
+        }
+        
+        for (int i = 0; i < 3; i++){
+            piocheTirage.add(new CarteMDE("montée des eaux"));
+            piocheTirage.add(new CarteHelico("hélicoptère"));
+        }
+        
+        for (int i = 0; i < 2; i++){
+            piocheTirage.add(new CarteSacSable("sac de sable"));
+        }
         //debug
         
         for (Aventurier aventurier : listeDesJoueurs) {
@@ -231,7 +254,6 @@ public class Controleur implements Observateur{
         return this.piocheInondation.get(this.piocheInondation.size()-1);
     }
     
-    public void actionDonneCarte(CarteTirage carte, Aventurier a){
     public void finishDonneCarte(CarteTirage carte, Aventurier a){
         aventurierEnCours.donneCarte(carte, a);
     }
