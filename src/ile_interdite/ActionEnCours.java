@@ -14,4 +14,5 @@ public enum ActionEnCours {
     bouger,
     assecher,
     pouvoir,
+    donner
 }
