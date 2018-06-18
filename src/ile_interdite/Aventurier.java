@@ -218,7 +218,14 @@ public abstract class Aventurier {
     public HashMap<Tuile, Integer> getDeplacementPouvoir(Grille g){
         return null;
     }
-    
+
+    public ArrayList<CarteTirage> getCartesMain() {
+        return cartesMain;
+    }
+
+    public boolean isMainExcede() {
+        return mainExcede;
+    }
     @Override
     public String toString() {
         return "Aventurier{\n" + "pointsAction=" + pointsAction + ", \ntuileOccupee=" + tuileOccupee + '}';
