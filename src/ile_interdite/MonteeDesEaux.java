@@ -17,6 +17,7 @@ public class MonteeDesEaux {
     public MonteeDesEaux(int niveau){
         this.compteur = niveau;
         this.inondationTotal = false;
+        setNbCarteInondation(compteur);
     }
     
     public void setNbCarteInondation(int compteur){

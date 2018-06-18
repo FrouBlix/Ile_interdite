@@ -223,8 +223,10 @@ public class Controleur implements Observateur{
         for (int i = 0; i < 2; i++){
             CarteTirage carte = getCarteTirageHaut();
             if (carte.getNom() == "montée des eaux"){
+                System.out.println("montéé des eaux");
                 remettreCarteInondationEnPioche();
                 mde.incrementeCompteur();
+                this.defausseTirage.add(carte);
             }
             else{
                 cartesTirees.add(carte);
@@ -236,10 +238,14 @@ public class Controleur implements Observateur{
             // TODO : afficher ecran pour afficher une carte puis retrait de celle-ci
             // TODO : IHM de supression
         }
+            System.out.println(mde.getNbCarteInodation());
         for (int i = 0 ; i <= mde.getNbCarteInodation(); i++){
             
             CarteInondation carte = CarteInondationHaut();
             Tuile tuile = grille.getTuilebyName(carte.getNom());
+            
+            
+//            System.out.println(tuile.getNom()+"   "+i+"   "+carte.getNom());
             
             if (tuile.getEtat() == EtatsTuiles.seche){
                 tuile.setEtat(EtatsTuiles.inondee);
@@ -277,6 +283,9 @@ public class Controleur implements Observateur{
     }
     
     public CarteInondation CarteInondationHaut(){
+        if (this.piocheInondation.size() == 0){
+            remettreCarteInondationEnPioche();
+        }
         return this.piocheInondation.get(this.piocheInondation.size()-1);
     }
     
