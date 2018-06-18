@@ -19,15 +19,21 @@ public abstract class Aventurier {
     private HashMap<Tuile,Integer> saveDP; //deplacements possibles
     private HashMap<Tuile, Integer> saveAP; // assechements possibles
     private Pion pion;
+    private ArrayList<CarteTirage> cartesMain;
+    
+    public boolean mainExcede;
     public boolean pouvoirAActiver;
     public boolean pouvoirDispo = false;
 
     public Aventurier(Tuile spawn){
+        cartesMain = new ArrayList<>();
+        
         this.setTuileOccupee(spawn);
         this.saveDP = new HashMap<>();
         this.pion = new Pion();
         this.setPointsAction(3);
         this.pouvoirAActiver = false;
+        this.mainExcede = false;
     }
     
     
@@ -179,7 +185,35 @@ public abstract class Aventurier {
             return false;
         }
     }
+    
+    public void addCarteMain(CarteTirage carte){
+        this.cartesMain.add(carte);
+        if (this.cartesMain.size() < 5){
+            mainExcede = true;
+        }
+    }
+    
+    public void removeCarteMain(CarteTirage carte){
+        this.cartesMain.remove(carte);
+        if (this.cartesMain.size() < 5){
+            mainExcede = false;
+        }
+    }
+    
+    public void defausseCarte(){
+        
+    }
+    
+    public void piocheCartes(ArrayList<CarteTirage> cartes){
+        for (CarteTirage carte : cartes){
+            addCarteMain(carte);
+        }
+    }
 
+    public void defausseCarte(MessageCarteTirage message){
+        
+    }
+    
     
     public HashMap<Tuile, Integer> getDeplacementPouvoir(Grille g){
         return null;
