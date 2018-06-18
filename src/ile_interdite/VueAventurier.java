@@ -211,13 +211,6 @@ public class VueAventurier extends Observe{
         }
     }
     
-    
-      
-    
-    
-    
-    
-    
     public JPanel asJPanel(){
         return this.panel;
     }

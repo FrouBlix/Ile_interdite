@@ -5,8 +5,6 @@
  */
 package ile_interdite;
 
-import sun.misc.InnocuousThread;
-
 /**
  *
  * @author reboulef

@@ -18,6 +18,7 @@ public class Controleur implements Observateur{
     private IHM ihm;
     private IHM ihmSupression;
     private ArrayList<Aventurier> listeDesJoueurs;
+    private ArrayList<Joueur> joueurs;
     private int joueurEnCours =0;
     private Aventurier aventurierEnCours;
     private int nombreDeJoueurs=0;
@@ -27,9 +28,11 @@ public class Controleur implements Observateur{
     private ArrayList<CarteTirage> defausseTirage;
     private ArrayList<CarteInondation> defausseInondation;
     private MonteeDesEaux mde;
+    private CarteTresor carteADonner;
     
     public Controleur() {
         this.listeDesJoueurs = new ArrayList<>();
+        this.joueurs = new ArrayList<>();
         this.grille = new Grille();
         
         //demo
@@ -76,12 +79,23 @@ public class Controleur implements Observateur{
         piocheInondation.add(new CarteInondation("Le Val du Crepuscule"));
         piocheInondation.add(new CarteInondation("La Tour du Guet"));
         piocheInondation.add(new CarteInondation("Le Jardin des Murmures"));
+        
+        //debug
+        
+        for (Aventurier aventurier : listeDesJoueurs) {
+            joueurs.add(new Joueur(aventurier, ""));
+        }
+        
+        
+        
+        
+        
 
         //fin de la demo
         
         
         
-        this.ihm = new IHM(this,grille);
+        this.ihm = new IHM(this, grille, joueurs);
 
         this.ihm.getGrille().updateAll(); //on update toutes les tuiles apres avoir fini le chargement
         this.joueurEnCours = nombreDeJoueurs -1;
@@ -96,6 +110,8 @@ public class Controleur implements Observateur{
         this.ihm.getGrille().stopSurligner();
         this.ihm.getVueAventurier().resetBoutons();
         this.ihm.getGrille().updateAll();
+        //ihm.stopsurlignercartes
+        //ihm.stopsurlignerAventuriers
     }
     
     public Aventurier prochainJoueur(){
@@ -216,7 +232,21 @@ public class Controleur implements Observateur{
     }
     
     public void actionDonneCarte(CarteTirage carte, Aventurier a){
+    public void finishDonneCarte(CarteTirage carte, Aventurier a){
         aventurierEnCours.donneCarte(carte, a);
+    }
+    
+    public void actionDonneCarte(){
+        //on veut qu'il select une carte, puis un aventurier
+        resetAction();
+        this.actionEnCours = ActionEnCours.donner;
+        ihm.getVueAventurier().setDonner(true);
+        //TODO: ihm.surlignercartes
+    }
+    
+    public void selectCarteADonner(CarteTresor carte){
+        this.carteADonner = carte;
+        // TODO: ihm.surligneraventuriers(joueurencours.getcase().getaventuriers());
     }
     
     
@@ -243,6 +273,9 @@ public class Controleur implements Observateur{
         if ("pouvoir".equals(msg.contenu)) {
             this.actionPouvoir();
         }
+        if ("donner".equals(msg.contenu)) {
+            this.actionDonneCarte();
+        }
         
         
         if (msg instanceof MessageDeTuile) { // le polymorphisme c'est chouette
@@ -256,6 +289,21 @@ public class Controleur implements Observateur{
                     case pouvoir: this.selectPouvoir(msgDT.tuileDOrigine);
                         break;
                     default: break;
+                }
+            }
+        }
+        
+        if (msg instanceof MessageCarteTirage) { // j'ai deja dit que le polymorphisme c'etait chouette?
+            MessageCarteTirage msgDC = (MessageCarteTirage) msg;
+            if ("clic".equals(msgDC.contenu)) {
+                switch(actionEnCours){
+                    case donner:
+                        if (msgDC.carte instanceof CarteTresor) {
+                            this.selectCarteADonner((CarteTresor)msgDC.carte); 
+                        }
+                        break;//on ne fait rien si l'utilisateur clique sur une carte speciale donc c'est bon
+                        default:
+                            break; // TODO: activer cartes speciales
                 }
             }
         }

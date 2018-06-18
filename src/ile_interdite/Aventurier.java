@@ -13,7 +13,7 @@ import java.util.Map;
  *
  * @author reboulef
  */
-public abstract class Aventurier {
+public abstract class Aventurier extends Observe{
     private int pointsAction;       //Points d'action de l'aventurier
     private Tuile tuileOccupee;      //Tuile occupée par l'aventurier
     private HashMap<Tuile,Integer> saveDP; //deplacements possibles
@@ -191,6 +191,7 @@ public abstract class Aventurier {
         if (this.cartesMain.size() < 5){
             mainExcede = true;
         }
+        notifierObservateur(new Message("update"));
     }
     
     public void removeCarteMain(CarteTirage carte){
@@ -198,6 +199,7 @@ public abstract class Aventurier {
         if (this.cartesMain.size() < 5){
             mainExcede = false;
         }
+        notifierObservateur(new Message("update"));
     }
     
     public void piocheCartes(ArrayList<CarteTirage> cartes){
@@ -224,6 +226,7 @@ public abstract class Aventurier {
     
     public void utiliseCarte(CarteTirage carte, String effet){
         //Switch(effet):
+        //TODO: removeCarte
     }
     
     public void donneCarte(CarteTirage carte, Aventurier a){
