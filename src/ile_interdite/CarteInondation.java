@@ -14,6 +14,10 @@ class CarteInondation{
     private String nom;
     
     public CarteInondation(String nom){
-        this.nom= nom;
+        this.nom = nom;
+    }
+    
+    public String getNom(){
+        return this.nom;
     }
 }

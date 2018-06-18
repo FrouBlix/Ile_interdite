@@ -36,4 +36,17 @@ public class MonteeDesEaux {
             this.inondationTotal = true;
         }
     }
+    
+    public void incrementeCompteur(){
+        setCompteur(compteur + 1);
+        setNbCarteInondation(this.compteur);
+    }
+    
+    public void setCompteur(int compteur){
+        this.compteur = compteur;
+    }
+    
+    public int getNbCarteInodation(){
+        return this.nbCarteInondation;
+    }
 }
