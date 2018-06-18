@@ -227,7 +227,8 @@ public abstract class Aventurier {
     }
     
     public void donneCarte(CarteTirage carte, Aventurier a){
-        this.
+        a.addCarteMain(carte);
+        this.removeCarteMain(carte);
     }
     
     @Override

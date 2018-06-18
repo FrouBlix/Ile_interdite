@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.naming.OperationNotSupportedException;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -142,14 +143,14 @@ public class VueAventurier extends Observe{
                 notifierObservateur(new Message("cartes prev"));
             }
         });
-        
-        panelCartesCentral = new JPanel();
-        
+
+        panelCartesCentral = new JPanel(new GridLayout(1, 0));
+
         panelCartes.add(boutonPrevious, BorderLayout.WEST);
         panelCartes.add(boutonNext, BorderLayout.EAST);
         panelCartes.add(panelCartesCentral, BorderLayout.CENTER);
-        
-        
+
+
 
         panel.add(panelCartes,BorderLayout.CENTER);
         
@@ -203,7 +204,12 @@ public class VueAventurier extends Observe{
         setPouvoir(false);
     }
     
-    
+    public void afficherCartes(Aventurier a){
+        panelCartesCentral.removeAll();
+        for (CarteTirage carte : a.getCartesMain()) {
+            panelCartesCentral.add(new VueCarte(this.getObservateur(), carte).asJPanel());
+        }
+    }
     
     
       

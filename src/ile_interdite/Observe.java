@@ -21,4 +21,9 @@ public class Observe {
             observateur.traiterMessage(m);
         }
     }
+    
+    public Observateur getObservateur(){
+        return observateur;
+    }
+    
 }
