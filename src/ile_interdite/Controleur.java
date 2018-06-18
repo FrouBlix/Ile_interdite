@@ -159,6 +159,7 @@ public class Controleur implements Observateur{
         this.ihm.getVueAventurier().setPouvoirAActiver(a.pouvoirAActiver);
         a.pouvoirDispo = true;
         this.resetAction();
+        this.ihm.getVueAventurier().afficherCartes(a);
         return a;
     }
     
@@ -280,12 +281,12 @@ public class Controleur implements Observateur{
         return this.piocheInondation.get(this.piocheInondation.size()-1);
     }
     
-    public void finishDonneCarte(CarteTirage carte, Aventurier a){
-        aventurierEnCours.donneCarte(carte, a);
+    public void finishDonneCarte(Aventurier a){
+        aventurierEnCours.donneCarte(this.carteADonner, a);
+        this.resetAction();
     }
     
     public void actionDonneCarte(){
-        //on veut qu'il select une carte, puis un aventurier
         resetAction();
         this.actionEnCours = ActionEnCours.donner;
         ihm.getVueAventurier().setDonner(true);
@@ -352,6 +353,16 @@ public class Controleur implements Observateur{
                         break;//on ne fait rien si l'utilisateur clique sur une carte speciale donc c'est bon
                         default:
                             break; // TODO: activer cartes speciales
+                }
+            }
+        }
+        
+        if (msg instanceof MessageAventurier) {
+            MessageAventurier msgA = (MessageAventurier) msg;
+            if ("clic".equals(msgA.contenu)) {
+                switch(actionEnCours){
+                    case donner:
+                        this.finishDonneCarte(msgA.aventurier);
                 }
             }
         }
