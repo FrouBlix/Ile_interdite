@@ -15,6 +15,7 @@ public class Controleur implements Observateur{
 
     private Grille grille;
     private IHM ihm;
+    private IHM ihmSupression;
     private ArrayList<Aventurier> listeDesJoueurs;
     private int joueurEnCours =0;
     private Aventurier aventurierEnCours;
@@ -148,6 +149,11 @@ public class Controleur implements Observateur{
             this.piocheTirage.remove(carte);
         }
         aventurierEnCours.piocheCartes(cartesTirees);
+        
+        if (aventurierEnCours.mainExcede){
+            // TODO : afficher ecran pour afficher une carte puis retrait de celle-ci
+            // TODO : IHM de supression
+        }
     }
     
     public CarteTirage getCarteTirageHaut(){
