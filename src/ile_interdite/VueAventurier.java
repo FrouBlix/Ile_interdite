@@ -33,6 +33,7 @@ public class VueAventurier extends Observe{
     private JButton boutonPasser;
     private JButton boutonDonner;
     private JButton boutonPrendre;
+    private boolean donner = false;
     
 
 
@@ -86,9 +87,29 @@ public class VueAventurier extends Observe{
         });
         
         
-        this.boutonPrendre = new JButton("prendre");
-        this.boutonDonner = new JButton("donner");
+        this.boutonPrendre = new JButton("Prendre une relique");
+        boutonPrendre.setPreferredSize(boutonPrendre.getPreferredSize());
+        boutonPrendre.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                notifierObservateur(new Message("prendre"));
+            }
+        });
+        boutonPrendre.setEnabled(false); // impossible de pouvoir prendre une relique des le premier tour
         
+        
+        
+        this.boutonDonner = new JButton("Donner");
+        this.boutonDonner.setPreferredSize(this.boutonDonner.getPreferredSize()); // fixe la taille du bouton
+        this.boutonDonner.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                donner = !donner;
+                notifierObservateur(new Message(donner? "donner" : "stop donner"));
+                boutonDonner.setText(donner? "Annuler" : "Donner");
+            }
+        });
         
 
         this.panelBoutons.add(boutonBouger);
@@ -127,11 +148,28 @@ public class VueAventurier extends Observe{
         boutonPouvoir.setText(pouvoir? "Annuler" : "Activer Pouvoir");
     }
     
+    
+    public void setDonner(boolean donner){
+        this.donner = donner;
+        boutonDonner.setText(donner? "Annuler" : "Donner");
+    }
+    
     public void setPouvoirAActiver(boolean p){
         boutonPouvoir.setEnabled(p);
     }
     
+    public void setPrendreRelique(boolean b){
+        boutonPrendre.setEnabled(b);
+    }
 
+    
+    public void resetBoutons(){
+        setAssecher(false);
+        setBouger(false);
+        setDonner(false);
+        setPouvoir(false);
+    }
+    
     
     public JPanel asJPanel(){
         return this.panel;
