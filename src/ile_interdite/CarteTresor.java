@@ -20,4 +20,8 @@ public class CarteTresor extends CarteTirage{
         this.type = type;
     }
 
+    public Special getType() {
+        return type;
+    }
+
 }
