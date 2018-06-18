@@ -239,7 +239,7 @@ public class Controleur implements Observateur{
             // TODO : IHM de supression
         }
             System.out.println(mde.getNbCarteInodation());
-        for (int i = 0 ; i <= mde.getNbCarteInodation(); i++){
+        for (int i = 1 ; i <= mde.getNbCarteInodation(); i++){
             
             CarteInondation carte = CarteInondationHaut();
             Tuile tuile = grille.getTuilebyName(carte.getNom());
