@@ -13,11 +13,11 @@ import java.awt.Color;
  */
 public class CarteTresor extends CarteTirage{
 
-    private Color couleur;
+    private Special type;
     
-    public CarteTresor(String nom, Color couleur) {
+    public CarteTresor(String nom, Special type) {
         super(nom);
-        this.couleur = couleur;
+        this.type = type;
     }
 
 }

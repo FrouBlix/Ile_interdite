@@ -12,8 +12,9 @@ package ile_interdite;
 public class MessageCarteTirage extends Message{
     public CarteTirage carte;
 
-    public MessageCarteTirage(String contenu) {
+    public MessageCarteTirage(String contenu, CarteTirage carte) {
         super(contenu);
+        this.carte = carte;
     }
     
 }
