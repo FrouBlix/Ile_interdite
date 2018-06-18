@@ -11,4 +11,15 @@ package ile_interdite;
  */
 public abstract class CarteTirage{
     
+    private String nom;
+    
+    public CarteTirage(String nom){
+        this.nom = nom;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+    
+    
 }
