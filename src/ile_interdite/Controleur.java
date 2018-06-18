@@ -103,6 +103,9 @@ public class Controleur implements Observateur{
         for (int i = 0; i < 2; i++){
             piocheTirage.add(new CarteSacSable("sac de sable"));
         }
+        
+        Collections.shuffle(piocheTirage);
+        
         //debug
         
         for (Aventurier aventurier : listeDesJoueurs) {
@@ -246,7 +249,18 @@ public class Controleur implements Observateur{
         }
     }
     
+    public void renitialisePiocheTirage(){
+        for (CarteTirage carte : defausseTirage){
+            this.piocheTirage.add(carte);
+            this.defausseTirage.remove(carte);
+        }
+        Collections.shuffle(piocheTirage);
+    }
+    
     public CarteTirage getCarteTirageHaut(){
+        if (this.piocheTirage.size() == 0){
+            renitialisePiocheTirage();
+        }
         return this.piocheTirage.get(this.piocheTirage.size()-1);
     }
     
