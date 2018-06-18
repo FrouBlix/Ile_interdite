@@ -6,6 +6,7 @@
 package ile_interdite;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  *
@@ -145,7 +146,12 @@ public class Controleur implements Observateur{
         ArrayList<CarteTirage> cartesTirees = new ArrayList<>();
         for (int i = 0; i < 2; i++){
             CarteTirage carte = getCarteTirageHaut();
-            cartesTirees.add(carte);
+            if (carte.getNom() == "MDE"){
+                remettreCarteInondationEnPioche();
+            }
+            else{
+                cartesTirees.add(carte);
+            }
             this.piocheTirage.remove(carte);
         }
         aventurierEnCours.piocheCartes(cartesTirees);
@@ -153,6 +159,13 @@ public class Controleur implements Observateur{
         if (aventurierEnCours.mainExcede){
             // TODO : afficher ecran pour afficher une carte puis retrait de celle-ci
             // TODO : IHM de supression
+        }
+    }
+    
+    public void remettreCarteInondationEnPioche(){
+        Collections.shuffle(defausseInondation);
+        for (CarteInondation carteInondation: defausseInondation){
+            this.piocheInondation.add(carteInondation);
         }
     }
     
