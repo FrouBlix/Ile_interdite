@@ -20,6 +20,10 @@ public class Controleur implements Observateur{
     private Aventurier aventurierEnCours;
     private int nombreDeJoueurs=0;
     private ActionEnCours actionEnCours = ActionEnCours.rien;
+    private ArrayList<CarteTirage> piocheTirage;
+    private ArrayList<CarteInondation> piocheInondation;
+    private ArrayList<CarteTirage> defausseTirage;
+    private ArrayList<CarteInondation> defausseInondation;
     
     public Controleur() {
         this.listeDesJoueurs = new ArrayList<>();
@@ -140,12 +144,27 @@ public class Controleur implements Observateur{
         this.ihm.getVueAventurier().setPouvoirAActiver(aventurierEnCours.pouvoirDispo);
     }
     
+    public void actionPioche(){
+        ArrayList<CarteTirage> cartesTirees = new ArrayList<>();
+        for (int i = 0; i < 2; i++){
+            CarteTirage carte = getCarteTirageHaut();
+            cartesTirees.add(carte);
+            this.piocheTirage.remove(carte);
+        }
+        aventurierEnCours.piocheCartes(cartesTirees);
+    }
+    
+    public CarteTirage getCarteTirageHaut(){
+        return this.piocheTirage.get(this.piocheTirage.size()-1);
+    }
+    
     
     @Override
     public void traiterMessage(Message msg) {
 //        System.out.println("message: " + msg.contenu);
 //        System.out.println(this.aventurierEnCours.getPointsAction());
         if("fin de tour".equals(msg.contenu)){
+            this.actionPioche();
             this.prochainJoueur();
         }
         if("bouger".equals(msg.contenu)){
