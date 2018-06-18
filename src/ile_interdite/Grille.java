@@ -91,7 +91,6 @@ public class Grille {
     
     public Tuile getTuilebyName(String name){ // utiliser cette methode est vraiment inefficace, mais il faut faire un choix entre classer par nom ou par coordonnees.
         //vu qu'on cherche par nom max 5 fois par tour, compare a 30+ 
-        System.out.println("searching for "+ name);
         for (Map.Entry<Coordonnees, Tuile> entry : tuiles.entrySet()) {
             Coordonnees key = entry.getKey();
             Tuile value = entry.getValue();
