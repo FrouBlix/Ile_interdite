@@ -55,10 +55,15 @@ public class Controleur implements Observateur{
         this.grille.getTuilebyName("Le Temple de La Lune").setEtat(EtatsTuiles.sombree);
         this.grille.getTuilebyName("Le Jardin des Murmures").setEtat(EtatsTuiles.inondee);
         
+        
+        // initialisation des pioches et des défausses de cartes
+        
         piocheInondation = new ArrayList<>();
         piocheTirage = new ArrayList<>();
         defausseInondation = new ArrayList<>();
         defausseTirage = new ArrayList<>();
+        
+        // initialisations et ajout des cartes inondations dans la pioche
         
         piocheInondation.add(new CarteInondation("Le Pont des Abimes"));
         piocheInondation.add(new CarteInondation("La Porte de Bronze"));
@@ -85,8 +90,10 @@ public class Controleur implements Observateur{
         piocheInondation.add(new CarteInondation("La Tour du Guet"));
         piocheInondation.add(new CarteInondation("Le Jardin des Murmures"));
         
-        Collections.shuffle(piocheInondation);
+        Collections.shuffle(piocheInondation); // mélange la pioche inondation
         
+        
+        // initialisation et ajout des cartes de tirage dans la pioche
         
         for (int i = 0; i < 5 ; i++){
             piocheTirage.add(new CarteTresor("tresor",Special.calice));
@@ -104,7 +111,7 @@ public class Controleur implements Observateur{
             piocheTirage.add(new CarteSacSable("sac de sable"));
         }
         
-        Collections.shuffle(piocheTirage);
+        Collections.shuffle(piocheTirage); // mélange la pioche Tirage
         
         //debug
         
@@ -225,10 +232,12 @@ public class Controleur implements Observateur{
         if (aventurierEnCours.mainExcede){
             // TODO : afficher ecran pour afficher une carte puis retrait de celle-ci
             // TODO : IHM de supression
-            
+        }
         for (int i = 0 ; i <= mde.getNbCarteInodation(); i++){
+            
             CarteInondation carte = CarteInondationHaut();
             Tuile tuile = grille.getTuilebyName(carte.getNom());
+            
             if (tuile.getEtat() == EtatsTuiles.seche){
                 tuile.setEtat(EtatsTuiles.inondee);
                 this.defausseInondation.add(carte);
@@ -239,7 +248,7 @@ public class Controleur implements Observateur{
             this.piocheInondation.remove(carte);
         }
         aventurierEnCours.piocheCartes(cartesTirees);
-        }
+        
     }
     
     public void remettreCarteInondationEnPioche(){
