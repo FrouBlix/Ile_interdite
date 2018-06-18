@@ -363,6 +363,9 @@ public class Controleur implements Observateur{
                 switch(actionEnCours){
                     case donner:
                         this.finishDonneCarte(msgA.aventurier);
+                        break;
+                    default:
+                        break;
                 }
             }
         }
