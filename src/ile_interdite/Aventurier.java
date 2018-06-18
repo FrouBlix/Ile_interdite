@@ -226,6 +226,11 @@ public abstract class Aventurier {
     public boolean isMainExcede() {
         return mainExcede;
     }
+    
+    public CarteTirage getCarteParIndice(int index){
+        return this.cartesMain.get(index);
+    }
+    
     @Override
     public String toString() {
         return "Aventurier{\n" + "pointsAction=" + pointsAction + ", \ntuileOccupee=" + tuileOccupee + '}';
