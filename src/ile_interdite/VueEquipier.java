@@ -27,12 +27,15 @@ public class VueEquipier extends JPanel implements Observateur{
         this.joueur = j;
         
         panelInfo = new JPanel(new GridLayout(1, 2));
-        panelInfo.add(new Pion().setColorRet(j.getPersonnage().getPion().getColor()));
+        Pion pion = new Pion().setColorRet(j.getPersonnage().getPion().getColor());
+        JPanel panel = new JPanel();
+        panelInfo.add(panel);
         panelInfo.add(new JLabel(j.getNom()));
         this.add(panelInfo);   
         
         panelCartes = new JPanel(new GridLayout(1, 0));
         this.add(panelCartes);
+        panel.add(pion);
     }
     
     public void updateCartes(){
