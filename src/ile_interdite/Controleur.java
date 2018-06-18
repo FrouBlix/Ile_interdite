@@ -65,7 +65,6 @@ public class Controleur implements Observateur{
         this.ihm.getVueAventurier().setBouger(false);
         this.ihm.getVueAventurier().setAssecher(false);
         this.ihm.getVueAventurier().setPouvoir(false);
-                this.ihm.getVueAventurier().setInfo(aventurierEnCours.getClass().getName().substring(14) + ": " +aventurierEnCours.getPointsAction() +" PA");
 
         this.ihm.getGrille().updateAll();
     }

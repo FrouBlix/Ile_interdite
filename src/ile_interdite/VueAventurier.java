@@ -5,13 +5,11 @@
  */
 package ile_interdite;
 
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.HashMap;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -22,6 +20,9 @@ public class VueAventurier extends Observe{
 
     
     private JPanel panel;
+    private JPanel panelCartes;
+    private JPanel panelBoutons;
+    
     private JButton boutonBouger;
     private boolean bouger = false;
     private JButton boutonAssecher;
@@ -30,14 +31,19 @@ public class VueAventurier extends Observe{
     private boolean pouvoirAActiver = false;
     private boolean pouvoir = false;
     private JButton boutonPasser;
-    private JPanel panelInfo;
-    private JLabel labelPA;
+    private JButton boutonDonner;
+    private JButton boutonPrendre;
     
+
 
     public VueAventurier(Observateur obs) {
         this.panel = new JPanel();
-        this.panel.setLayout(new GridLayout(0, 1));
+        this.panel.setLayout(new BorderLayout());
         this.addObservateur(obs);
+        
+        this.panelBoutons = new JPanel(new GridLayout(2,3));
+        
+        
         this.boutonBouger = new JButton("Se deplacer");
         this.boutonBouger.setPreferredSize(this.boutonBouger.getPreferredSize()); // fixe la taille du bouton
         this.boutonBouger.addActionListener(new ActionListener() {
@@ -79,15 +85,30 @@ public class VueAventurier extends Observe{
             }
         });
         
-        this.panelInfo = new JPanel();
-        this.labelPA = new JLabel();
-        this.panelInfo.add(labelPA);
         
-        this.panel.add(boutonBouger);
-        this.panel.add(boutonAssecher);
-        this.panel.add(boutonPouvoir);
-        this.panel.add(boutonPasser);
-        this.panel.add(panelInfo);
+        this.boutonPrendre = new JButton("prendre");
+        this.boutonDonner = new JButton("donner");
+        
+        
+
+        this.panelBoutons.add(boutonBouger);
+        this.panelBoutons.add(boutonAssecher);
+        this.panelBoutons.add(boutonPasser);
+        this.panelBoutons.add(boutonPouvoir);
+        this.panelBoutons.add(boutonDonner);
+        this.panelBoutons.add(boutonPrendre);
+        
+        panel.add(panelBoutons, BorderLayout.EAST);
+        
+        
+        panelCartes = new JPanel();
+        
+        
+        
+
+        panel.add(panelCartes,BorderLayout.CENTER);
+        
+        //this.panel.add(panelInfo);
     }
     
     public void setBouger(boolean bouger){
@@ -110,10 +131,7 @@ public class VueAventurier extends Observe{
         boutonPouvoir.setEnabled(p);
     }
     
-    public void setInfo(String s){
-        this.labelPA.setText(s);
-    }
-    
+
     
     public JPanel asJPanel(){
         return this.panel;

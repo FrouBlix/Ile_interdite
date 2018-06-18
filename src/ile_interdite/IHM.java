@@ -42,7 +42,7 @@ public class IHM extends Observe{
         
         vueAventurier = new VueAventurier(observateur);
         vueAventurier.addObservateur(observateur);
-        fenetreJeu.add(vueAventurier.asJPanel(), BorderLayout.EAST);
+        fenetreJeu.add(vueAventurier.asJPanel(), BorderLayout.SOUTH);
         
         fenetreJeu.setVisible(true);
         
