@@ -51,6 +51,31 @@ public class Controleur implements Observateur{
         this.grille.getTuilebyName("La Caverne du Brasier").setEtat(EtatsTuiles.inondee);
         this.grille.getTuilebyName("Le Temple de La Lune").setEtat(EtatsTuiles.sombree);
         this.grille.getTuilebyName("Le Jardin des Murmures").setEtat(EtatsTuiles.inondee);
+        
+        piocheInondation.add(new CarteInondation("Le Pont des Abimes"));
+        piocheInondation.add(new CarteInondation("La Porte de Bronze"));
+        piocheInondation.add(new CarteInondation("La Caverne des Ombres"));
+        piocheInondation.add(new CarteInondation("La Porte de Fer"));
+        piocheInondation.add(new CarteInondation("La Porte d’Or"));
+        piocheInondation.add(new CarteInondation("Les Falaises de l’Oubli"));
+        piocheInondation.add(new CarteInondation("Le Palais de Corail"));
+        piocheInondation.add(new CarteInondation("La Porte d’Argent"));
+        piocheInondation.add(new CarteInondation("Les Dunes de l’Illusion"));
+        piocheInondation.add(new CarteInondation("Heliport"));
+        piocheInondation.add(new CarteInondation("La Porte de Cuivre"));
+        piocheInondation.add(new CarteInondation("Le Jardin des Hurlements"));
+        piocheInondation.add(new CarteInondation("La Foret Pourpre"));
+        piocheInondation.add(new CarteInondation("Le Lagon Perdu"));
+        piocheInondation.add(new CarteInondation("Le Marais Brumeux"));
+        piocheInondation.add(new CarteInondation("Observatoire"));
+        piocheInondation.add(new CarteInondation("Le Rocher Fantome"));
+        piocheInondation.add(new CarteInondation("La Caverne du Brasier"));
+        piocheInondation.add(new CarteInondation("Le Temple du Soleil"));
+        piocheInondation.add(new CarteInondation("Le Temple de La Lune"));
+        piocheInondation.add(new CarteInondation("Le Palais des Marees"));
+        piocheInondation.add(new CarteInondation("Le Val du Crepuscule"));
+        piocheInondation.add(new CarteInondation("La Tour du Guet"));
+        piocheInondation.add(new CarteInondation("Le Jardin des Murmures"));
 
         //fin de la demo
         
@@ -154,17 +179,23 @@ public class Controleur implements Observateur{
             }
             this.piocheTirage.remove(carte);
         }
-        for (int i = 0 ; i <= mde.getNbCarteInodation(); i++){
-            CarteInondation carte = CarteInondationHaut();
-            this.defausseInondation.add(carte);
-            this.piocheInondation.remove(carte);
-            //TODO : changer l'etat de la tuile corespondante
-        }
-        aventurierEnCours.piocheCartes(cartesTirees);
-        
         if (aventurierEnCours.mainExcede){
             // TODO : afficher ecran pour afficher une carte puis retrait de celle-ci
             // TODO : IHM de supression
+            
+        for (int i = 0 ; i <= mde.getNbCarteInodation(); i++){
+            CarteInondation carte = CarteInondationHaut();
+            Tuile tuile = grille.getTuilebyName(carte.getNom());
+            if (tuile.getEtat() == EtatsTuiles.seche){
+                tuile.setEtat(EtatsTuiles.inondee);
+                this.defausseInondation.add(carte);
+            }
+            else{
+                tuile.setEtat(EtatsTuiles.sombree);
+            }
+            this.piocheInondation.remove(carte);
+        }
+        aventurierEnCours.piocheCartes(cartesTirees);
         }
     }
     

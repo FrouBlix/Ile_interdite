@@ -16,4 +16,8 @@ class CarteInondation{
     public CarteInondation(String nom){
         this.nom = nom;
     }
+    
+    public String getNom(){
+        return this.nom;
+    }
 }
