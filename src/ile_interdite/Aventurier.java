@@ -200,20 +200,11 @@ public abstract class Aventurier {
         }
     }
     
-    public void defausseCarte(){
-        
-    }
-    
     public void piocheCartes(ArrayList<CarteTirage> cartes){
         for (CarteTirage carte : cartes){
             addCarteMain(carte);
         }
     }
-
-    public void defausseCarte(MessageCarteTirage message){
-        
-    }
-    
     
     public HashMap<Tuile, Integer> getDeplacementPouvoir(Grille g){
         return null;
@@ -229,6 +220,14 @@ public abstract class Aventurier {
     
     public CarteTirage getCarteParIndice(int index){
         return this.cartesMain.get(index);
+    }
+    
+    public void utiliseCarte(CarteTirage carte, String effet){
+        //Switch(effet):
+    }
+    
+    public void donneCarte(CarteTirage carte, Aventurier a){
+        this.
     }
     
     @Override

@@ -12,4 +12,8 @@ package ile_interdite;
 class CarteInondation{
     
     private String nom;
+    
+    public CarteInondation(String nom){
+        this.nom= nom;
+    }
 }
