@@ -9,7 +9,11 @@ package ile_interdite;
  *
  * @author reboulef
  */
-public class CarteSacSable {
+public class CarteSacSable extends CarteTirage{
+
+    public CarteSacSable(String nom) {
+        super(nom);
+    }
     
     
     public void utiliseCarte(){

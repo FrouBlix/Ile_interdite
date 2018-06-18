@@ -9,6 +9,7 @@ package ile_interdite;
  *
  * @author reboulef
  */
-class CarteInondation {
+class CarteInondation{
     
+    private String nom;
 }

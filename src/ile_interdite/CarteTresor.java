@@ -5,15 +5,19 @@
  */
 package ile_interdite;
 
+import java.awt.Color;
+
 /**
  *
  * @author reboulef
  */
 public class CarteTresor extends CarteTirage{
+
+    private Color couleur;
     
-    private String nom;
-    
-    public CarteTresor(String nom){
-        this.nom = nom;
+    public CarteTresor(String nom, Color couleur) {
+        super(nom);
+        this.couleur = couleur;
     }
+
 }

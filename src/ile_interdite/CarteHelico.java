@@ -9,7 +9,11 @@ package ile_interdite;
  *
  * @author reboulef
  */
-public class CarteHelico {
+public class CarteHelico extends CarteTirage{
+
+    public CarteHelico(String nom) {
+        super(nom);
+    }
     
     
     public void utiliserCarte(){
