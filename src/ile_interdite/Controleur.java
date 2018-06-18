@@ -35,6 +35,7 @@ public class Controleur implements Observateur{
         this.joueurs = new ArrayList<>();
         this.grille = new Grille();
         
+        
         //demo
         Explorateur joueur3 = new Explorateur(this.grille.getTuilebyName("Observatoire"));
         Ingenieur joueur4 = new Ingenieur(this.grille.getTuilebyName("Le Palais des Marees"));
@@ -112,6 +113,8 @@ public class Controleur implements Observateur{
         }
         
         Collections.shuffle(piocheTirage); // mélange la pioche Tirage
+        
+        mde = new MonteeDesEaux(1);
         
         //debug
         
@@ -219,7 +222,7 @@ public class Controleur implements Observateur{
         ArrayList<CarteTirage> cartesTirees = new ArrayList<>();
         for (int i = 0; i < 2; i++){
             CarteTirage carte = getCarteTirageHaut();
-            if (carte.getNom() == "MDE"){
+            if (carte.getNom() == "montée des eaux"){
                 remettreCarteInondationEnPioche();
                 mde.incrementeCompteur();
             }
