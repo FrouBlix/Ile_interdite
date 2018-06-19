@@ -9,7 +9,7 @@ package ile_interdite;
  *
  * @author reboulef
  */
-public class MonteeDesEaux {
+public class MonteeDesEaux extends Observe{
     private int compteur;
     private int nbCarteInondation;
     private boolean inondationTotal;
@@ -45,6 +45,7 @@ public class MonteeDesEaux {
     
     public void setCompteur(int compteur){
         this.compteur = compteur;
+        notifierObservateur(new Message("MDE " + compteur));
     }
     
     public int getNbCarteInodation(){
