@@ -244,9 +244,6 @@ public class Controleur implements Observateur{
             CarteInondation carte = CarteInondationHaut();
             Tuile tuile = grille.getTuilebyName(carte.getNom());
             
-            
-//            System.out.println(tuile.getNom()+"   "+i+"   "+carte.getNom());
-            
             if (tuile.getEtat() == EtatsTuiles.seche){
                 tuile.setEtat(EtatsTuiles.inondee);
                 this.defausseInondation.add(carte);
@@ -261,29 +258,32 @@ public class Controleur implements Observateur{
     }
     
     public void remettreCarteInondationEnPioche(){
+        System.out.println("remise des inondation");
         Collections.shuffle(defausseInondation);
         for (CarteInondation carteInondation: defausseInondation){
             this.piocheInondation.add(carteInondation);
         }
+        defausseInondation = new ArrayList<>();
     }
     
     public void renitialisePiocheTirage(){
+        System.out.println(defausseTirage);
+        Collections.shuffle(piocheTirage);
         for (CarteTirage carte : defausseTirage){
             this.piocheTirage.add(carte);
-            this.defausseTirage.remove(carte);
         }
-        Collections.shuffle(piocheTirage);
+        defausseTirage = new ArrayList<>();
     }
     
     public CarteTirage getCarteTirageHaut(){
-        if (this.piocheTirage.size() == 0){
+        if (this.piocheTirage.isEmpty()){
             renitialisePiocheTirage();
         }
         return this.piocheTirage.get(this.piocheTirage.size()-1);
     }
     
     public CarteInondation CarteInondationHaut(){
-        if (this.piocheInondation.size() == 0){
+        if (this.piocheInondation.isEmpty()){
             remettreCarteInondationEnPioche();
         }
         return this.piocheInondation.get(this.piocheInondation.size()-1);
