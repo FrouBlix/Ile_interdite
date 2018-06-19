@@ -66,6 +66,7 @@ public class VueTuile extends Observe implements Observateur{
                 break;
             case pierre:
                 this.panelTop.setBackground(Color.blue);
+                this.labelTuile.setForeground(Color.white);
                 break;
             case heliport:
                 this.panelTop.setBackground(Color.CYAN);
