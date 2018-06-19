@@ -236,6 +236,7 @@ public class Controleur implements Observateur{
         aventurierEnCours.piocheCartes(cartesTirees);   // ajout des cartes tirées dans la main du joueur;
         
         if (aventurierEnCours.isMainExcede()){
+            this.cartesADefausser = new ArrayList<>();
             this.actionEnCours = ActionEnCours.defausser;
             this.nbCarteADefausser = this.aventurierEnCours.getCartesMain().size() - 5;
             for(Joueur j : this.joueurs){ // c'est realtivement lent de faire ca comme ca mais y'a que 4 iterations max donc ca va
@@ -352,27 +353,31 @@ public class Controleur implements Observateur{
     public void traiterMessage(Message msg) {
 //        System.out.println("message: " + msg.contenu);
 //        System.out.println(this.aventurierEnCours.getPointsAction());
-        if("fin de tour".equals(msg.contenu)){
-            this.actionPioche();
+        
+        if (actionEnCours !=ActionEnCours.defausser) {
+            if("fin de tour".equals(msg.contenu)){
+                this.actionPioche();
+            }
+            if("bouger".equals(msg.contenu)){
+                this.actionDeplacer();
+            }
+            if ("stop bouger".equals(msg.contenu)) {
+                this.selectDeplacement(this.aventurierEnCours.getTuileOccupee()); //on annule le deplacement. pour quitter proprement, on dit juste qu'on bouge en direction du meme endroit
+            }
+            if ("assecher".equals(msg.contenu)) {
+                this.actionAssecher();
+            }
+            if ("stop assecher".equals(msg.contenu)) {
+                this.selectAssechement(null);
+            }
+            if ("pouvoir".equals(msg.contenu)) {
+                this.actionPouvoir();
+            }
+            if ("donner".equals(msg.contenu)) {
+                this.actionDonneCarte();
+            }
         }
-        if("bouger".equals(msg.contenu)){
-            this.actionDeplacer();
-        }
-        if ("stop bouger".equals(msg.contenu)) {
-            this.selectDeplacement(this.aventurierEnCours.getTuileOccupee()); //on annule le deplacement. pour quitter proprement, on dit juste qu'on bouge en direction du meme endroit
-        }
-        if ("assecher".equals(msg.contenu)) {
-            this.actionAssecher();
-        }
-        if ("stop assecher".equals(msg.contenu)) {
-            this.selectAssechement(null);
-        }
-        if ("pouvoir".equals(msg.contenu)) {
-            this.actionPouvoir();
-        }
-        if ("donner".equals(msg.contenu)) {
-            this.actionDonneCarte();
-        }
+        
         if ("defausse valider".equals(msg.contenu)) {
             this.validerDefausse();
         }
