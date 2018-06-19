@@ -17,9 +17,8 @@ import javax.swing.JPanel;
 public class VueGrille extends JPanel {
     private HashMap<Tuile,VueTuile> tuiles;
     VueGrille(Observateur observateurdesTuiles, Grille grille) {
-        super(new GridLayout(6, 6));
+        super(new GridLayout(6, 6, 3, 3));
         this.tuiles = new HashMap<>();
-        //TODO: populate tuiles
         Coordonnees coords = new Coordonnees(0, 0);
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 6; j++) {

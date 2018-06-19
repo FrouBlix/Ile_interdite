@@ -7,8 +7,11 @@ package ile_interdite;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -26,13 +29,17 @@ public class VueEquipier extends JPanel implements Observateur{
         
         this.joueur = j;
         
-        panelInfo = new JPanel(new GridLayout(1, 2));
-        panelInfo.add(new Pion().setColorRet(j.getPersonnage().getPion().getColor()));
+        panelInfo = new JPanel(new FlowLayout());
+        Pion pion = new Pion().setColorRet(j.getPersonnage().getPion().getColor());
+        panelInfo.add(pion);
+        pion.setPreferredSize(new Dimension(20, 20));
+
         panelInfo.add(new JLabel(j.getNom()));
         this.add(panelInfo);   
         
         panelCartes = new JPanel(new GridLayout(1, 0));
         this.add(panelCartes);
+        this.updateCartes();
     }
     
     public void updateCartes(){

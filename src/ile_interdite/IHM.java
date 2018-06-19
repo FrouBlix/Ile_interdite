@@ -24,7 +24,7 @@ public class IHM extends Observe{
         
         fenetreJeu = new JFrame();
         fenetreJeu.setTitle("Jeu");
-        fenetreJeu.setSize(900, 800);
+        fenetreJeu.setSize(1000, 900);
         fenetreJeu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         fenetreJeu.setLayout(new BorderLayout());
         

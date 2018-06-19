@@ -19,8 +19,8 @@ public class Pion extends JPanel{
     @Override
     public void paint(Graphics g) {
         g.setColor(color);
-        int h = this.getSize().height;
-        int w = this.getSize().width;
+        int h = this.getSize().height-1;
+        int w = this.getSize().width-1;
         
         g.fillOval(0, 0, h, w);
         g.setColor(Color.black);
