@@ -203,6 +203,12 @@ public abstract class Aventurier extends Observe{
     }
     
     public void removeCarteMain(CarteTirage carte){
+        for (int i = 0; i < cartesMain.size(); i++) {
+            if (cartesMain.get(i).getId() == carte.getId()) {
+                cartesMain.remove(i);
+                break;
+            }
+        }
         this.cartesMain.remove(carte);
         mainExcede = this.cartesMain.size() > 5;
         notifierObservateur(new Message("update"));
