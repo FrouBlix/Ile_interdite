@@ -51,17 +51,6 @@ public class Controleur implements Observateur{
         this.ajouterJoueur(joueur4);
         this.ajouterJoueur(joueur5);
         
-//        this.grille.getTuilebyName("La Porte de Bronze").setEtat(EtatsTuiles.inondee);
-//        this.grille.getTuilebyName("Les Dunes de l’Illusion").setEtat(EtatsTuiles.sombree);
-//        this.grille.getTuilebyName("Le Lagon Perdu").setEtat(EtatsTuiles.inondee);
-//        this.grille.getTuilebyName("Le Marais Brumeux").setEtat(EtatsTuiles.sombree);
-//        this.grille.getTuilebyName("Observatoire").setEtat(EtatsTuiles.inondee);
-//        this.grille.getTuilebyName("Le Rocher Fantome").setEtat(EtatsTuiles.sombree);
-//        this.grille.getTuilebyName("La Caverne du Brasier").setEtat(EtatsTuiles.inondee);
-//        this.grille.getTuilebyName("Le Temple de La Lune").setEtat(EtatsTuiles.sombree);
-//        this.grille.getTuilebyName("Le Jardin des Murmures").setEtat(EtatsTuiles.inondee);
-        
-        
         // initialisation des pioches et des défausses de cartes
         
         piocheInondation = new ArrayList<>();
@@ -109,7 +98,6 @@ public class Controleur implements Observateur{
         }
         
         for (int i = 0; i < 3; i++){
-            piocheTirage.add(new CarteMDE("montée des eaux",Special.mde));
             piocheTirage.add(new CarteHelico("hélicoptère", Special.helico));
         }
         
@@ -118,6 +106,20 @@ public class Controleur implements Observateur{
         }
         
         Collections.shuffle(piocheTirage); // mélange la pioche Tirage
+        
+        for (Aventurier aventurier : listeDesJoueurs){
+            for (int i = 0; i < 2; i++){
+                CarteTirage carte = getCarteTirageHaut();
+                aventurier.addCarteMain(carte);
+                piocheTirage.remove(carte);
+            }
+        }
+        
+        for (int i = 0; i < 3; i++){
+            piocheTirage.add(new CarteMDE("montée des eaux",Special.mde));
+        }
+        
+        Collections.shuffle(piocheTirage); // mélange la pioche Tirage avec les carte mde ajouté
         
         mde = new MonteeDesEaux(1);
         
