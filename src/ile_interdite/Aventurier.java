@@ -234,6 +234,15 @@ public abstract class Aventurier extends Observe{
         this.removeCarteMain(carte);
     }
     
+    public boolean getDonnationPossible(){
+        return this.tuileOccupee.getAventuriers().size() > 2;
+    }
+    
+    public void obtenirTresor(){ 
+        // TODO
+    }
+    
+    
     @Override
     public String toString() {
         return "Aventurier{\n" + "pointsAction=" + pointsAction + ", \ntuileOccupee=" + tuileOccupee + '}';

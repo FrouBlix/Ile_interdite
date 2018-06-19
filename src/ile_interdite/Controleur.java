@@ -352,7 +352,7 @@ public class Controleur implements Observateur{
                 switch(actionEnCours){
                     case donner:
                         if (msgDC.carte instanceof CarteTresor) {
-                            this.selectCarteADonner((CarteTresor)msgDC.carte); 
+                            this.selectCarteADonner((CarteTresor)msgDC.carte);
                         }
                         break;//on ne fait rien si l'utilisateur clique sur une carte speciale donc c'est bon
                         default:
