@@ -156,6 +156,7 @@ public class Controleur implements Observateur{
     
     public void initialiserPartie(int nbJoueur){
         for (int i = 0; i < nbJoueur; i++){
+            tousLesAventuriers.get(i).init();
             ajouterJoueur(tousLesAventuriers.get(i));
         }
     }

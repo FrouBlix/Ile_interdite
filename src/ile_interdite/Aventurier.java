@@ -21,6 +21,7 @@ public abstract class Aventurier extends Observe{
     private Pion pion;
     private ArrayList<CarteTirage> cartesMain;
     private ArrayList<Aventurier> saveDonationsP;
+    private Tuile spawn;
     
     public boolean mainExcede;
     public boolean pouvoirAActiver;
@@ -28,8 +29,7 @@ public abstract class Aventurier extends Observe{
 
     public Aventurier(Tuile spawn){
         cartesMain = new ArrayList<>();
-        
-        this.setTuileOccupee(spawn);
+        this.spawn = spawn;
         this.saveDP = new HashMap<>();
         this.pion = new Pion();
         this.setPointsAction(3);
@@ -37,6 +37,10 @@ public abstract class Aventurier extends Observe{
         this.mainExcede = false;
     }
     
+    public void init(){
+        this.setTuileOccupee(spawn);
+
+    }
     
     
     public Pion getPion(){
@@ -272,11 +276,10 @@ public abstract class Aventurier extends Observe{
                 }
             }
             if (nbCarte >= 4){
-                for (CarteTirage carte : cartesTresor){
+                for (int i = 0; i<4 ; i++){
                     if (nbCarte < 5){
-                        cartesMain.remove(carte);
+                        removeCarteMain(cartesTresor.get(i));
                     }
-                    nbCarte -= 1;
                 }
             } 
         }
