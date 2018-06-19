@@ -257,10 +257,21 @@ public abstract class Aventurier extends Observe{
         return this.tuileOccupee.equals(a.tuileOccupee);
     }
     
-    public void obtenirTresor(){ 
-        // TODO
+    public void obtenirTresor(){
+        if (this.tuileOccupee.getSpecial() != Special.rien & this.tuileOccupee.getSpecial() != Special.heliport){
+            ArrayList<CarteTirage> cartesTresor = new ArrayList<>();
+            for (CarteTirage carte : cartesMain){
+                if (carte instanceof CarteTresor && carte.getType() == this.tuileOccupee.getSpecial()){
+                    cartesTresor.add(carte);
+                }
+            }
+            if (cartesTresor.size() == 4){
+                for (CarteTirage carte : cartesTresor){
+                    cartesMain.remove(carte);
+                }
+            }
+        }
     }
-    
     
     @Override
     public String toString() {
