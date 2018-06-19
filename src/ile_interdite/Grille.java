@@ -60,7 +60,7 @@ public class Grille {
         pileDeTuiles.add(new Tuile(Special.rien, "La Tour du Guet", dummyCoordonnees));
         pileDeTuiles.add(new Tuile(Special.griffon, "Le Jardin des Murmures", dummyCoordonnees));
 //        pileDeTuiles.add(new Tuile(Special.rien, "", dummyCoordonnees));
-//        Collections.shuffle(pileDeTuiles); //FIXME: decommenter ca pour melanger les tuiles a nouveau.
+        Collections.shuffle(pileDeTuiles); //FIXME: decommenter ca pour melanger les tuiles a nouveau.
         for (Tuile tuileToAdd : pileDeTuiles) {
             this.autoAddTuile(tuileToAdd);
         }
