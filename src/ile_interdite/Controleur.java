@@ -31,6 +31,7 @@ public class Controleur implements Observateur{
     private ArrayList<CarteTirage> cartesADefausser;
     private int nbCarteADefausser;
     private int cartesRegardees; //l'indice de l'aventurier dont les cartes sont regardees
+    private boolean defausseEnFinDeTour = false;
     
     public Controleur() {
         this.listeDesJoueurs = new ArrayList<>();
@@ -41,7 +42,7 @@ public class Controleur implements Observateur{
         
         //demo
         Explorateur joueur3 = new Explorateur(this.grille.getTuilebyName("Observatoire"));
-        Ingenieur joueur4 = new Ingenieur(this.grille.getTuilebyName("Le Palais des Marees"));
+        Messager joueur4 = new Messager(this.grille.getTuilebyName("Le Palais des Marees"));
         Pilote joueur5 = new Pilote(this.grille.getTuilebyName("Heliport"));
         Plongeur plongeur = new Plongeur(this.grille.getTuilebyName("Le Pont des Abimes"));
         this.ajouterJoueur(plongeur);
@@ -241,6 +242,7 @@ public class Controleur implements Observateur{
             this.cartesADefausser = new ArrayList<>();
             this.actionEnCours = ActionEnCours.defausser;
             this.nbCarteADefausser = this.aventurierEnCours.getCartesMain().size() - 5;
+            defausseEnFinDeTour = true;
             for(Joueur j : this.joueurs){ // c'est realtivement lent de faire ca comme ca mais y'a que 4 iterations max donc ca va
                 if (j.getPersonnage() == aventurierEnCours) {
 //                    System.out.println("ping");
@@ -311,6 +313,19 @@ public class Controleur implements Observateur{
             aventurierEnCours.donneCarte(this.carteADonner, a);
         }
         this.resetAction();
+        
+        if (a.isMainExcede()){
+            this.cartesADefausser = new ArrayList<>();
+            this.actionEnCours = ActionEnCours.defausser;
+            this.nbCarteADefausser = a.getCartesMain().size() - 5;
+            for(Joueur j : this.joueurs){ // c'est realtivement lent de faire ca comme ca mais y'a que 4 iterations max donc ca va
+                if (j.getPersonnage() == a) {
+//                    System.out.println("ping");
+                    this.ihm.afficherDefausse(j);
+                    break;
+                }
+            }
+        }
     }
     
     public void actionDonneCarte(){
@@ -337,7 +352,10 @@ public class Controleur implements Observateur{
         }
         this.resetAction();
         this.ihm.fermerIhmDefausse();
-        this.piocherCartesInondation();
+        if (defausseEnFinDeTour) {
+            this.piocherCartesInondation();
+            defausseEnFinDeTour = false;
+        }
     }
     
     

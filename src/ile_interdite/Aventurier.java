@@ -244,6 +244,14 @@ public abstract class Aventurier extends Observe{
             return true;
         }else return false;
     }
+
+    public ArrayList<Aventurier> getSaveDonationsP() {
+        return saveDonationsP;
+    }
+
+    public void setSaveDonationsP(ArrayList<Aventurier> saveDonationsP) {
+        this.saveDonationsP = saveDonationsP;
+    }
     
     public boolean isDonnationPossible(Aventurier a){
         return this.tuileOccupee.equals(a.tuileOccupee);
