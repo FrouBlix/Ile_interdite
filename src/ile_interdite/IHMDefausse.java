@@ -7,7 +7,10 @@ package ile_interdite;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import java.util.ArrayList;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.HashMap;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,13 +24,17 @@ public class IHMDefausse extends Observe{
     private JPanel panelTop;
     private JPanel panelCenter;
     private JPanel panelBot;
+    private JButton boutonConfirmer;
     private int nombreDeCartesADefausser;
+    private HashMap<CarteTirage, VueCarte> cartes;
     
 
     public IHMDefausse(Observateur obs, Joueur joueur) {
         this.addObservateur(obs);
+        cartes = new HashMap<>();
         fenetre = new JFrame();
         fenetre.setTitle("Defausser des cartes");
+        fenetre.setSize(400, 200);
         fenetre.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         fenetre.setLayout(new BorderLayout());
         panelTop = new JPanel();
@@ -38,12 +45,45 @@ public class IHMDefausse extends Observe{
         panelTop.add(new JLabel("Selectionnez les cartes a defausser."));
         
         for (CarteTirage carte : joueur.getPersonnage().getCartesMain()) {
-            panelCenter.add(new VueCarte(obs, carte).asJPanel());
+            VueCarte vuecarte = new VueCarte(obs, carte);
+            panelCenter.add(vuecarte.asJPanel());
+            cartes.put(carte, vuecarte);
         }
         
+        boutonConfirmer = new JButton("Valider");
+        boutonConfirmer.setEnabled(false); // le bouton n'est actif que apres assez de cartes
+        boutonConfirmer.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                notifierObservateur(new Message("defausse valider"));
+            }
+        });
+        panelBot.add(boutonConfirmer);
+        
+        
+        fenetre.add(panelTop, BorderLayout.NORTH);
+        fenetre.add(panelCenter, BorderLayout.CENTER);
+        fenetre.add(panelBot, BorderLayout.SOUTH);
+        
+        fenetre.setVisible(true);
         
         
     }
     
+    public void surlignerCarte(CarteTirage carte){
+        cartes.get(carte).surligner(true);
+    }
+    public void stopSurlignerCarte(CarteTirage carte){
+        cartes.get(carte).surligner(false);
+    }
+    public void boutonActif(boolean actif){
+        boutonConfirmer.setEnabled(actif);
+    }
+    
+    
+    public void fermer(){
+        this.fenetre.setVisible(false);
+        this.fenetre.dispose();
+    }
     
 }

@@ -188,17 +188,15 @@ public abstract class Aventurier extends Observe{
     
     public void addCarteMain(CarteTirage carte){
         this.cartesMain.add(carte);
-        if (this.cartesMain.size() < 5){
-            mainExcede = true;
-        }
+        mainExcede = this.cartesMain.size() > 5;
+//        System.out.println("cartes dans la main: " +this.cartesMain.size());
+//        System.out.println("mainexcede: " + mainExcede);
         notifierObservateur(new Message("update"));
     }
     
     public void removeCarteMain(CarteTirage carte){
         this.cartesMain.remove(carte);
-        if (this.cartesMain.size() < 5){
-            mainExcede = false;
-        }
+        mainExcede = this.cartesMain.size() > 5;
         notifierObservateur(new Message("update"));
     }
     
