@@ -50,15 +50,15 @@ public class Controleur implements Observateur{
         this.ajouterJoueur(joueur4);
         this.ajouterJoueur(joueur5);
         
-        this.grille.getTuilebyName("La Porte de Bronze").setEtat(EtatsTuiles.inondee);
-        this.grille.getTuilebyName("Les Dunes de l’Illusion").setEtat(EtatsTuiles.sombree);
-        this.grille.getTuilebyName("Le Lagon Perdu").setEtat(EtatsTuiles.inondee);
-        this.grille.getTuilebyName("Le Marais Brumeux").setEtat(EtatsTuiles.sombree);
-        this.grille.getTuilebyName("Observatoire").setEtat(EtatsTuiles.inondee);
-        this.grille.getTuilebyName("Le Rocher Fantome").setEtat(EtatsTuiles.sombree);
-        this.grille.getTuilebyName("La Caverne du Brasier").setEtat(EtatsTuiles.inondee);
-        this.grille.getTuilebyName("Le Temple de La Lune").setEtat(EtatsTuiles.sombree);
-        this.grille.getTuilebyName("Le Jardin des Murmures").setEtat(EtatsTuiles.inondee);
+//        this.grille.getTuilebyName("La Porte de Bronze").setEtat(EtatsTuiles.inondee);
+//        this.grille.getTuilebyName("Les Dunes de l’Illusion").setEtat(EtatsTuiles.sombree);
+//        this.grille.getTuilebyName("Le Lagon Perdu").setEtat(EtatsTuiles.inondee);
+//        this.grille.getTuilebyName("Le Marais Brumeux").setEtat(EtatsTuiles.sombree);
+//        this.grille.getTuilebyName("Observatoire").setEtat(EtatsTuiles.inondee);
+//        this.grille.getTuilebyName("Le Rocher Fantome").setEtat(EtatsTuiles.sombree);
+//        this.grille.getTuilebyName("La Caverne du Brasier").setEtat(EtatsTuiles.inondee);
+//        this.grille.getTuilebyName("Le Temple de La Lune").setEtat(EtatsTuiles.sombree);
+//        this.grille.getTuilebyName("Le Jardin des Murmures").setEtat(EtatsTuiles.inondee);
         
         
         // initialisation des pioches et des défausses de cartes

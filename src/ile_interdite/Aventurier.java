@@ -85,8 +85,6 @@ public abstract class Aventurier extends Observe{
         this.saveDP = saveDP;
     }
     
-    
-    
     public HashMap<Tuile, Integer> getAssechementPossible(Grille grille){
         this.saveAP = new HashMap<>();
         if (this.getPointsAction() > 0) {
