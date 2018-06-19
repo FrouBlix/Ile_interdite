@@ -287,7 +287,7 @@ public class Controleur implements Observateur{
     }
     
     public void finishDonneCarte(Aventurier a){
-        if (aventurierEnCours.getDonnationPossible(a)){
+        if (aventurierEnCours.isDonnationPossible(a)){
             aventurierEnCours.donneCarte(this.carteADonner, a);
         }
         this.resetAction();
