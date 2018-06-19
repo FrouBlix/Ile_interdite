@@ -5,12 +5,10 @@
  */
 package ile_interdite;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.LayoutManager;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -37,7 +35,7 @@ public class VueEquipier extends JPanel implements Observateur{
         panelInfo.add(new JLabel(j.getNom()));
         this.add(panelInfo);   
         
-        panelCartes = new JPanel(new GridLayout(1, 0));
+        panelCartes = new JPanel();
         this.add(panelCartes);
         this.updateCartes();
     }
@@ -79,6 +77,14 @@ public class VueEquipier extends JPanel implements Observateur{
     public void traiterMessage(Message msg) {
         if ("update".equals(msg.contenu)) {
             this.updateCartes();
+        }
+    }
+    
+    public void surligner(boolean surligner){
+        if (surligner) {
+            this.setBorder(BorderFactory.createLineBorder(Color.yellow, 3, true));
+        }else{
+            this.setBorder(null);
         }
     }
     

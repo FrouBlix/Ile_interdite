@@ -30,6 +30,8 @@ public class Controleur implements Observateur{
     private CarteTresor carteADonner;
     private ArrayList<CarteTirage> cartesADefausser;
     private int nbCarteADefausser;
+    private int cartesRegardees; //l'indice de l'aventurier dont les cartes sont regardees
+    private boolean defausseEnFinDeTour = false;
     
     public Controleur() {
         this.listeDesJoueurs = new ArrayList<>();
@@ -40,7 +42,7 @@ public class Controleur implements Observateur{
         
         //demo
         Explorateur joueur3 = new Explorateur(this.grille.getTuilebyName("Observatoire"));
-        Ingenieur joueur4 = new Ingenieur(this.grille.getTuilebyName("Le Palais des Marees"));
+        Messager joueur4 = new Messager(this.grille.getTuilebyName("Le Palais des Marees"));
         Pilote joueur5 = new Pilote(this.grille.getTuilebyName("Heliport"));
         Plongeur plongeur = new Plongeur(this.grille.getTuilebyName("Le Pont des Abimes"));
         this.ajouterJoueur(plongeur);
@@ -143,8 +145,9 @@ public class Controleur implements Observateur{
         this.ihm.getGrille().stopSurligner();
         this.ihm.getVueAventurier().resetBoutons();
         this.ihm.getGrille().updateAll();
-        //ihm.stopsurlignercartes
-        //ihm.stopsurlignerAventuriers
+        ihm.getVueAventurier().stopSurligner();
+        ihm.getVueEquipe().surligner(false, listeDesJoueurs);
+        ihm.getVueAventurier().desactiverBoutons(aventurierEnCours.getPointsAction());
     }
     
     public Aventurier prochainJoueur(){
@@ -236,8 +239,10 @@ public class Controleur implements Observateur{
         aventurierEnCours.piocheCartes(cartesTirees);   // ajout des cartes tirées dans la main du joueur;
         
         if (aventurierEnCours.isMainExcede()){
+            this.cartesADefausser = new ArrayList<>();
             this.actionEnCours = ActionEnCours.defausser;
             this.nbCarteADefausser = this.aventurierEnCours.getCartesMain().size() - 5;
+            defausseEnFinDeTour = true;
             for(Joueur j : this.joueurs){ // c'est realtivement lent de faire ca comme ca mais y'a que 4 iterations max donc ca va
                 if (j.getPersonnage() == aventurierEnCours) {
 //                    System.out.println("ping");
@@ -255,7 +260,7 @@ public class Controleur implements Observateur{
 
         for (int i = 1 ; i <= mde.getNbCarteInodation(); i++){
             
-            CarteInondation carte = CarteInondationHaut();
+            CarteInondation carte = carteInondationHaut();
             Tuile tuile = grille.getTuilebyName(carte.getNom());
             
             if (tuile.getEtat() == EtatsTuiles.seche){
@@ -296,7 +301,7 @@ public class Controleur implements Observateur{
         return this.piocheTirage.get(this.piocheTirage.size()-1);
     }
     
-    public CarteInondation CarteInondationHaut(){
+    public CarteInondation carteInondationHaut(){
         if (this.piocheInondation.isEmpty()){
             remettreCarteInondationEnPioche();
         }
@@ -308,18 +313,35 @@ public class Controleur implements Observateur{
             aventurierEnCours.donneCarte(this.carteADonner, a);
         }
         this.resetAction();
+        
+        if (a.isMainExcede()){
+            this.cartesADefausser = new ArrayList<>();
+            this.actionEnCours = ActionEnCours.defausser;
+            this.nbCarteADefausser = a.getCartesMain().size() - 5;
+            for(Joueur j : this.joueurs){ // c'est realtivement lent de faire ca comme ca mais y'a que 4 iterations max donc ca va
+                if (j.getPersonnage() == a) {
+//                    System.out.println("ping");
+                    this.ihm.afficherDefausse(j);
+                    break;
+                }
+            }
+        }
     }
     
     public void actionDonneCarte(){
         resetAction();
         this.actionEnCours = ActionEnCours.donner;
         ihm.getVueAventurier().setDonner(true);
-        //TODO: ihm.surlignercartes
+        ihm.getVueAventurier().afficherCartes(aventurierEnCours);
+        this.cartesRegardees = joueurEnCours;
+        ihm.getVueAventurier().surlignerCartesDonnables(true);
     }
     
     public void selectCarteADonner(CarteTresor carte){
         this.carteADonner = carte;
-        // TODO: ihm.surligneraventuriers(joueurencours.getdonationspossibles());
+        ihm.getVueAventurier().stopSurligner();
+        ihm.getVueAventurier().surlignerCarte(carteADonner);
+        ihm.getVueEquipe().surligner(true, aventurierEnCours.getAventurierDonne(listeDesJoueurs));
     }
     
     public void validerDefausse(){
@@ -330,7 +352,10 @@ public class Controleur implements Observateur{
         }
         this.resetAction();
         this.ihm.fermerIhmDefausse();
-        this.piocherCartesInondation();
+        if (defausseEnFinDeTour) {
+            this.piocherCartesInondation();
+            defausseEnFinDeTour = false;
+        }
     }
     
     
@@ -344,6 +369,17 @@ public class Controleur implements Observateur{
         ihm.getIhmDefausse().boutonActif(cartesADefausser.size() == nbCarteADefausser);
     }
     
+    public void afficherCartesAventurier(boolean suivant){ // suivant = true: l'aventurier suivant, false: l'aventurier precedent
+        this.cartesRegardees += (suivant? 1 : -1);
+        if (cartesRegardees > nombreDeJoueurs -1) {
+            cartesRegardees = 0;
+        }
+        if (cartesRegardees <0) {
+            cartesRegardees = nombreDeJoueurs -1;
+        }
+        System.out.println("cartes regardees : " + cartesRegardees);
+        ihm.getVueAventurier().afficherCartes(listeDesJoueurs.get(cartesRegardees));
+    }
     
     
     
@@ -352,27 +388,41 @@ public class Controleur implements Observateur{
     public void traiterMessage(Message msg) {
 //        System.out.println("message: " + msg.contenu);
 //        System.out.println(this.aventurierEnCours.getPointsAction());
-        if("fin de tour".equals(msg.contenu)){
-            this.actionPioche();
+        
+        if (actionEnCours !=ActionEnCours.defausser) {
+            if("fin de tour".equals(msg.contenu)){
+                this.actionPioche();
+            }
+            if("bouger".equals(msg.contenu)){
+                this.actionDeplacer();
+            }
+            if ("stop bouger".equals(msg.contenu)) {
+                this.selectDeplacement(this.aventurierEnCours.getTuileOccupee()); //on annule le deplacement. pour quitter proprement, on dit juste qu'on bouge en direction du meme endroit
+            }
+            if ("assecher".equals(msg.contenu)) {
+                this.actionAssecher();
+            }
+            if ("stop assecher".equals(msg.contenu)) {
+                this.selectAssechement(null);
+            }
+            if ("pouvoir".equals(msg.contenu)) {
+                this.actionPouvoir();
+            }
+            if ("donner".equals(msg.contenu)) {
+                this.actionDonneCarte();
+            }
+            if ("stop donner".equals(msg.contenu)) {
+                this.resetAction();
+            }
         }
-        if("bouger".equals(msg.contenu)){
-            this.actionDeplacer();
+        
+        if ("cartes next".equals(msg.contenu)) {
+            this.afficherCartesAventurier(true);
         }
-        if ("stop bouger".equals(msg.contenu)) {
-            this.selectDeplacement(this.aventurierEnCours.getTuileOccupee()); //on annule le deplacement. pour quitter proprement, on dit juste qu'on bouge en direction du meme endroit
+        if ("cartes prev".equals(msg.contenu)) {
+            this.afficherCartesAventurier(false);
         }
-        if ("assecher".equals(msg.contenu)) {
-            this.actionAssecher();
-        }
-        if ("stop assecher".equals(msg.contenu)) {
-            this.selectAssechement(null);
-        }
-        if ("pouvoir".equals(msg.contenu)) {
-            this.actionPouvoir();
-        }
-        if ("donner".equals(msg.contenu)) {
-            this.actionDonneCarte();
-        }
+        
         if ("defausse valider".equals(msg.contenu)) {
             this.validerDefausse();
         }
@@ -403,7 +453,7 @@ public class Controleur implements Observateur{
                         }
                         break;//on ne fait rien si l'utilisateur clique sur une carte speciale donc c'est bon
                     case defausser:
-                        System.out.println("ping");
+//                        System.out.println("ping");
                         this.selectCarteDefausse(msgDC.carte);
                         break;
                     default:

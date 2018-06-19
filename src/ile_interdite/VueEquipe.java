@@ -9,6 +9,8 @@ import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JPanel;
 
 /**
@@ -17,12 +19,15 @@ import javax.swing.JPanel;
  */
 public class VueEquipe extends Observe{
     private JPanel panel;
+    private HashMap<Joueur, VueEquipier> equipiers;
 
     public VueEquipe(Observateur obs, ArrayList<Joueur> joueurs) {
+        equipiers = new HashMap<>();
         this.addObservateur(obs);
         this.panel = new JPanel(new GridLayout(4, 1));
         for (Joueur joueur : joueurs) {
             VueEquipier panel = new VueEquipier(joueur);
+            equipiers.put(joueur, panel);
             panel.addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -51,6 +56,16 @@ public class VueEquipe extends Observe{
 
     public JPanel asJPanel() {
         return panel;
+    }
+    
+    public void surligner(boolean surligner, ArrayList<Aventurier> aventuriers){
+        for (Map.Entry<Joueur, VueEquipier> entry : equipiers.entrySet()) {
+            Joueur key = entry.getKey();
+            VueEquipier value = entry.getValue();
+            if (aventuriers.contains(key.getPersonnage())) {
+                value.surligner(surligner);
+            }
+        }
     }
     
     

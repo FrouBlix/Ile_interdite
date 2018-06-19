@@ -54,7 +54,7 @@ public class VueCarte extends Observe{
             @Override
             public void mouseClicked(MouseEvent e) {
                 notifierObservateur(new MessageCarteTirage("clic", carte));
-                System.out.println("ping");
+//                System.out.println("ping");
             }
 
             @Override

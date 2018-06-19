@@ -6,6 +6,7 @@
 package ile_interdite;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 /**
  *
@@ -21,6 +22,13 @@ public class Messager extends Aventurier{
     @Override
     public boolean isDonnationPossible(Aventurier a){
         return true;
+    }
+
+    @Override
+    public ArrayList<Aventurier> getAventurierDonne(ArrayList<Aventurier> aventuriers) {
+        this.setSaveDonationsP(new ArrayList<>());
+        this.getSaveDonationsP().addAll(aventuriers);
+        return aventuriers;
     }
     
 }
