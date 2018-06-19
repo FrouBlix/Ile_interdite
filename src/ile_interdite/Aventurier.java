@@ -171,8 +171,17 @@ public abstract class Aventurier extends Observe{
                 al.add(tuile);
             }
         }
-  
 
+    }
+    
+    public ArrayList<Aventurier> getAventurierDonne(ArrayList<Aventurier> aventuriers){
+        ArrayList<Aventurier> aventurierDonne = new ArrayList<>();
+        for (Aventurier aventurier : aventuriers){
+            if (isDonnationPossible(aventurier) && (this != aventurier)){
+                aventurierDonne.add(aventurier);
+            }
+        }
+        return aventurierDonne;
     }
     
     public boolean seDeplacer(Tuile destination){
