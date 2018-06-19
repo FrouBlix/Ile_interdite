@@ -175,6 +175,16 @@ public abstract class Aventurier extends Observe{
 
     }
     
+    public ArrayList<Aventurier> getAventurierDonne(ArrayList<Aventurier> aventuriers){
+        ArrayList<Aventurier> aventurierDonne = new ArrayList<>();
+        for (Aventurier aventurier : aventuriers){
+            if (isDonnationPossible(aventurier) && (this != aventurier)){
+                aventurierDonne.add(aventurier);
+            }
+        }
+        return aventurierDonne;
+    }
+    
     public boolean seDeplacer(Tuile destination){
         if(this.saveDP.get(destination) !=null && this.saveDP.get(destination) <= this.getPointsAction()){
             this.setTuileOccupee(destination);
