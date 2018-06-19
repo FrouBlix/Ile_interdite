@@ -11,8 +11,8 @@ package ile_interdite;
  */
 public class CarteHelico extends CarteTirage{
 
-    public CarteHelico(String nom) {
-        super(nom);
+    public CarteHelico(String nom, Special type) {
+        super(nom,type);
     }
     
     

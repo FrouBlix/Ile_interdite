@@ -108,12 +108,12 @@ public class Controleur implements Observateur{
         }
         
         for (int i = 0; i < 3; i++){
-            piocheTirage.add(new CarteMDE("montée des eaux"));
-            piocheTirage.add(new CarteHelico("hélicoptère"));
+            piocheTirage.add(new CarteMDE("montée des eaux",Special.mde));
+            piocheTirage.add(new CarteHelico("hélicoptère", Special.helico));
         }
         
         for (int i = 0; i < 2; i++){
-            piocheTirage.add(new CarteSacSable("sac de sable"));
+            piocheTirage.add(new CarteSacSable("sac de sable",Special.sacSable));
         }
         
         Collections.shuffle(piocheTirage); // mélange la pioche Tirage
@@ -225,8 +225,7 @@ public class Controleur implements Observateur{
         
         for (int i = 0; i < 2; i++){
             CarteTirage carte = getCarteTirageHaut();
-            if (carte.getNom() == "montée des eaux"){   // si la carte est une carte MDE
-                System.out.println("montéé des eaux");
+            if (carte.getType() == Special.mde){   // si la carte est une carte MDE
                 remettreCarteInondationEnPioche();
                 mde.incrementeCompteur();
                 this.defausseTirage.add(carte);         
@@ -277,7 +276,6 @@ public class Controleur implements Observateur{
     }
     
     public void remettreCarteInondationEnPioche(){
-        System.out.println("remise des inondation");
         Collections.shuffle(defausseInondation);
         for (CarteInondation carteInondation: defausseInondation){
             this.piocheInondation.add(carteInondation);

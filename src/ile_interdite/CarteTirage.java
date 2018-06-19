@@ -12,13 +12,19 @@ package ile_interdite;
 public abstract class CarteTirage{
     
     private String nom;
+    private Special type;
     
-    public CarteTirage(String nom){
+    public CarteTirage(String nom, Special type){
         this.nom = nom;
+        this.type = type;
     }
 
     public String getNom() {
         return nom;
+    }
+    
+    public Special getType(){
+        return this.type;
     }
     
     

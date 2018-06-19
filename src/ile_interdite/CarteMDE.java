@@ -11,8 +11,8 @@ package ile_interdite;
  */
 public class CarteMDE extends CarteTirage {
     
-    public CarteMDE(String nom) {
-        super(nom);
+    public CarteMDE(String nom, Special type) {
+        super(nom,type);
     }
     
 }
