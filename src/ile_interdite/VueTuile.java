@@ -7,16 +7,11 @@ package ile_interdite;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Insets;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.HashMap;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
 
 /**
  *
@@ -27,8 +22,10 @@ public class VueTuile extends Observe implements Observateur{
     private JPanel panelPions;
     private JLabel labelTuile;
     private JLabel labelCout;
+    private JPanel panelTop;
     private Tuile tuile;
     public VueTuile(Tuile tuile, Observateur obs) {
+        this.tuile = tuile;   
         this.addObservateur(obs);
         panelTuile = new JPanel(new BorderLayout());
         panelTuile.addMouseListener(new MouseListener() {
@@ -54,9 +51,32 @@ public class VueTuile extends Observe implements Observateur{
             public void mouseExited(MouseEvent e) {
             }
         });
+        this.panelTop = new JPanel();
         this.labelTuile = new JLabel(tuile.getNom());
-        panelTuile.add(this.labelTuile, BorderLayout.NORTH);
-        this.tuile = tuile;   
+        switch(this.tuile.getSpecial()){
+            case calice: 
+                this.panelTop.setBackground(Color.white);
+                this.labelTuile.setForeground(Color.black);
+                break;
+            case cristal:
+                this.panelTop.setBackground(Color.red);
+                break;
+            case griffon:
+                this.panelTop.setBackground(Color.yellow);
+                break;
+            case pierre:
+                this.panelTop.setBackground(Color.blue);
+                this.labelTuile.setForeground(Color.white);
+                break;
+            case heliport:
+                this.panelTop.setBackground(Color.CYAN);
+                break;
+            default:
+                this.panelTop.setOpaque(false);
+                    break;
+        }
+        panelTop.add(labelTuile);
+        panelTuile.add(this.panelTop, BorderLayout.NORTH);
         this.panelTuile.setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
         this.labelCout = new JLabel();
         this.panelTuile.add(labelCout, BorderLayout.SOUTH);
@@ -73,19 +93,14 @@ public class VueTuile extends Observe implements Observateur{
         this.labelCout.setText(cout.toString() + " PA");
         switch(this.tuile.getEtat()){
                 case seche: this.panelTuile.setBackground(Color.green);
-                    this.labelTuile.setForeground(Color.darkGray);
                     this.labelCout.setForeground(Color.darkGray);
 
                     break;
                 case inondee: this.panelTuile.setBackground(Color.blue);
-                    this.labelTuile.setForeground(Color.white);
                     this.labelCout.setForeground(Color.white);
                     break;
                 case sombree: this.panelTuile.setBackground(Color.darkGray);
-                    this.labelTuile.setForeground(Color.white);
                     this.labelCout.setForeground(Color.white);
-
-
             }
         this.panelTuile.repaint();
         this.labelCout.revalidate();
@@ -105,16 +120,12 @@ public class VueTuile extends Observe implements Observateur{
         if ("update etat".equals(msg.contenu)) {
             switch(this.tuile.getEtat()){
                 case seche: this.panelTuile.setBackground(Color.decode("#008800"));
-                    this.labelTuile.setForeground(Color.white);
                     this.labelCout.setForeground(Color.white);
-
                     break;
                 case inondee: this.panelTuile.setBackground(Color.decode("#000088"));
-                    this.labelTuile.setForeground(Color.white);
                     this.labelCout.setForeground(Color.white);
                     break;
                 case sombree: this.panelTuile.setBackground(Color.decode("#202020"));
-                    this.labelTuile.setForeground(Color.white);
                     this.labelCout.setForeground(Color.white);
 
 

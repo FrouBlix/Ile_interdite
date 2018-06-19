@@ -28,7 +28,8 @@ public class Messager extends Aventurier{
     public ArrayList<Aventurier> getAventurierDonne(ArrayList<Aventurier> aventuriers) {
         this.setSaveDonationsP(new ArrayList<>());
         this.getSaveDonationsP().addAll(aventuriers);
-        return aventuriers;
+        this.getSaveDonationsP().remove(this);
+        return this.getSaveDonationsP();
     }
     
 }

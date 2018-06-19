@@ -11,12 +11,17 @@ package ile_interdite;
  */
 public abstract class CarteTirage{
     
+    public static int lastId =0;
     private String nom;
     private Special type;
+    
+    private int id;
     
     public CarteTirage(String nom, Special type){
         this.nom = nom;
         this.type = type;
+        this.id = CarteTirage.lastId +1;
+        CarteTirage.lastId ++;
     }
 
     public String getNom() {
@@ -26,6 +31,13 @@ public abstract class CarteTirage{
     public Special getType(){
         return this.type;
     }
+    
+    public int getId(){
+        return this.id;
+    }
+
+    
+    
     
     
 }

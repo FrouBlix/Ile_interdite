@@ -33,6 +33,7 @@ public class Controleur implements Observateur{
     private int nbCarteADefausser;
     private int cartesRegardees; //l'indice de l'aventurier dont les cartes sont regardees
     private boolean defausseEnFinDeTour = false;
+    private Aventurier aventurierEnCoursDeDefausse;
     
     public Controleur() {
         this.listeDesJoueurs = new ArrayList<>();
@@ -155,6 +156,7 @@ public class Controleur implements Observateur{
     
     public void initialiserPartie(int nbJoueur){
         for (int i = 0; i < nbJoueur; i++){
+            tousLesAventuriers.get(i).init();
             ajouterJoueur(tousLesAventuriers.get(i));
         }
     }
@@ -259,6 +261,7 @@ public class Controleur implements Observateur{
         if (aventurierEnCours.isMainExcede()){
             this.cartesADefausser = new ArrayList<>();
             this.actionEnCours = ActionEnCours.defausser;
+            aventurierEnCoursDeDefausse = aventurierEnCours;
             this.nbCarteADefausser = this.aventurierEnCours.getCartesMain().size() - 5;
             defausseEnFinDeTour = true;
             for(Joueur j : this.joueurs){ // c'est realtivement lent de faire ca comme ca mais y'a que 4 iterations max donc ca va
@@ -332,6 +335,7 @@ public class Controleur implements Observateur{
         this.resetAction();
         
         if (a.isMainExcede()){
+            aventurierEnCoursDeDefausse = a;
             this.cartesADefausser = new ArrayList<>();
             this.actionEnCours = ActionEnCours.defausser;
             this.nbCarteADefausser = a.getCartesMain().size() - 5;
@@ -363,8 +367,10 @@ public class Controleur implements Observateur{
     
     public void validerDefausse(){
         if (cartesADefausser.size() == nbCarteADefausser) { //normalement on peut pas clic si c'est pas vrai mais on sait jamais
+            System.out.println("ping");
             for (CarteTirage carte : cartesADefausser) {
-                aventurierEnCours.removeCarteMain(carte);
+                System.out.println("ping bis");
+                aventurierEnCoursDeDefausse.removeCarteMain(carte);
             }
         }
         this.resetAction();
