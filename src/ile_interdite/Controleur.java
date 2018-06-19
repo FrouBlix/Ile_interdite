@@ -122,13 +122,8 @@ public class Controleur implements Observateur{
             joueurs.add(new Joueur(aventurier, ""));
         }
         
-        
-        
-        
-        
 
         //fin de la demo
-        
         
         
         this.ihm = new IHM(this, grille, joueurs);
@@ -204,7 +199,6 @@ public class Controleur implements Observateur{
         this.resetAction();
     }
     
-    
     public void actionPouvoir(){
         this.resetAction();
         this.ihm.getVueAventurier().setPouvoir(true);
@@ -219,20 +213,23 @@ public class Controleur implements Observateur{
     }
     
     public void actionPioche(){
-        ArrayList<CarteTirage> cartesTirees = new ArrayList<>();
+        ArrayList<CarteTirage> cartesTirees = new ArrayList<>(); // collection des carte tirées   
+        
+        
         for (int i = 0; i < 2; i++){
             CarteTirage carte = getCarteTirageHaut();
-            if (carte.getNom() == "montée des eaux"){
+            if (carte.getNom() == "montée des eaux"){   // si la carte est une carte MDE
                 System.out.println("montéé des eaux");
                 remettreCarteInondationEnPioche();
                 mde.incrementeCompteur();
-                this.defausseTirage.add(carte);
+                this.defausseTirage.add(carte);         
             }
             else{
-                cartesTirees.add(carte);
+                cartesTirees.add(carte);  // si la carte n'est pas une MDE on ajoute la carte dans la collection des carte tirées
             }
-            this.piocheTirage.remove(carte);
+            this.piocheTirage.remove(carte);    
         }
+        aventurierEnCours.piocheCartes(cartesTirees);   // ajout des cartes tirées dans la main du joueur;
         
         if (aventurierEnCours.mainExcede){
             // TODO : afficher ecran pour afficher une carte puis retrait de celle-ci
@@ -253,7 +250,6 @@ public class Controleur implements Observateur{
             }
             this.piocheInondation.remove(carte);
         }
-        aventurierEnCours.piocheCartes(cartesTirees);
         
     }
     
