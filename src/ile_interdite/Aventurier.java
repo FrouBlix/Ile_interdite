@@ -177,7 +177,7 @@ public abstract class Aventurier extends Observe{
     public ArrayList<Aventurier> getAventurierDonne(ArrayList<Aventurier> aventuriers){
         ArrayList<Aventurier> aventurierDonne = new ArrayList<>();
         for (Aventurier aventurier : aventuriers){
-            if (isDonnationPossible(aventurier) && (this != aventurier)){
+                if (isDonnationPossible(aventurier) && (this != aventurier)){
                 aventurierDonne.add(aventurier);
             }
         }
@@ -245,10 +245,21 @@ public abstract class Aventurier extends Observe{
         return this.tuileOccupee.equals(a.tuileOccupee);
     }
     
-    public void obtenirTresor(){ 
-        // TODO
+    public void obtenirTresor(){
+        if (this.tuileOccupee.getSpecial() != Special.rien & this.tuileOccupee.getSpecial() != Special.heliport){
+            ArrayList<CarteTirage> cartesTresor = new ArrayList<>();
+            for (CarteTirage carte : cartesMain){
+                if (carte instanceof CarteTresor && carte.getType() == this.tuileOccupee.getSpecial()){
+                    cartesTresor.add(carte);
+                }
+            }
+            if (cartesTresor.size() == 4){
+                for (CarteTirage carte : cartesTresor){
+                    cartesMain.remove(carte);
+                }
+            }
+        }
     }
-    
     
     @Override
     public String toString() {
