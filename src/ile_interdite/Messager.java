@@ -18,6 +18,9 @@ public class Messager extends Aventurier{
         this.getPion().setColor(Color.white);
     }
     
-    
+    @Override
+    public boolean getDonnationPossible(Aventurier a){
+        return true;
+    }
     
 }

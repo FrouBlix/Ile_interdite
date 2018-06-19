@@ -39,7 +39,6 @@ public class VueAventurier extends Observe{
     
     private JButton boutonNext, boutonPrevious;
     private JPanel panelCartesCentral;
-    
 
 
     public VueAventurier(Observateur obs) {
