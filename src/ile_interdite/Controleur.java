@@ -16,6 +16,7 @@ public class Controleur implements Observateur{
 
     private Grille grille;
     private IHM ihm;
+    private ArrayList<Aventurier> tousLesAventuriers;
     private ArrayList<Aventurier> listeDesJoueurs;
     private ArrayList<Joueur> joueurs;
     private int joueurEnCours =0;
@@ -39,17 +40,29 @@ public class Controleur implements Observateur{
         this.joueurs = new ArrayList<>();
         this.grille = new Grille();
         this.cartesADefausser = new ArrayList<>();
+        this.tousLesAventuriers = new ArrayList<>();
+        
+        
         
         
         //demo
-        Explorateur joueur3 = new Explorateur(this.grille.getTuilebyName("Observatoire"));
-        Messager joueur4 = new Messager(this.grille.getTuilebyName("Le Palais des Marees"));
-        Pilote joueur5 = new Pilote(this.grille.getTuilebyName("Heliport"));
-        Plongeur plongeur = new Plongeur(this.grille.getTuilebyName("Le Pont des Abimes"));
-        this.ajouterJoueur(plongeur);
-        this.ajouterJoueur(joueur3);
-        this.ajouterJoueur(joueur4);
-        this.ajouterJoueur(joueur5);
+        Ingenieur ingenieur = new Ingenieur(this.grille.getTuilebyName("La Porte de Bronze"));
+        Navigateur navigateur = new Navigateur(this.grille.getTuilebyName("La Porte d’Or"));
+        Explorateur explorateur = new Explorateur(this.grille.getTuilebyName("La Porte de Cuivre"));
+        Messager messager = new Messager(this.grille.getTuilebyName("La Porte d’Argent"));
+        Pilote pilote = new Pilote(this.grille.getTuilebyName("Heliport"));
+        Plongeur plongeur = new Plongeur(this.grille.getTuilebyName("La Porte de Fer"));
+        
+        tousLesAventuriers.add(ingenieur);
+        tousLesAventuriers.add(navigateur);
+        tousLesAventuriers.add(explorateur);
+        tousLesAventuriers.add(messager);
+        tousLesAventuriers.add(pilote);
+        tousLesAventuriers.add(plongeur);
+        
+        Collections.shuffle(tousLesAventuriers);
+        
+        initialiserPartie(4);
         
         // initialisation des pioches et des défausses de cartes
         
@@ -139,8 +152,12 @@ public class Controleur implements Observateur{
         this.joueurEnCours = nombreDeJoueurs -1;
         this.prochainJoueur();
         
-        
-        
+    }
+    
+    public void initialiserPartie(int nbJoueur){
+        for (int i = 0; i < nbJoueur; i++){
+            ajouterJoueur(tousLesAventuriers.get(i));
+        }
     }
     
     public void resetAction(){
