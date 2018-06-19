@@ -234,7 +234,7 @@ public abstract class Aventurier extends Observe{
         this.removeCarteMain(carte);
     }
     
-    public boolean getDonnationPossible(Aventurier a){
+    public boolean isDonnationPossible(Aventurier a){
         return this.tuileOccupee.equals(a.tuileOccupee);
     }
     

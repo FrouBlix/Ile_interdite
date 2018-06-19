@@ -19,7 +19,7 @@ public class Messager extends Aventurier{
     }
     
     @Override
-    public boolean getDonnationPossible(Aventurier a){
+    public boolean isDonnationPossible(Aventurier a){
         return true;
     }
     
