@@ -22,6 +22,8 @@ public class VueCarte extends Observe{
     private JLabel nom;
 
     public VueCarte(Observateur o, CarteTirage c){
+        this.addObservateur(o);
+
         panel = new JPanel();
         carte = c;
         nom = new JLabel(carte.getNom());
@@ -52,6 +54,7 @@ public class VueCarte extends Observe{
             @Override
             public void mouseClicked(MouseEvent e) {
                 notifierObservateur(new MessageCarteTirage("clic", carte));
+                System.out.println("ping");
             }
 
             @Override
@@ -73,11 +76,19 @@ public class VueCarte extends Observe{
         
         panel.setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
         
-        this.addObservateur(o);
     }
     
     public JPanel asJPanel() {
         return panel;
     }
  
+    public void surligner(boolean surligner){
+        if (surligner) {
+            panel.setBorder(BorderFactory.createLineBorder(Color.yellow, 2, true));
+        }else{
+            panel.setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
+        }
+        panel.repaint();
+    }
+    
 }

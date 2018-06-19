@@ -19,6 +19,7 @@ public class IHM extends Observe{
     private VueGrille grille;
     private VueAventurier vueAventurier;
     private VueEquipe vueEquipe;
+    private IHMDefausse ihmDefausse;
 
     public IHM(Observateur observateur, Grille grilleaAfficher, ArrayList<Joueur> joueurs) {
         
@@ -66,6 +67,23 @@ public class IHM extends Observe{
 
     public VueAventurier getVueAventurier() {
         return vueAventurier;
+    }
+    
+    
+    public void afficherDefausse(Joueur joueur){
+        this.ihmDefausse = new IHMDefausse(this.getObservateur(), joueur);
+    }
+
+    public VueEquipe getVueEquipe() {
+        return vueEquipe;
+    }
+
+    public IHMDefausse getIhmDefausse() {
+        return ihmDefausse;
+    }
+    
+    public void fermerIhmDefausse(){
+        this.getIhmDefausse().fermer();
     }
     
     
