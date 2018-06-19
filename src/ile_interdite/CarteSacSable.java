@@ -11,8 +11,8 @@ package ile_interdite;
  */
 public class CarteSacSable extends CarteTirage{
 
-    public CarteSacSable(String nom) {
-        super(nom);
+    public CarteSacSable(String nom, Special type) {
+        super(nom,type);
     }
     
     

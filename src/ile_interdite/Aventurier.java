@@ -85,8 +85,6 @@ public abstract class Aventurier extends Observe{
         this.saveDP = saveDP;
     }
     
-    
-    
     public HashMap<Tuile, Integer> getAssechementPossible(Grille grille){
         this.saveAP = new HashMap<>();
         if (this.getPointsAction() > 0) {
@@ -260,16 +258,21 @@ public abstract class Aventurier extends Observe{
     public void obtenirTresor(){
         if (this.tuileOccupee.getSpecial() != Special.rien & this.tuileOccupee.getSpecial() != Special.heliport){
             ArrayList<CarteTirage> cartesTresor = new ArrayList<>();
+            int nbCarte = 0;
             for (CarteTirage carte : cartesMain){
                 if (carte instanceof CarteTresor && carte.getType() == this.tuileOccupee.getSpecial()){
                     cartesTresor.add(carte);
+                    nbCarte += 1;
                 }
             }
-            if (cartesTresor.size() == 4){
+            if (nbCarte >= 4){
                 for (CarteTirage carte : cartesTresor){
-                    cartesMain.remove(carte);
+                    if (nbCarte < 5){
+                        cartesMain.remove(carte);
+                    }
+                    nbCarte -= 1;
                 }
-            }
+            } 
         }
     }
     

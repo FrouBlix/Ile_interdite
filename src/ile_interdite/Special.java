@@ -11,9 +11,12 @@ package ile_interdite;
  */
 public enum Special {
     rien,
+    heliport,
     cristal,
     calice,
     pierre,
     griffon,
-    heliport
+    helico,
+    sacSable,
+    mde
 }

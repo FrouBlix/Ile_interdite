@@ -50,15 +50,15 @@ public class Controleur implements Observateur{
         this.ajouterJoueur(joueur4);
         this.ajouterJoueur(joueur5);
         
-        this.grille.getTuilebyName("La Porte de Bronze").setEtat(EtatsTuiles.inondee);
-        this.grille.getTuilebyName("Les Dunes de l’Illusion").setEtat(EtatsTuiles.sombree);
-        this.grille.getTuilebyName("Le Lagon Perdu").setEtat(EtatsTuiles.inondee);
-        this.grille.getTuilebyName("Le Marais Brumeux").setEtat(EtatsTuiles.sombree);
-        this.grille.getTuilebyName("Observatoire").setEtat(EtatsTuiles.inondee);
-        this.grille.getTuilebyName("Le Rocher Fantome").setEtat(EtatsTuiles.sombree);
-        this.grille.getTuilebyName("La Caverne du Brasier").setEtat(EtatsTuiles.inondee);
-        this.grille.getTuilebyName("Le Temple de La Lune").setEtat(EtatsTuiles.sombree);
-        this.grille.getTuilebyName("Le Jardin des Murmures").setEtat(EtatsTuiles.inondee);
+//        this.grille.getTuilebyName("La Porte de Bronze").setEtat(EtatsTuiles.inondee);
+//        this.grille.getTuilebyName("Les Dunes de l’Illusion").setEtat(EtatsTuiles.sombree);
+//        this.grille.getTuilebyName("Le Lagon Perdu").setEtat(EtatsTuiles.inondee);
+//        this.grille.getTuilebyName("Le Marais Brumeux").setEtat(EtatsTuiles.sombree);
+//        this.grille.getTuilebyName("Observatoire").setEtat(EtatsTuiles.inondee);
+//        this.grille.getTuilebyName("Le Rocher Fantome").setEtat(EtatsTuiles.sombree);
+//        this.grille.getTuilebyName("La Caverne du Brasier").setEtat(EtatsTuiles.inondee);
+//        this.grille.getTuilebyName("Le Temple de La Lune").setEtat(EtatsTuiles.sombree);
+//        this.grille.getTuilebyName("Le Jardin des Murmures").setEtat(EtatsTuiles.inondee);
         
         
         // initialisation des pioches et des défausses de cartes
@@ -108,12 +108,12 @@ public class Controleur implements Observateur{
         }
         
         for (int i = 0; i < 3; i++){
-            piocheTirage.add(new CarteMDE("montée des eaux"));
-            piocheTirage.add(new CarteHelico("hélicoptère"));
+            piocheTirage.add(new CarteMDE("montée des eaux",Special.mde));
+            piocheTirage.add(new CarteHelico("hélicoptère", Special.helico));
         }
         
         for (int i = 0; i < 2; i++){
-            piocheTirage.add(new CarteSacSable("sac de sable"));
+            piocheTirage.add(new CarteSacSable("sac de sable",Special.sacSable));
         }
         
         Collections.shuffle(piocheTirage); // mélange la pioche Tirage
@@ -225,8 +225,7 @@ public class Controleur implements Observateur{
         
         for (int i = 0; i < 2; i++){
             CarteTirage carte = getCarteTirageHaut();
-            if (carte.getNom() == "montée des eaux"){   // si la carte est une carte MDE
-                System.out.println("montéé des eaux");
+            if (carte.getType() == Special.mde){   // si la carte est une carte MDE
                 remettreCarteInondationEnPioche();
                 mde.incrementeCompteur();
                 this.defausseTirage.add(carte);         
@@ -277,7 +276,6 @@ public class Controleur implements Observateur{
     }
     
     public void remettreCarteInondationEnPioche(){
-        System.out.println("remise des inondation");
         Collections.shuffle(defausseInondation);
         for (CarteInondation carteInondation: defausseInondation){
             this.piocheInondation.add(carteInondation);
