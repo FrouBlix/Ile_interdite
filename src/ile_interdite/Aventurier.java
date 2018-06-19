@@ -20,6 +20,7 @@ public abstract class Aventurier extends Observe{
     private HashMap<Tuile, Integer> saveAP; // assechements possibles
     private Pion pion;
     private ArrayList<CarteTirage> cartesMain;
+    private ArrayList<Aventurier> saveDonationsP;
     
     public boolean mainExcede;
     public boolean pouvoirAActiver;
@@ -175,13 +176,13 @@ public abstract class Aventurier extends Observe{
     }
     
     public ArrayList<Aventurier> getAventurierDonne(ArrayList<Aventurier> aventuriers){
-        ArrayList<Aventurier> aventurierDonne = new ArrayList<>();
+        this.saveDonationsP = new ArrayList<>();
         for (Aventurier aventurier : aventuriers){
             if (isDonnationPossible(aventurier) && (this != aventurier)){
-                aventurierDonne.add(aventurier);
+                saveDonationsP.add(aventurier);
             }
         }
-        return aventurierDonne;
+        return saveDonationsP;
     }
     
     public boolean seDeplacer(Tuile destination){
@@ -231,14 +232,17 @@ public abstract class Aventurier extends Observe{
         return this.cartesMain.get(index);
     }
     
-    public void utiliseCarte(CarteTirage carte, String effet){
-        //Switch(effet):
+    public void utiliseCarte(CarteTirage carte){
         //TODO: removeCarte
     }
     
-    public void donneCarte(CarteTirage carte, Aventurier a){
-        a.addCarteMain(carte);
-        this.removeCarteMain(carte);
+    public boolean donneCarte(CarteTirage carte, Aventurier a){
+        if (this.getPointsAction() > 0 && saveDonationsP.contains(a)) {
+            a.addCarteMain(carte);
+            this.removeCarteMain(carte);
+            this.pointsAction --;
+            return true;
+        }else return false;
     }
     
     public boolean isDonnationPossible(Aventurier a){

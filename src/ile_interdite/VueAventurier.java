@@ -10,6 +10,8 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 import javax.naming.OperationNotSupportedException;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -39,9 +41,12 @@ public class VueAventurier extends Observe{
     
     private JButton boutonNext, boutonPrevious;
     private JPanel panelCartesCentral;
+    
+    private HashMap<CarteTirage, VueCarte> cartes;
 
 
     public VueAventurier(Observateur obs) {
+        this.cartes = new HashMap<>();
         this.panel = new JPanel();
         this.panel.setLayout(new BorderLayout());
         this.addObservateur(obs);
@@ -109,7 +114,7 @@ public class VueAventurier extends Observe{
         this.boutonDonner.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                donner = !donner;
+                setDonner(!donner);
                 notifierObservateur(new Message(donner? "donner" : "stop donner"));
                 boutonDonner.setText(donner? "Annuler" : "Donner");
             }
@@ -180,6 +185,8 @@ public class VueAventurier extends Observe{
     public void setDonner(boolean donner){
         this.donner = donner;
         boutonDonner.setText(donner? "Annuler" : "Donner");
+        this.boutonNext.setEnabled(!donner);
+        this.boutonPrevious.setEnabled(!donner);
     }
     
     public void setPouvoirAActiver(boolean p){
@@ -204,10 +211,41 @@ public class VueAventurier extends Observe{
     }
     
     public void afficherCartes(Aventurier a){
+        cartes = new HashMap<>();
         panelCartesCentral.removeAll();
         for (CarteTirage carte : a.getCartesMain()) {
-            panelCartesCentral.add(new VueCarte(this.getObservateur(), carte).asJPanel());
+            VueCarte vue = new VueCarte(this.getObservateur(), carte);
+            panelCartesCentral.add(vue.asJPanel());
+            cartes.put(carte, vue);
         }
+        panelCartesCentral.revalidate();
+        panelCartesCentral.repaint();
+    }
+    
+    public void surlignerCartesDonnables(boolean surligner){
+        for (Map.Entry<CarteTirage, VueCarte> entry : cartes.entrySet()) {
+            CarteTirage key = entry.getKey();
+            VueCarte value = entry.getValue();
+            if (key instanceof CarteTresor) {
+                value.surligner(surligner);
+            }
+        }
+    }
+    
+    public void surlignerCarte(CarteTirage carte){
+        cartes.get(carte).surligner(true);
+    }
+    
+    public void stopSurligner(){
+        for (Map.Entry<CarteTirage, VueCarte> entry : cartes.entrySet()) {
+            VueCarte value = entry.getValue();
+            value.surligner(false);
+        }
+    }
+    
+    public void desactiverBoutons(int nombredePA){
+        this.boutonBouger.setEnabled(nombredePA > 0);
+        this.boutonDonner.setEnabled(nombredePA > 0);
     }
     
     public JPanel asJPanel(){
