@@ -22,9 +22,6 @@ public class IHM extends Observe{
 
     public IHM(Observateur observateur, Grille grilleaAfficher, ArrayList<Joueur> joueurs) {
         
-        
-        
-        
         fenetreJeu = new JFrame();
         fenetreJeu.setTitle("Jeu");
         fenetreJeu.setSize(1000, 900);
