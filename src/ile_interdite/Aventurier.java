@@ -171,7 +171,6 @@ public abstract class Aventurier extends Observe{
                 al.add(tuile);
             }
         }
-  
 
     }
     
