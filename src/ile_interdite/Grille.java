@@ -91,8 +91,10 @@ public class Grille {
         HashMap<Tuile, Integer> tuilesInondees = new HashMap<>();
         for (Map.Entry<Coordonnees,Tuile> entry : tuiles.entrySet()){
             Tuile value = entry.getValue();
-            if (value.getEtat() == EtatsTuiles.inondee){
-                tuilesInondees.put(value,1);
+            if (value != null){
+                if (value.getEtat() == EtatsTuiles.inondee){
+                    tuilesInondees.put(value,1);
+                }
             }
         }
         return tuilesInondees;
