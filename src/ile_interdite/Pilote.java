@@ -25,25 +25,33 @@ public class Pilote extends Aventurier{
 
     @Override
     public HashMap<Tuile, Integer> getDeplacementPouvoir(Grille g) {
-        if (pouvoirDispo) {
-           HashMap<Tuile, Integer> hm = new HashMap<>();
-            for (Map.Entry<Coordonnees, Tuile> en : g.getAll().entrySet()) {
-                Coordonnees key = en.getKey();
-                Tuile value = en.getValue();
-                if (value != null && value.getEtat() != EtatsTuiles.sombree) {
-                    if (value.equals(this.getTuileOccupee())) {
-                        hm.put(value, 0);
-                    }else{
-                        hm.put(value, 1);
+        if (this.getPointsAction() >= 1) {
+            if (pouvoirDispo) {
+            HashMap<Tuile, Integer> hm = new HashMap<>();
+                for (Map.Entry<Coordonnees, Tuile> en : g.getAll().entrySet()) {
+                    Coordonnees key = en.getKey();
+                    Tuile value = en.getValue();
+                    if (value != null && value.getEtat() != EtatsTuiles.sombree) {
+                        if (value.equals(this.getTuileOccupee())) {
+                            hm.put(value, 0);
+                        }else{
+                            hm.put(value, 1);
+                        }
                     }
                 }
+                nextpouvoir = true;
+                this.setSaveDP(hm);
+                return hm; 
+            }else{
+                return null;
             }
-            nextpouvoir = true;
+        } else{
+            HashMap<Tuile, Integer> hm = new HashMap<>();
+            hm.put(this.getTuileOccupee(), 0);
             this.setSaveDP(hm);
-            return hm; 
-        }else{
-            return null;
-        }   
+            return hm;
+        }
+           
     }
 
     @Override

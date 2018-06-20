@@ -148,11 +148,13 @@ public class Controleur implements Observateur{
         //fin de la demo
         
         
-        this.ihm = new IHM(this, grille, joueurs);
+        this.ihm = new IHM(this, grille, joueurs, mde);
 
         this.ihm.getGrille().updateAll(); //on update toutes les tuiles apres avoir fini le chargement
         this.joueurEnCours = nombreDeJoueurs -1;
         this.prochainJoueur();
+        this.mde.setCompteur(1);
+
         
     }
     
@@ -443,6 +445,9 @@ public class Controleur implements Observateur{
             }
             if ("pouvoir".equals(msg.contenu)) {
                 this.actionPouvoir();
+            }
+            if ("stop pouvoir".equals(msg.contenu)) {
+                this.resetAction();
             }
             if ("donner".equals(msg.contenu)) {
                 this.actionDonneCarte();

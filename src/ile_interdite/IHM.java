@@ -20,8 +20,9 @@ public class IHM extends Observe{
     private VueAventurier vueAventurier;
     private VueEquipe vueEquipe;
     private IHMDefausse ihmDefausse;
+    private VueStatut vueStatut;
 
-    public IHM(Observateur observateur, Grille grilleaAfficher, ArrayList<Joueur> joueurs) {
+    public IHM(Observateur observateur, Grille grilleaAfficher, ArrayList<Joueur> joueurs, MonteeDesEaux mde) {
         
         fenetreJeu = new JFrame();
         fenetreJeu.setTitle("Jeu");
@@ -38,6 +39,9 @@ public class IHM extends Observe{
         
         vueEquipe = new VueEquipe(observateur, joueurs);
         fenetreJeu.add(vueEquipe.asJPanel(), BorderLayout.WEST);
+        
+        vueStatut = new VueStatut(mde);
+        fenetreJeu.add(vueStatut, BorderLayout.EAST);
         
         fenetreJeu.setVisible(true);
         
@@ -84,6 +88,10 @@ public class IHM extends Observe{
     
     public void fermerIhmDefausse(){
         this.getIhmDefausse().fermer();
+    }
+
+    public VueStatut getVueStatut() {
+        return vueStatut;
     }
     
     

@@ -13,9 +13,23 @@ import javax.swing.JPanel;
  * @author billo
  */
 public class VueStatut extends JPanel{
+    private VueMDE vueMDE;
+    private VueTresor vueTresor;
     
-    public VueStatut() {
+    public VueStatut(MonteeDesEaux mde) {
         super(new BorderLayout());
+        vueMDE = new VueMDE(mde);
+        this.add(vueMDE, BorderLayout.CENTER);
+        this.vueTresor = new VueTresor();
+        this.add(vueTresor, BorderLayout.SOUTH);
+    }
+
+    public VueMDE getVueMDE() {
+        return vueMDE;
+    }
+
+    public VueTresor getVueTresor() {
+        return vueTresor;
     }
     
 }
