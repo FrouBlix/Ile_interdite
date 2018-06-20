@@ -89,6 +89,17 @@ public class Grille {
         return this.tuiles.get(coords);
     }
     
+    public HashMap<Tuile,Integer> getTuilesInondees(){
+        HashMap<Tuile, Integer> tuilesInondees = new HashMap<>();
+        for (Map.Entry<Coordonnees,Tuile> entry : tuiles.entrySet()){
+            Tuile value = entry.getValue();
+            if (value.getEtat() == EtatsTuiles.inondee){
+                tuilesInondees.put(value,1);
+            }
+        }
+        return tuilesInondees;
+    }
+    
     public Tuile getTuilebyName(String name){ // utiliser cette methode est vraiment inefficace, mais il faut faire un choix entre classer par nom ou par coordonnees.
         //vu qu'on cherche par nom max 5 fois par tour, compare a 30+ 
         for (Map.Entry<Coordonnees, Tuile> entry : tuiles.entrySet()) {
