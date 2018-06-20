@@ -493,6 +493,7 @@ public class Controleur implements Observateur{
                         this.selectCarteDefausse(msgDC.carte);
                         break;
                     default:
+                        utiliseCarte(msgDC.carte);
                         break; // TODO: activer cartes speciales
                 }
             }
