@@ -7,6 +7,8 @@ package ile_interdite;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -404,6 +406,17 @@ public class Controleur implements Observateur{
         ihm.getVueAventurier().afficherCartes(listeDesJoueurs.get(cartesRegardees));
     }
     
+    public void utiliseCarte(CarteTirage carteTirage){
+        switch(carteTirage.getType()){
+            case sacSable:
+                ihm.getGrille().surligner(this.grille.getTuilesInondees());
+                break;
+            case helico:
+                break;
+            default:
+                break;
+        }
+    }
     
     
     
@@ -499,8 +512,5 @@ public class Controleur implements Observateur{
         }
 
     }
-    
-    
-    
     
 }
