@@ -20,25 +20,32 @@ public class VueTresor extends JPanel{
     public VueTresor() {
         super(new GridLayout(2, 2));
         tresors = new HashMap<>();
-        ImagePanel panel = new ImagePanel("pierre.png");
+        ImagePanel panel = new ImagePanel("pierre.png", 0.5);
         panel.setOpaque(false);
         tresors.put(Special.pierre, panel);
-        panel = new ImagePanel("calice.png");
+        this.add(panel);
+        panel = new ImagePanel("calice.png", 0.5);
         panel.setOpaque(false);
         tresors.put(Special.calice, panel);
-        panel = new ImagePanel("zephyr.png");
+        this.add(panel);
+        panel = new ImagePanel("zephyr.png", 0.5);
         panel.setOpaque(false);
         tresors.put(Special.griffon, panel);
-        panel = new ImagePanel("cristal.png");
+        this.add(panel);
+        panel = new ImagePanel("cristal.png", 0.5);
         panel.setOpaque(false);
         tresors.put(Special.cristal, panel);
+        this.add(panel);
     }
     
     
     public void acquerirTrophee(Special type){
+        System.out.println("get trophee");
         ImagePanel panel = new ImagePanel("iconDone.png");
         panel.setOpaque(false);
         tresors.get(type).add(panel);
+        tresors.get(type).revalidate();
+        tresors.get(type).repaint();
     }
     
     

@@ -264,8 +264,20 @@ public abstract class Aventurier extends Observe{
         return this.tuileOccupee.equals(a.tuileOccupee);
     }
     
-    public void obtenirTresor(){
-        if (this.tuileOccupee.getSpecial() != Special.rien & this.tuileOccupee.getSpecial() != Special.heliport){
+    public boolean peutAcquerirTresor(){
+        if (this.getTuileOccupee().getSpecial() != Special.rien && this.getTuileOccupee().getSpecial() != Special.heliport && this.getPointsAction() >0) {
+            int nbcartes = 0;
+            for (CarteTirage carteTirage : cartesMain) {
+                if (carteTirage.getType() == this.getTuileOccupee().getSpecial()) {
+                    nbcartes ++;
+                }
+            }
+            return nbcartes >= 4;
+        }else return false;
+    }
+    
+    public boolean obtenirTresor(){
+        if (this.tuileOccupee.getSpecial() != Special.rien && this.tuileOccupee.getSpecial() != Special.heliport && this.getPointsAction() > 0){
             ArrayList<CarteTirage> cartesTresor = new ArrayList<>();
             int nbCarte = 0;
             for (CarteTirage carte : cartesMain){
@@ -280,8 +292,11 @@ public abstract class Aventurier extends Observe{
                         removeCarteMain(cartesTresor.get(i));
                     }
                 }
+                this.pointsAction --;
+                return true;
             } 
         }
+        return false;
     }
     
     @Override

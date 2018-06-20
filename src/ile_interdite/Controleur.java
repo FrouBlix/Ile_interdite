@@ -36,6 +36,7 @@ public class Controleur implements Observateur{
     private int cartesRegardees; //l'indice de l'aventurier dont les cartes sont regardees
     private boolean defausseEnFinDeTour = false;
     private Aventurier aventurierEnCoursDeDefausse;
+    private HashMap<Special, Boolean> tresorsRecup;
     
     public Controleur() {
         this.listeDesJoueurs = new ArrayList<>();
@@ -43,6 +44,11 @@ public class Controleur implements Observateur{
         this.grille = new Grille();
         this.cartesADefausser = new ArrayList<>();
         this.tousLesAventuriers = new ArrayList<>();
+        this.tresorsRecup = new HashMap<>();
+        tresorsRecup.put(Special.calice, false);
+        tresorsRecup.put(Special.cristal, false);
+        tresorsRecup.put(Special.griffon, false);
+        tresorsRecup.put(Special.pierre, false);
         
         
         
@@ -137,7 +143,6 @@ public class Controleur implements Observateur{
         Collections.shuffle(piocheTirage); // mélange la pioche Tirage avec les carte mde ajouté
         
         mde = new MonteeDesEaux(1);
-        
         //debug
         
         for (Aventurier aventurier : listeDesJoueurs) {
@@ -154,6 +159,7 @@ public class Controleur implements Observateur{
         this.joueurEnCours = nombreDeJoueurs -1;
         this.prochainJoueur();
         this.mde.setCompteur(1);
+        
 
         
     }
@@ -180,11 +186,12 @@ public class Controleur implements Observateur{
         this.joueurEnCours %= this.nombreDeJoueurs;
         Aventurier a = this.listeDesJoueurs.get(joueurEnCours);
         a.setPointsAction(3);
-        setAventurierEnCours(a);
+        this.setAventurierEnCours(a);
         this.ihm.getVueAventurier().setPouvoirAActiver(a.pouvoirAActiver);
         a.pouvoirDispo = true;
         this.resetAction();
         this.ihm.getVueAventurier().afficherCartes(a);
+        ihm.getVueAventurier().setPrendreRelique(aventurierEnCours.peutAcquerirTresor());
         return a;
     }
     
@@ -205,6 +212,7 @@ public class Controleur implements Observateur{
     public void selectDeplacement(Tuile t){
         this.aventurierEnCours.seDeplacer(t);
         this.resetAction();
+        ihm.getVueAventurier().setPrendreRelique(aventurierEnCours.peutAcquerirTresor());
     }
     
     public void actionAssecher(){
@@ -238,8 +246,7 @@ public class Controleur implements Observateur{
     }
     
     public void selectPouvoir(Tuile t){
-        aventurierEnCours.seDeplacer(t);
-        this.resetAction();
+        this.selectDeplacement(t);
         this.ihm.getVueAventurier().setPouvoirAActiver(aventurierEnCours.pouvoirDispo);
     }
     
@@ -281,8 +288,6 @@ public class Controleur implements Observateur{
     }
     
     public void piocherCartesInondation(){
-                    System.out.println(mde.getNbCarteInodation());
-
         for (int i = 1 ; i <= mde.getNbCarteInodation(); i++){
             
             CarteInondation carte = carteInondationHaut();
@@ -351,6 +356,8 @@ public class Controleur implements Observateur{
                 }
             }
         }
+        ihm.getVueAventurier().afficherCartes(listeDesJoueurs.get(cartesRegardees));
+        ihm.getVueAventurier().setPrendreRelique(aventurierEnCours.peutAcquerirTresor());
     }
     
     public void actionDonneCarte(){
@@ -420,6 +427,16 @@ public class Controleur implements Observateur{
         }
     }
     
+    public void actionPrendre(){
+        Special type = aventurierEnCours.getTuileOccupee().getSpecial();
+        if (!tresorsRecup.get(type)) {
+            if (aventurierEnCours.obtenirTresor()) {
+                tresorsRecup.put(type, true);
+                ihm.getVueStatut().getVueTresor().acquerirTrophee(type);
+            }
+        }
+        ihm.getVueAventurier().setPrendreRelique(aventurierEnCours.peutAcquerirTresor());
+    }
     
     
     @Override

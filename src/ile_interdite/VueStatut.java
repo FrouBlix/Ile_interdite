@@ -19,9 +19,9 @@ public class VueStatut extends JPanel{
     public VueStatut(MonteeDesEaux mde) {
         super(new BorderLayout());
         vueMDE = new VueMDE(mde);
-        this.add(vueMDE, BorderLayout.CENTER);
-        this.vueTresor = new VueTresor();
-        this.add(vueTresor, BorderLayout.SOUTH);
+        this.add(vueMDE, BorderLayout.NORTH);
+        vueTresor = new VueTresor();
+        this.add(vueTresor, BorderLayout.CENTER);
     }
 
     public VueMDE getVueMDE() {
