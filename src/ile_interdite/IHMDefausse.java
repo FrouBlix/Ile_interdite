@@ -86,4 +86,15 @@ public class IHMDefausse extends Observe{
         this.fenetre.dispose();
     }
     
+    public void update(Joueur joueur){
+        panelCenter.removeAll();
+        for (CarteTirage carte : joueur.getPersonnage().getCartesMain()) {
+            VueCarte vuecarte = new VueCarte(this.getObservateur(), carte);
+            panelCenter.add(vuecarte.asJPanel());
+            cartes.put(carte, vuecarte);
+        }
+        panelCenter.revalidate();
+        panelCenter.repaint();
+    }
+    
 }
