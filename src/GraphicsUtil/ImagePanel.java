@@ -27,10 +27,8 @@ public class ImagePanel extends JPanel{
     public ImagePanel(String pathToFile, double scalingFactor) {
         super();
         this.setScalingFactor(scalingFactor);
-        String path = System.getProperty("user.dir") + "\\" +pathToFile;
-        System.out.println(path);
         try {
-            image = ImageIO.read(new File(path));
+            image = ImageIO.read(new File(pathToFile));
         } catch (IOException e) {
             System.err.println("Impossible de lire le fichier :" + pathToFile);
             

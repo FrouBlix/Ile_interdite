@@ -265,9 +265,10 @@ public abstract class Aventurier extends Observe{
     }
     
     public boolean peutAcquerirTresor(){
-        if (this.getTuileOccupee().getSpecial() != Special.rien && this.getTuileOccupee().getSpecial() != Special.heliport && this.getPointsAction() >0) {
+        if (this.getTuileOccupee().getSpecial() != Special.rien && this.getTuileOccupee().getSpecial() != Special.heliport /*&& this.getPointsAction() >0*/) {
             int nbcartes = 0;
             for (CarteTirage carteTirage : cartesMain) {
+                System.out.println(carteTirage);
                 if (carteTirage.getType() == this.getTuileOccupee().getSpecial()) {
                     nbcartes ++;
                 }

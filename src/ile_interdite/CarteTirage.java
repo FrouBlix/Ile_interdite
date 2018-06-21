@@ -36,6 +36,15 @@ public abstract class CarteTirage{
         return this.id;
     }
 
+    @Override
+    public String toString() {
+        return new String("CarteTirage :\n"
+                + "\tnom: " + getNom()+"\n"
+                        + "\tspecial: " + getType());
+    }
+    
+    
+
     
     
 }

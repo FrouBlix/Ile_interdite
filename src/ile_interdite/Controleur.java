@@ -160,7 +160,15 @@ public class Controleur implements Observateur{
         this.prochainJoueur();
         this.mde.setCompteur(1);
         
+        for(CarteTirage carte : aventurierEnCours.getCartesMain()){
+            this.aventurierEnCours.removeCarteMain(carte);
+        }
+        
+        for (int i = 0; i < 4; i++) {
+                    this.aventurierEnCours.addCarteMain(new CarteTresor("DEBUG", Special.calice));
 
+        }
+        
         
     }
     
@@ -179,6 +187,8 @@ public class Controleur implements Observateur{
         ihm.getVueAventurier().stopSurligner();
         ihm.getVueEquipe().surligner(false, listeDesJoueurs);
         ihm.getVueAventurier().desactiverBoutons(aventurierEnCours.getPointsAction());
+        ihm.getVueAventurier().setPrendreRelique(aventurierEnCours.peutAcquerirTresor());
+
     }
     
     public Aventurier prochainJoueur(){
@@ -191,7 +201,6 @@ public class Controleur implements Observateur{
         a.pouvoirDispo = true;
         this.resetAction();
         this.ihm.getVueAventurier().afficherCartes(a);
-        ihm.getVueAventurier().setPrendreRelique(aventurierEnCours.peutAcquerirTresor());
         return a;
     }
     
@@ -212,7 +221,6 @@ public class Controleur implements Observateur{
     public void selectDeplacement(Tuile t){
         this.aventurierEnCours.seDeplacer(t);
         this.resetAction();
-        ihm.getVueAventurier().setPrendreRelique(aventurierEnCours.peutAcquerirTresor());
     }
     
     public void actionAssecher(){
@@ -357,7 +365,6 @@ public class Controleur implements Observateur{
             }
         }
         ihm.getVueAventurier().afficherCartes(listeDesJoueurs.get(cartesRegardees));
-        ihm.getVueAventurier().setPrendreRelique(aventurierEnCours.peutAcquerirTresor());
     }
     
     public void actionDonneCarte(){
@@ -433,9 +440,9 @@ public class Controleur implements Observateur{
             if (aventurierEnCours.obtenirTresor()) {
                 tresorsRecup.put(type, true);
                 ihm.getVueStatut().getVueTresor().acquerirTrophee(type);
+                this.resetAction();
             }
         }
-        ihm.getVueAventurier().setPrendreRelique(aventurierEnCours.peutAcquerirTresor());
     }
     
     
@@ -471,6 +478,9 @@ public class Controleur implements Observateur{
             }
             if ("stop donner".equals(msg.contenu)) {
                 this.resetAction();
+            }
+            if ("prendre".equals(msg.contenu)) {
+                this.actionPrendre();
             }
         }
         
