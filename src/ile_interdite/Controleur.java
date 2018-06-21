@@ -313,6 +313,9 @@ public class Controleur implements Observateur{
             }
             else{
                 tuile.setEtat(EtatsTuiles.sombree);
+                for (Aventurier aventurier : tuile.getAventuriers()){
+                    
+                }
             }
             this.piocheInondation.remove(carte);
         }
@@ -435,6 +438,18 @@ public class Controleur implements Observateur{
                 ihm.getGrille().surligner(this.grille.getTuilesInondees());
                 break;
             case helico:
+                if (toutLesTresorsPosede() && tousSurHeliport()){
+//                    terminerPartie();
+                }
+                else{
+                    ArrayList<Aventurier> aventuriers = new ArrayList<>();
+                    for (Aventurier aventurier : listeDesJoueurs){
+                        if (aventurier != this.aventurierEnCours){
+                            aventuriers.add(aventurier);
+                        }
+                    }
+                    ihm.getVueEquipe().surligner(true,aventuriers);
+                }
                 break;
             default:
                 break;
@@ -452,8 +467,27 @@ public class Controleur implements Observateur{
         }
     }
     
-    public void verifieDefaite(){
-        
+    public boolean toutLesTresorsPosede(){
+        int nbTresorsObtenus = 0;
+        for (Map.Entry<Special,Boolean> tresor : tresorsRecup.entrySet()){
+            if (tresor.getValue()){
+                nbTresorsObtenus ++;
+            }
+        }
+        return nbTresorsObtenus == 4;
+    }
+
+    public boolean tousSurHeliport(){
+        int nbJoueur = 0;
+        for (Aventurier aventurier : listeDesJoueurs){
+            if (aventurier.getTuileOccupee().getSpecial() == Special.heliport){
+                nbJoueur ++;
+            }
+        }
+        return this.nombreDeJoueurs == nbJoueur;
+    }
+    
+    public void verifieDefaite(ArrayList<Tuile> tuileInondees){
     }
     
     
