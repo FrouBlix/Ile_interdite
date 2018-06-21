@@ -54,6 +54,8 @@ public class Controleur implements Observateur{
         
         
         //demo
+        
+        
         Ingenieur ingenieur = new Ingenieur(this.grille.getTuilebyName("La Porte de Bronze"));
         Navigateur navigateur = new Navigateur(this.grille.getTuilebyName("La Porte d’Or"));
         Explorateur explorateur = new Explorateur(this.grille.getTuilebyName("La Porte de Cuivre"));
