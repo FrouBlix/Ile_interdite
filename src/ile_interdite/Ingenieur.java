@@ -64,6 +64,11 @@ public class Ingenieur extends Aventurier{
         return this.getSaveAP();
     }
 
+    @Override
+    public boolean isAssechementPossible() {
+        return super.isAssechementPossible() || prochainAssechementGratuit;
+    }
+
 
     
     

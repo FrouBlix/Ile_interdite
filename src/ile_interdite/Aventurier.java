@@ -101,6 +101,10 @@ public abstract class Aventurier extends Observe{
         return this.saveAP;
     }
     
+    public boolean isAssechementPossible(){
+        return this.getPointsAction() > 0;
+    }
+    
     
     public void testTuileAss(Tuile tuile){
         if (tuile != null && tuile.getEtat() == EtatsTuiles.inondee) {
@@ -299,6 +303,16 @@ public abstract class Aventurier extends Observe{
         }
         return false;
     }
+
+    public boolean isPouvoirAActiver() {
+        return pouvoirAActiver;
+    }
+
+    public boolean isPouvoirDispo() {
+        return pouvoirDispo && this.getPointsAction() > 0;
+    }
+    
+    
     
     @Override
     public String toString() {

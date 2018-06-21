@@ -165,7 +165,8 @@ public class Controleur implements Observateur{
         }
         
         for (int i = 0; i < 4; i++) {
-                    this.aventurierEnCours.addCarteMain(new CarteTresor("DEBUG", Special.calice));
+            this.aventurierEnCours.addCarteMain(new CarteTresor("DEBUG", Special.calice));
+            this.tousLesAventuriers.get(1).addCarteMain(new CarteTresor("DEBUG", Special.cristal));
 
         }
         
@@ -188,7 +189,8 @@ public class Controleur implements Observateur{
         ihm.getVueEquipe().surligner(false, listeDesJoueurs);
         ihm.getVueAventurier().desactiverBoutons(aventurierEnCours.getPointsAction());
         ihm.getVueAventurier().setPrendreRelique(aventurierEnCours.peutAcquerirTresor());
-
+        ihm.getVueAventurier().enableAssecher(aventurierEnCours.isAssechementPossible());
+        ihm.getVueAventurier().setPouvoirAActiver(aventurierEnCours.isPouvoirDispo());
     }
     
     public Aventurier prochainJoueur(){
@@ -198,7 +200,9 @@ public class Controleur implements Observateur{
         a.setPointsAction(3);
         this.setAventurierEnCours(a);
         this.ihm.getVueAventurier().setPouvoirAActiver(a.pouvoirAActiver);
-        a.pouvoirDispo = true;
+        if (a.isPouvoirAActiver()) {
+            a.pouvoirDispo = true;
+        }
         this.resetAction();
         this.ihm.getVueAventurier().afficherCartes(a);
         return a;
