@@ -70,7 +70,7 @@ public class Controleur implements Observateur{
         
         Collections.shuffle(tousLesAventuriers);
         
-        initialiserPartie(4);
+        initialiserPartie(2);
         
         // initialisation des pioches et des défausses de cartes
         
@@ -382,6 +382,7 @@ public class Controleur implements Observateur{
             for (CarteTirage carte : cartesADefausser) {
                 System.out.println("ping bis");
                 aventurierEnCoursDeDefausse.removeCarteMain(carte);
+                defausseTirage.add(carte);
             }
         }
         this.resetAction();
@@ -436,6 +437,10 @@ public class Controleur implements Observateur{
             }
         }
         ihm.getVueAventurier().setPrendreRelique(aventurierEnCours.peutAcquerirTresor());
+    }
+    
+    public void verifieDefaite(){
+        
     }
     
     
@@ -533,7 +538,5 @@ public class Controleur implements Observateur{
                 }
             }
         }
-
     }
-    
 }
