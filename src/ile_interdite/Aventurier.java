@@ -216,7 +216,6 @@ public abstract class Aventurier extends Observe{
                 break;
             }
         }
-        this.cartesMain.remove(carte);
         mainExcede = this.cartesMain.size() > 5;
         notifierObservateur(new Message("update"));
     }
@@ -244,7 +243,7 @@ public abstract class Aventurier extends Observe{
     }
     
     public void utiliseCarte(CarteTirage carte){
-        //TODO: removeCarte
+        this.removeCarteMain(carte);
     }
     
     public boolean donneCarte(CarteTirage carte, Aventurier a){

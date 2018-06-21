@@ -33,10 +33,12 @@ public class Controleur implements Observateur{
     private CarteTresor carteADonner;
     private ArrayList<CarteTirage> cartesADefausser;
     private int nbCarteADefausser;
-    private int cartesRegardees; //l'indice de l'aventurier dont les cartes sont regardees
+    private int cartesRegardees = -1; //l'indice de l'aventurier dont les cartes sont regardees
     private boolean defausseEnFinDeTour = false;
     private Aventurier aventurierEnCoursDeDefausse;
     private HashMap<Special, Boolean> tresorsRecup;
+    private CarteTirage carteAUtiliser;
+    private Aventurier aventurierPossesseur;
     
     public Controleur() {
         this.listeDesJoueurs = new ArrayList<>();
@@ -72,7 +74,7 @@ public class Controleur implements Observateur{
         
         Collections.shuffle(tousLesAventuriers);
         
-        initialiserPartie(2);
+        initialiserPartie(4);
         
         // initialisation des pioches et des défausses de cartes
         
@@ -148,7 +150,7 @@ public class Controleur implements Observateur{
         //debug
         
         for (Aventurier aventurier : listeDesJoueurs) {
-            joueurs.add(new Joueur(aventurier, ""));
+            joueurs.add(new Joueur(aventurier, "saucisse"));
         }
         
 
@@ -167,7 +169,7 @@ public class Controleur implements Observateur{
         }
         
         for (int i = 0; i < 4; i++) {
-            this.aventurierEnCours.addCarteMain(new CarteTresor("DEBUG", Special.calice));
+            this.aventurierEnCours.addCarteMain(new CarteSacSable("DEBUG", Special.sacSable));
             this.tousLesAventuriers.get(1).addCarteMain(new CarteTresor("DEBUG", Special.cristal));
 
         }
@@ -206,7 +208,7 @@ public class Controleur implements Observateur{
             a.pouvoirDispo = true;
         }
         this.resetAction();
-        this.ihm.getVueAventurier().afficherCartes(a);
+        this.afficherCartesAventurier(true);
         return a;
     }
     
@@ -432,7 +434,13 @@ public class Controleur implements Observateur{
     public void utiliseCarte(CarteTirage carteTirage){
         switch(carteTirage.getType()){
             case sacSable:
-                ihm.getGrille().surligner(this.grille.getTuilesInondees());
+                this.resetAction();
+                this.actionEnCours = ActionEnCours.sacDeSable;
+                aventurierPossesseur = listeDesJoueurs.get(cartesRegardees);
+                HashMap<Tuile, Integer> tuilesinondees = this.grille.getTuilesInondees();
+                ihm.getGrille().surligner(tuilesinondees);
+                this.aventurierEnCours.setSaveAP(tuilesinondees);
+                ihm.getVueAventurier().surlignerCarte(carteTirage);
                 break;
             case helico:
                 break;
@@ -440,6 +448,14 @@ public class Controleur implements Observateur{
                 break;
         }
     }
+    
+    public void selectSacDeSable(Tuile t){
+        aventurierPossesseur.utiliseCarte(carteAUtiliser);
+        ihm.getVueAventurier().afficherCartes(listeDesJoueurs.get(cartesRegardees));
+                //TODO: retirer la carte de la fenetre defausser.
+        this.resetAction();
+    }
+    
     
     public void actionPrendre(){
         Special type = aventurierEnCours.getTuileOccupee().getSpecial();
@@ -517,6 +533,9 @@ public class Controleur implements Observateur{
                         break;
                     case pouvoir: this.selectPouvoir(msgDT.tuileDOrigine);
                         break;
+                    case sacDeSable:
+                        this.selectAssechement(msgDT.tuileDOrigine);
+                        break;
                     default: break;
                 }
             }
@@ -535,9 +554,13 @@ public class Controleur implements Observateur{
 //                        System.out.println("ping");
                         this.selectCarteDefausse(msgDC.carte);
                         break;
+                    case sacDeSable:
+                    case helicoptere:
+                        this.resetAction();
+                        break;
                     default:
                         utiliseCarte(msgDC.carte);
-                        break; // TODO: activer cartes speciales
+                        break;
                 }
             }
         }

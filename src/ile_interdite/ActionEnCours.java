@@ -15,5 +15,7 @@ public enum ActionEnCours {
     assecher,
     pouvoir,
     donner,
-    defausser
+    defausser,
+    sacDeSable,
+    helicoptere
 }
