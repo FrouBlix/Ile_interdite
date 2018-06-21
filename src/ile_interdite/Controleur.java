@@ -54,6 +54,8 @@ public class Controleur implements Observateur{
         
         
         //demo
+        
+        
         Ingenieur ingenieur = new Ingenieur(this.grille.getTuilebyName("La Porte de Bronze"));
         Navigateur navigateur = new Navigateur(this.grille.getTuilebyName("La Porte d’Or"));
         Explorateur explorateur = new Explorateur(this.grille.getTuilebyName("La Porte de Cuivre"));
@@ -70,7 +72,7 @@ public class Controleur implements Observateur{
         
         Collections.shuffle(tousLesAventuriers);
         
-        initialiserPartie(4);
+        initialiserPartie(2);
         
         // initialisation des pioches et des défausses de cartes
         
@@ -393,6 +395,7 @@ public class Controleur implements Observateur{
             for (CarteTirage carte : cartesADefausser) {
                 System.out.println("ping bis");
                 aventurierEnCoursDeDefausse.removeCarteMain(carte);
+                defausseTirage.add(carte);
             }
         }
         this.resetAction();
@@ -447,6 +450,10 @@ public class Controleur implements Observateur{
                 this.resetAction();
             }
         }
+    }
+    
+    public void verifieDefaite(){
+        
     }
     
     
@@ -547,7 +554,5 @@ public class Controleur implements Observateur{
                 }
             }
         }
-
     }
-    
 }
