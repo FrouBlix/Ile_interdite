@@ -101,6 +101,10 @@ public abstract class Aventurier extends Observe{
         return this.saveAP;
     }
     
+    public boolean isAssechementPossible(){
+        return this.getPointsAction() > 0;
+    }
+    
     
     public void testTuileAss(Tuile tuile){
         if (tuile != null && tuile.getEtat() == EtatsTuiles.inondee) {
@@ -265,9 +269,10 @@ public abstract class Aventurier extends Observe{
     }
     
     public boolean peutAcquerirTresor(){
-        if (this.getTuileOccupee().getSpecial() != Special.rien && this.getTuileOccupee().getSpecial() != Special.heliport && this.getPointsAction() >0) {
+        if (this.getTuileOccupee().getSpecial() != Special.rien && this.getTuileOccupee().getSpecial() != Special.heliport /*&& this.getPointsAction() >0*/) {
             int nbcartes = 0;
             for (CarteTirage carteTirage : cartesMain) {
+                System.out.println(carteTirage);
                 if (carteTirage.getType() == this.getTuileOccupee().getSpecial()) {
                     nbcartes ++;
                 }
@@ -298,6 +303,16 @@ public abstract class Aventurier extends Observe{
         }
         return false;
     }
+
+    public boolean isPouvoirAActiver() {
+        return pouvoirAActiver;
+    }
+
+    public boolean isPouvoirDispo() {
+        return pouvoirDispo && this.getPointsAction() > 0;
+    }
+    
+    
     
     @Override
     public String toString() {

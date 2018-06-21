@@ -50,10 +50,10 @@ public class VueEquipier extends JPanel implements Observateur{
                         panelCartes.add(new Pion().setColorRet(Color.red)); // on utilise des pions pour simplifier l'affichage.
                         break;
                     case calice:
-                        panelCartes.add(new Pion().setColorRet(Color.blue));
+                        panelCartes.add(new Pion().setColorRet(Color.CYAN));
                         break;
                     case pierre:
-                        panelCartes.add(new Pion().setColorRet(Color.white));
+                        panelCartes.add(new Pion().setColorRet(Color.blue));
                         break;
                     case griffon:
                         panelCartes.add(new Pion().setColorRet(Color.yellow));

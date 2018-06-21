@@ -55,7 +55,7 @@ public class VueTuile extends Observe implements Observateur{
         this.labelTuile = new JLabel(tuile.getNom());
         switch(this.tuile.getSpecial()){
             case calice: 
-                this.panelTop.setBackground(Color.white);
+                this.panelTop.setBackground(Color.cyan);
                 this.labelTuile.setForeground(Color.black);
                 break;
             case cristal:

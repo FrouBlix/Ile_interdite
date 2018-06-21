@@ -34,10 +34,10 @@ public class VueCarte extends Observe{
                     panel.setBackground(Color.red);
                     break;
                 case calice:
-                    panel.setBackground(Color.blue);
+                    panel.setBackground(Color.cyan);
                     break;
                 case pierre:
-                    panel.setBackground(Color.white);
+                    panel.setBackground(Color.blue);
                     break;
                 case griffon:
                     panel.setBackground(Color.yellow);

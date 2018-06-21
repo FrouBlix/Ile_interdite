@@ -173,7 +173,9 @@ public class VueAventurier extends Observe{
     public void setAssecher(boolean assecher){
         this.assecher = assecher;
         boutonAssecher.setText(assecher? "Annuler" : "Assecher");
-   
+    }
+    public void enableAssecher(boolean enable){
+        boutonAssecher.setEnabled(enable);
     }
     
     public void setPouvoir(boolean pouvoir){
