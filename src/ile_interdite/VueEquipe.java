@@ -31,7 +31,7 @@ public class VueEquipe extends Observe{
             panel.addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    notifierObservateur(new MessageAventurier("clic", joueur.getPersonnage()));
+                    notifierObservateur(new MessageDeJoueur("clic", joueur));
                 }
 
                 @Override
@@ -68,5 +68,8 @@ public class VueEquipe extends Observe{
         }
     }
     
+    public void selectionner(Joueur j, boolean select){
+        equipiers.get(j).selectionner(select);
+    }
     
 }

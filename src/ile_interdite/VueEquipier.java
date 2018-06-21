@@ -88,4 +88,8 @@ public class VueEquipier extends JPanel implements Observateur{
         }
     }
     
+    public void selectionner(boolean select){
+        this.setBorder(select ? BorderFactory.createLineBorder(Color.red, 3, true) : BorderFactory.createLineBorder(Color.yellow, 3, true));
+    }
+    
 }

@@ -24,11 +24,14 @@ public class Tuile extends Observe{
     public void addAventurier(Aventurier a){
         if (!this.aventuriers.contains(a)) {
             this.aventuriers.add(a);
+            notifierObservateur(new Message("update players"));
+
         }
     }
     
     public void removeAventurier(Aventurier a){
         this.aventuriers.remove(a);
+        notifierObservateur(new Message("update players"));
     }
     
     public ArrayList<Aventurier> getAventuriers(){

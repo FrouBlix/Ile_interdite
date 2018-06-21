@@ -69,7 +69,7 @@ public abstract class Aventurier extends Observe{
         this.tuileOccupee.addAventurier(this);
 
     }
-    
+
     public HashMap<Tuile, Integer> getSaveAP(){
         return this.saveAP;
     }
@@ -311,6 +311,15 @@ public abstract class Aventurier extends Observe{
         return pouvoirDispo && this.getPointsAction() > 0;
     }
     
+    public boolean hasNeighbors(){
+        return this.getTuileOccupee().getAventuriers().size() > 1;
+    }
+    
+    public ArrayList<Aventurier> getNeighbors(){
+        ArrayList<Aventurier> ret = this.getTuileOccupee().getAventuriers();
+        ret.remove(this);
+        return ret;
+    }
     
     
     @Override
