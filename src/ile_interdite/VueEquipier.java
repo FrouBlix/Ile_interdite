@@ -61,10 +61,10 @@ public class VueEquipier extends JPanel implements Observateur{
                 }
             }else{
                 if (carte instanceof CarteHelico) {
-                    panelCartes.add(new Pion().setColorRet(Color.decode("#728FCE")));
+                    panelCartes.add(new Pion().setColorRet(Color.decode("#FF00FF")));
                 }else{
                     if (carte instanceof CarteSacSable) {
-                        panelCartes.add(new Pion().setColorRet(Color.decode("#DC381F")));
+                        panelCartes.add(new Pion().setColorRet(Color.decode("#FFA500")));
                     }
                 }
             }

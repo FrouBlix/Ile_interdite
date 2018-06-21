@@ -74,7 +74,7 @@ public class Controleur implements Observateur{
         
         Collections.shuffle(tousLesAventuriers);
         
-        initialiserPartie(4);
+        initialiserPartie(2);
         
         // initialisation des pioches et des défausses de cartes
         
@@ -164,16 +164,18 @@ public class Controleur implements Observateur{
         this.prochainJoueur();
         this.mde.setCompteur(1);
         
-        for(CarteTirage carte : aventurierEnCours.getCartesMain()){
-            this.aventurierEnCours.removeCarteMain(carte);
-        }
         
-        for (int i = 0; i < 4; i++) {
-            this.aventurierEnCours.addCarteMain(new CarteSacSable("DEBUG", Special.sacSable));
-            this.tousLesAventuriers.get(1).addCarteMain(new CarteTresor("DEBUG", Special.cristal));
-
-        }
-        
+        //debug
+//        for(CarteTirage carte : aventurierEnCours.getCartesMain()){
+//            this.aventurierEnCours.removeCarteMain(carte);
+//        }
+//        
+//        for (int i = 0; i < 4; i++) {
+//            this.aventurierEnCours.addCarteMain(new CarteSacSable("DEBUG", Special.sacSable));
+//            this.tousLesAventuriers.get(1).addCarteMain(new CarteTresor("DEBUG", Special.cristal));
+//
+//        }
+//        
         
     }
     
@@ -436,6 +438,7 @@ public class Controleur implements Observateur{
             case sacSable:
                 this.resetAction();
                 this.actionEnCours = ActionEnCours.sacDeSable;
+                carteAUtiliser = carteTirage;
                 aventurierPossesseur = listeDesJoueurs.get(cartesRegardees);
                 HashMap<Tuile, Integer> tuilesinondees = this.grille.getTuilesInondees();
                 ihm.getGrille().surligner(tuilesinondees);
@@ -451,6 +454,7 @@ public class Controleur implements Observateur{
     
     public void selectSacDeSable(Tuile t){
         aventurierPossesseur.utiliseCarte(carteAUtiliser);
+        t.setEtat(EtatsTuiles.seche);
         ihm.getVueAventurier().afficherCartes(listeDesJoueurs.get(cartesRegardees));
                 //TODO: retirer la carte de la fenetre defausser.
         this.resetAction();
@@ -534,7 +538,7 @@ public class Controleur implements Observateur{
                     case pouvoir: this.selectPouvoir(msgDT.tuileDOrigine);
                         break;
                     case sacDeSable:
-                        this.selectAssechement(msgDT.tuileDOrigine);
+                        this.selectSacDeSable(msgDT.tuileDOrigine);
                         break;
                     default: break;
                 }
