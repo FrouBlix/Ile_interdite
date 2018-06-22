@@ -7,7 +7,8 @@ package ile_interdite;
 
 import GraphicsUtil.ImagePanel;
 import java.awt.GridLayout;
-import java.util.ArrayList;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -16,7 +17,8 @@ import javax.swing.JLabel;
  *
  * @author Félix Reboulet
  */
-public class IHMFin extends JFrame{
+public class IHMFin extends Observe{
+    private JFrame fenetre;
     private JLabel fetreFin;
     private JLabel messageFin;
     private JLabel titreMessage;
@@ -25,10 +27,10 @@ public class IHMFin extends JFrame{
     private JButton menu;
     
 
-    public IHMFin(){
-        super("Fin de partie");
+    public IHMFin(Observateur obs){
+        fenetre = new JFrame("fin de partie");
         
-        this.setLayout(new GridLayout(1,2));
+        fenetre.setLayout(new GridLayout(1,2));
         
         JLabel information = new JLabel();
         information.setLayout(new GridLayout(3,1));
@@ -50,10 +52,49 @@ public class IHMFin extends JFrame{
         information.add(messageFin);
         information.add(boutons);
         
-        this.add(image);
-        this.add(information);
+        fenetre.add(image);
+        fenetre.add(information);
+        fenetre.setSize(300, 400);
         
-        this.setVisible(false);
+        fenetre.setVisible(false);
+        fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
+        fenetre.addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent e) {
+            }
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+                notifierObservateur(new Message("fenetre de fin fermee"));
+            }
+
+            @Override
+            public void windowIconified(WindowEvent e) {
+            }
+
+            @Override
+            public void windowDeiconified(WindowEvent e) {
+            }
+
+            @Override
+            public void windowActivated(WindowEvent e) {
+            }
+
+            @Override
+            public void windowDeactivated(WindowEvent e) {
+            }
+        });
+        
+        
+        
+    }
+
+    public JFrame asJFrame() {
+        return fenetre;
     }
 }

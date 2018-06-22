@@ -10,6 +10,7 @@ package ile_interdite;
  * @author astro
  */
 public enum ConditionsFin {
+    aucun,
     noyade,
     heliport,
     tresor,
