@@ -463,7 +463,7 @@ public class Controleur implements Observateur{
                 }
                 
                 if (toutLesTresorsPosede() & tousSurHeliport()) {
-                    terminerPartie(5);
+                    terminerPartie(ConditionsFin.victoire);
                 }
                 else{
                 
@@ -572,7 +572,7 @@ public class Controleur implements Observateur{
     }
     
     public void verifieDefaite(){
-        int indicateurDefaite = 0;
+        ConditionsFin indicateurDefaite = ConditionsFin.aucun;
         for (Aventurier aventurier : listeDesJoueurs){
             Tuile tuile = aventurier.getTuileOccupee();
             if (tuile.getEtat() == EtatsTuiles.sombree){
@@ -584,12 +584,12 @@ public class Controleur implements Observateur{
                     aventurier.setSaveDP(tuiles);
                 }
                 else {
-                    indicateurDefaite = 1;
+                    indicateurDefaite = ConditionsFin.noyade;
                 }
             }
         }
         if (grille.getTuilebyName("Heliport").getEtat() == EtatsTuiles.sombree){
-            indicateurDefaite = 2;
+            indicateurDefaite = ConditionsFin.heliport;
         }
         for (Map.Entry<Special,Boolean> tresor : tresorsRecup.entrySet()){
             if (tresor.getValue() == false){
@@ -600,15 +600,15 @@ public class Controleur implements Observateur{
                    }
                }
                if (nbTuilesTesorInondees == 2){
-                   indicateurDefaite = 3;
+                   indicateurDefaite = ConditionsFin.tresor;
                }
             }
                 
         }
         if (this.mde.getCompteur() > 9){
-            indicateurDefaite = 4;
+            indicateurDefaite = ConditionsFin.MDE;
         }
-        if (indicateurDefaite > 0){
+        if (indicateurDefaite == ConditionsFin.aucun ){
             terminerPartie(indicateurDefaite);
         }
         else{
@@ -616,21 +616,21 @@ public class Controleur implements Observateur{
         }
     }
     
-    public void terminerPartie(int indicateurDefaite){
-        switch (indicateurDefaite){
-            case 1:
+    public void terminerPartie(ConditionsFin condition){
+        switch (condition){
+            case noyade:
                 System.out.println("un aventurier s'est noyer vous avez perdu");
                 break;
-            case 2:
+            case heliport:
                 System.out.println("L'Héliport à sombrée vous avez perdu");
                 break;
-            case 3:
+            case tresor:
                 System.out.println("L'un des Trésor est devenu irrécupérable vous avez perdu");
                 break;
-            case 4:
+            case MDE:
                 System.out.println("Le compteur de la montée des Eaux à atteint son paroxysme vous avez perdu");
                 break;
-            case 5:
+            case victoire:
                 System.out.println("ouais ouais ouais c'est gagné");
                 break;
             default:
