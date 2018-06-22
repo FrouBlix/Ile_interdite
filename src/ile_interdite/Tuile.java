@@ -24,11 +24,14 @@ public class Tuile extends Observe{
     public void addAventurier(Aventurier a){
         if (!this.aventuriers.contains(a)) {
             this.aventuriers.add(a);
+            notifierObservateur(new Message("update players"));
+
         }
     }
     
     public void removeAventurier(Aventurier a){
         this.aventuriers.remove(a);
+        notifierObservateur(new Message("update players"));
     }
     
     public ArrayList<Aventurier> getAventuriers(){
@@ -78,14 +81,13 @@ public class Tuile extends Observe{
         return tuiles;
     }
 
-    public boolean echapperPossible(Grille grille){
-        boolean possible = false;
-        for (Tuile tuile : getTuilesAdjacentes(grille)){
-            if (tuile.getEtat() != EtatsTuiles.sombree){
-                possible = true;
-            }
-        }
-        return possible;
+    public ArrayList<Tuile> getTuileAdjacente(Grille grille){
+        ArrayList<Tuile> tuiles = new ArrayList<>();
+        tuiles.add(grille.getTuile(this.coordonnees.getPlus(1, 0)));
+        tuiles.add(grille.getTuile(this.coordonnees.getPlus(0, 1)));
+        tuiles.add(grille.getTuile(this.coordonnees.getPlus(-1, 0)));
+        tuiles.add(grille.getTuile(this.coordonnees.getPlus(0, -1)));
+        return tuiles;
     }
 
        @Override

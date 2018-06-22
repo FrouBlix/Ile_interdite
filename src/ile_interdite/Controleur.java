@@ -33,10 +33,13 @@ public class Controleur implements Observateur{
     private CarteTresor carteADonner;
     private ArrayList<CarteTirage> cartesADefausser;
     private int nbCarteADefausser;
-    private int cartesRegardees; //l'indice de l'aventurier dont les cartes sont regardees
+    private int cartesRegardees = -1; //l'indice de l'aventurier dont les cartes sont regardees
     private boolean defausseEnFinDeTour = false;
     private Aventurier aventurierEnCoursDeDefausse;
     private HashMap<Special, Boolean> tresorsRecup;
+    private CarteTirage carteAUtiliser;
+    private Aventurier aventurierPossesseur;
+    private ArrayList<Aventurier> aventurierPassagers;
     
     public Controleur() {
         this.listeDesJoueurs = new ArrayList<>();
@@ -72,7 +75,7 @@ public class Controleur implements Observateur{
         
         Collections.shuffle(tousLesAventuriers);
         
-        initialiserPartie(2);
+        initialiserPartie(4);
         
         // initialisation des pioches et des défausses de cartes
         
@@ -148,7 +151,7 @@ public class Controleur implements Observateur{
         //debug
         
         for (Aventurier aventurier : listeDesJoueurs) {
-            joueurs.add(new Joueur(aventurier, ""));
+            joueurs.add(new Joueur(aventurier, "saucisse"));
         }
         
 
@@ -162,16 +165,22 @@ public class Controleur implements Observateur{
         this.prochainJoueur();
         this.mde.setCompteur(1);
         
-        for(CarteTirage carte : aventurierEnCours.getCartesMain()){
-            this.aventurierEnCours.removeCarteMain(carte);
-        }
         
-        for (int i = 0; i < 4; i++) {
-            this.aventurierEnCours.addCarteMain(new CarteTresor("DEBUG", Special.calice));
-            this.tousLesAventuriers.get(1).addCarteMain(new CarteTresor("DEBUG", Special.cristal));
-
-        }
+        //debug
         
+        
+        aventurierEnCours.addCarteMain(new CarteHelico("DEBUG", Special.helico));
+        
+//        for(CarteTirage carte : aventurierEnCours.getCartesMain()){
+//            this.aventurierEnCours.removeCarteMain(carte);
+//        }
+//        
+//        for (int i = 0; i < 4; i++) {
+//            this.aventurierEnCours.addCarteMain(new CarteSacSable("DEBUG", Special.sacSable));
+//            this.tousLesAventuriers.get(1).addCarteMain(new CarteTresor("DEBUG", Special.cristal));
+//
+//        }
+//        
         
     }
     
@@ -206,7 +215,7 @@ public class Controleur implements Observateur{
             a.pouvoirDispo = true;
         }
         this.resetAction();
-        this.ihm.getVueAventurier().afficherCartes(a);
+        this.afficherCartesAventurier(true);
         return a;
     }
     
@@ -316,13 +325,14 @@ public class Controleur implements Observateur{
             }
             else{
                 tuile.setEtat(EtatsTuiles.sombree);
+                for (Aventurier aventurier : tuile.getAventuriers()){
+                    
+                }
             }
             this.piocheInondation.remove(carte);
         }
         this.verifieDefaite();
-        this.prochainJoueur();
-        
-        
+
     }
     
     public void remettreCarteInondationEnPioche(){
@@ -333,7 +343,7 @@ public class Controleur implements Observateur{
         defausseInondation = new ArrayList<>();
     }
     
-    public void renitialisePiocheTirage(){
+    public void reinitialisePiocheTirage(){
         System.out.println(defausseTirage);
         Collections.shuffle(piocheTirage);
         for (CarteTirage carte : defausseTirage){
@@ -344,7 +354,7 @@ public class Controleur implements Observateur{
     
     public CarteTirage getCarteTirageHaut(){
         if (this.piocheTirage.isEmpty()){
-            renitialisePiocheTirage();
+            reinitialisePiocheTirage();
         }
         return this.piocheTirage.get(this.piocheTirage.size()-1);
     }
@@ -437,20 +447,98 @@ public class Controleur implements Observateur{
     public void utiliseCarte(CarteTirage carteTirage){
         switch(carteTirage.getType()){
             case sacSable:
-                ihm.getGrille().surligner(this.grille.getTuilesInondees());
+                this.resetAction();
+                this.actionEnCours = ActionEnCours.sacDeSable;
+                carteAUtiliser = carteTirage;
+                aventurierPossesseur = listeDesJoueurs.get(cartesRegardees);
+                HashMap<Tuile, Integer> tuilesinondees = this.grille.getTuilesInondees();
+                ihm.getGrille().surligner(tuilesinondees);
+                this.aventurierEnCours.setSaveAP(tuilesinondees);
+                ihm.getVueAventurier().surlignerCarte(carteTirage);
                 break;
             case helico:
                 if (toutLesTresorsPosede() && tousSurHeliport()){
 //                    terminerPartie();
+
+                }
+                
+                if (toutLesTresorsPosede() & tousSurHeliport()) {
+                    terminerPartie(5);
                 }
                 else{
-                    ihm.getVueEquipe().surligner(true,listeDesJoueurs);
+                
+                    this.resetAction();
+                    this.actionEnCours = ActionEnCours.helicoptere;
+                    carteAUtiliser = carteTirage;
+                    aventurierPossesseur = aventurierEnCours;
+                    this.aventurierPassagers = new ArrayList<>();
+                    ihm.getVueEquipe().surligner(true, listeDesJoueurs);
+                    if (toutLesTresorsPosede() && tousSurHeliport()){
+    //                    terminerPartie();
+                    }
+                    else{
+                        ArrayList<Aventurier> aventuriers = new ArrayList<>();
+                        for (Aventurier aventurier : listeDesJoueurs){
+                            if (aventurier != this.aventurierEnCours){
+                                aventuriers.add(aventurier);
+                            }
+                        }
+                        ihm.getVueEquipe().surligner(true,aventuriers);
+                    }
                 }
                 break;
             default:
                 break;
         }
     }
+    
+    public void selectAventurierHeli(Joueur j){
+        if (aventurierPassagers.size() > 0) {
+            if (aventurierPassagers.get(0).getNeighbors().contains(j.getPersonnage())) {
+                if (aventurierPassagers.contains(j.getPersonnage())) {
+                    ihm.getVueEquipe().selectionner(j, false);
+                    aventurierPassagers.remove(j.getPersonnage());
+                    if (aventurierPassagers.size() == 0) {
+                        ihm.getVueEquipe().surligner(true, listeDesJoueurs);
+                        ihm.getGrille().stopSurligner();
+                    }
+                }else {
+                    ihm.getVueEquipe().selectionner(j, true);
+                    aventurierPassagers.add(j.getPersonnage());
+                }
+            }
+        }else{
+            ihm.getVueEquipe().surligner(false, listeDesJoueurs);
+            ihm.getVueEquipe().surligner(true, j.getPersonnage().getNeighbors());
+            ihm.getVueEquipe().selectionner(j, true);
+            ihm.getGrille().surlignerAll();
+        }
+    }
+    
+    public void selectTuileHeli(Tuile t){
+        if (t.getEtat() != EtatsTuiles.sombree) {
+            HashMap<Tuile, Integer> dp = new HashMap<>();
+            dp.put(t, 0);
+            for (Aventurier a : aventurierPassagers) {
+                a.setSaveDP(dp);
+                a.seDeplacer(t);
+            }
+            resetAction();
+            aventurierPossesseur.utiliseCarte(carteAUtiliser);
+            ihm.getVueAventurier().afficherCartes(listeDesJoueurs.get(cartesRegardees));
+            //TODO retirer la tuile de la fenetre defausser
+            ihm.getGrille().updateAll();
+        }
+    }
+    
+    public void selectSacDeSable(Tuile t){
+        aventurierPossesseur.utiliseCarte(carteAUtiliser);
+        t.setEtat(EtatsTuiles.seche);
+        ihm.getVueAventurier().afficherCartes(listeDesJoueurs.get(cartesRegardees));
+                //TODO: retirer la carte de la fenetre defausser.
+        this.resetAction();
+    }
+    
     
     public void actionPrendre(){
         Special type = aventurierEnCours.getTuileOccupee().getSpecial();
@@ -488,21 +576,67 @@ public class Controleur implements Observateur{
         for (Aventurier aventurier : listeDesJoueurs){
             Tuile tuile = aventurier.getTuileOccupee();
             if (tuile.getEtat() == EtatsTuiles.sombree){
-                if (tuile.echapperPossible(grille)){
-                    HashMap<Tuile,Integer> tuiles = new HashMap<>();
-                    for (Tuile tuileAdjacente : tuile.getTuilesAdjacentes(grille)){
-                        if (tuileAdjacente.getEtat() != EtatsTuiles.sombree){
-                            tuiles.put(tuileAdjacente,0);
-                        }
-                    }
-                    aventurier.setSaveDP(tuiles);
+                HashMap<Tuile,Integer> tuiles = new HashMap<>();
+                tuiles = aventurier.getEchappePossible(grille);
+                if (tuiles.size() > 0){
+                    this.actionEnCours = ActionEnCours.bouger;
                     ihm.getGrille().surligner(tuiles);
+                    aventurier.setSaveDP(tuiles);
                 }
-                else{
+                else {
                     indicateurDefaite = 1;
                 }
             }
         }
+        if (grille.getTuilebyName("Heliport").getEtat() == EtatsTuiles.sombree){
+            indicateurDefaite = 2;
+        }
+        for (Map.Entry<Special,Boolean> tresor : tresorsRecup.entrySet()){
+            if (tresor.getValue() == false){
+               int nbTuilesTesorInondees = 0;
+               for (Tuile tuile : grille.getTuiles()){
+                   if (tuile != null && tuile.getEtat() == EtatsTuiles.sombree & tuile.getSpecial() == tresor.getKey()){
+                       nbTuilesTesorInondees ++;
+                   }
+               }
+               if (nbTuilesTesorInondees == 2){
+                   indicateurDefaite = 3;
+               }
+            }
+                
+        }
+        if (this.mde.getCompteur() > 9){
+            indicateurDefaite = 4;
+        }
+        if (indicateurDefaite > 0){
+            terminerPartie(indicateurDefaite);
+        }
+        else{
+            this.prochainJoueur();
+        }
+    }
+    
+    public void terminerPartie(int indicateurDefaite){
+        switch (indicateurDefaite){
+            case 1:
+                System.out.println("un aventurier s'est noyer vous avez perdu");
+                break;
+            case 2:
+                System.out.println("L'Héliport à sombrée vous avez perdu");
+                break;
+            case 3:
+                System.out.println("L'un des Trésor est devenu irrécupérable vous avez perdu");
+                break;
+            case 4:
+                System.out.println("Le compteur de la montée des Eaux à atteint son paroxysme vous avez perdu");
+                break;
+            case 5:
+                System.out.println("ouais ouais ouais c'est gagné");
+                break;
+            default:
+                break;
+        }
+        ihm.finirPartie();
     }
     
     
@@ -566,6 +700,11 @@ public class Controleur implements Observateur{
                         break;
                     case pouvoir: this.selectPouvoir(msgDT.tuileDOrigine);
                         break;
+                    case sacDeSable:
+                        this.selectSacDeSable(msgDT.tuileDOrigine);
+                        break;
+                    case helicoptere:
+                        this.selectTuileHeli(msgDT.tuileDOrigine);
                     default: break;
                 }
             }
@@ -579,25 +718,31 @@ public class Controleur implements Observateur{
                         if (msgDC.carte instanceof CarteTresor) {
                             this.selectCarteADonner((CarteTresor)msgDC.carte);
                         }
-                        break;//on ne fait rien si l'utilisateur clique sur une carte speciale donc c'est bon
+                        break;
                     case defausser:
 //                        System.out.println("ping");
                         this.selectCarteDefausse(msgDC.carte);
                         break;
+                    case sacDeSable:
+                    case helicoptere:
+                        this.resetAction();
+                        break;
                     default:
                         utiliseCarte(msgDC.carte);
-                        break; // TODO: activer cartes speciales
+                        break;
                 }
             }
         }
         
-        if (msg instanceof MessageAventurier) { //le polymorphisme c'est VRAIMENT chouette
-            MessageAventurier msgA = (MessageAventurier) msg;
-            if ("clic".equals(msgA.contenu)) {
+        if (msg instanceof MessageDeJoueur) { //le polymorphisme c'est VRAIMENT chouette
+            MessageDeJoueur msgJ = (MessageDeJoueur) msg;
+            if ("clic".equals(msgJ.contenu)) {
                 switch(actionEnCours){
                     case donner:
-                        this.finishDonneCarte(msgA.aventurier);
+                        this.finishDonneCarte(msgJ.joueur.getPersonnage());
                         break;
+                    case helicoptere:
+                        this.selectAventurierHeli(msgJ.joueur);
                     default:
                         break;
                 }

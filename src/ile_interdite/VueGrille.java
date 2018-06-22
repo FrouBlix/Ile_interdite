@@ -43,7 +43,6 @@ public class VueGrille extends JPanel {
             VueTuile value = entry.getValue();
             value.traiterMessage(new Message("update etat"));
             value.traiterMessage(new Message("update players"));
-
         }
     }
     
@@ -54,6 +53,17 @@ public class VueGrille extends JPanel {
             this.tuiles.get(key).surligner(value);
         }
     }
+    
+    public void surlignerAll(){
+        for (Map.Entry<Tuile, VueTuile> entrySet : tuiles.entrySet()) {
+            Tuile key = entrySet.getKey();
+            VueTuile value = entrySet.getValue();
+            if (key.getEtat() != EtatsTuiles.sombree) {
+                 value.surligner(0);
+            }
+        }
+    }
+    
     public void stopSurligner(){
         for (Map.Entry<Tuile, VueTuile> entrySet : tuiles.entrySet()) {
             Tuile key = entrySet.getKey();

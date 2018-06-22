@@ -8,6 +8,7 @@ package ile_interdite;
 import java.awt.BorderLayout;
 import java.util.ArrayList;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 /**
  *
@@ -16,6 +17,7 @@ import javax.swing.JFrame;
 public class IHM extends Observe{
     
     private JFrame fenetreJeu;
+    private IHMFin fenetreFin;
     private VueGrille grille;
     private VueAventurier vueAventurier;
     private VueEquipe vueEquipe;
@@ -45,6 +47,7 @@ public class IHM extends Observe{
         
         fenetreJeu.setVisible(true);
         
+        fenetreFin = new IHMFin();
         
         this.addObservateur(observateur);
     }
@@ -92,6 +95,11 @@ public class IHM extends Observe{
 
     public VueStatut getVueStatut() {
         return vueStatut;
+    }
+    
+    public void finirPartie(){
+        fenetreJeu.setVisible(false);
+        fenetreFin.setVisible(true);
     }
     
     

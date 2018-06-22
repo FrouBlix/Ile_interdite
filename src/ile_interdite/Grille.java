@@ -93,7 +93,7 @@ public class Grille {
             Tuile value = entry.getValue();
             if (value != null){
                 if (value.getEtat() == EtatsTuiles.inondee){
-                    tuilesInondees.put(value,1);
+                    tuilesInondees.put(value,0);
                 }
             }
         }
@@ -120,6 +120,14 @@ public class Grille {
     
     public HashMap<Coordonnees,Tuile> getAll(){
         return this.tuiles;
+    }
+    
+    public ArrayList<Tuile> getTuiles(){
+        ArrayList<Tuile> tuiles = new ArrayList<>();
+        for (Map.Entry<Coordonnees,Tuile> tuile : this.tuiles.entrySet()){
+            tuiles.add(tuile.getValue());
+        }
+        return tuiles;
     }
     
 }

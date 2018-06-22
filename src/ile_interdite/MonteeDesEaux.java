@@ -51,4 +51,8 @@ public class MonteeDesEaux extends Observe{
     public int getNbCarteInodation(){
         return this.nbCarteInondation;
     }
+    
+    public int getCompteur(){
+        return this.compteur;
+    }
 }
