@@ -444,7 +444,7 @@ public class Controleur implements Observateur{
         ihm.getVueAventurier().afficherCartes(listeDesJoueurs.get(cartesRegardees));
     }
     
-    public void utiliseCarte(CarteTirage carteTirage){
+    public void utiliseCarte(CarteTirage carteTirage){ 
         switch(carteTirage.getType()){
             case sacSable:
                 this.resetAction();
