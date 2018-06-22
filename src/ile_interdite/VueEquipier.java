@@ -61,10 +61,10 @@ public class VueEquipier extends JPanel implements Observateur{
                 }
             }else{
                 if (carte instanceof CarteHelico) {
-                    panelCartes.add(new Pion().setColorRet(Color.decode("#728FCE")));
+                    panelCartes.add(new Pion().setColorRet(Color.decode("#FF00FF")));
                 }else{
                     if (carte instanceof CarteSacSable) {
-                        panelCartes.add(new Pion().setColorRet(Color.decode("#DC381F")));
+                        panelCartes.add(new Pion().setColorRet(Color.decode("#FFA500")));
                     }
                 }
             }
@@ -86,6 +86,10 @@ public class VueEquipier extends JPanel implements Observateur{
         }else{
             this.setBorder(null);
         }
+    }
+    
+    public void selectionner(boolean select){
+        this.setBorder(select ? BorderFactory.createLineBorder(Color.red, 3, true) : BorderFactory.createLineBorder(Color.yellow, 3, true));
     }
     
 }

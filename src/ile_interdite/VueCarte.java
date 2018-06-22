@@ -27,23 +27,26 @@ public class VueCarte extends Observe{
         panel = new JPanel();
         carte = c;
         nom = new JLabel(carte.getNom());
-        if (carte instanceof CarteTresor) {
-            CarteTresor ca = (CarteTresor) carte;
-            switch(ca.getType()){
-                case cristal:
-                    panel.setBackground(Color.red);
-                    break;
-                case calice:
-                    panel.setBackground(Color.cyan);
-                    break;
-                case pierre:
-                    panel.setBackground(Color.blue);
-                    break;
-                case griffon:
-                    panel.setBackground(Color.yellow);
-                    break;
-            }
+        switch(carte.getType()){
+            case cristal:
+                panel.setBackground(Color.red);
+                break;
+            case calice:
+                panel.setBackground(Color.cyan);
+                break;
+            case pierre:
+                panel.setBackground(Color.blue);
+                break;
+            case griffon:
+                panel.setBackground(Color.yellow);
+                break;
+            case sacSable:
+                panel.setBackground(Color.decode("#FFA500"));
+                break;
+            case helico:
+                panel.setBackground(Color.decode("#FF00FF"));
         }
+        
         
         
         
