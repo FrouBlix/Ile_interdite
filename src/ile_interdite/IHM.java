@@ -47,7 +47,7 @@ public class IHM extends Observe{
         
         fenetreJeu.setVisible(true);
         
-        fenetreFin = new IHMFin();
+        fenetreFin = new IHMFin(observateur);
         
         this.addObservateur(observateur);
     }
@@ -99,7 +99,7 @@ public class IHM extends Observe{
     
     public void finirPartie(){
         fenetreJeu.setVisible(false);
-        fenetreFin.setVisible(true);
+        fenetreFin.asJFrame().setVisible(true);
     }
     
     

@@ -644,6 +644,9 @@ public class Controleur implements Observateur{
     public void traiterMessage(Message msg) {
 //        System.out.println("message: " + msg.contenu);
 //        System.out.println(this.aventurierEnCours.getPointsAction());
+        if ("fenetre de fin fermee".equals(msg.contenu)) {
+            ihm.getFenetreJeu().dispose(); // la fenetre existait toujours juqu'ici, juste invisible.
+        }
         
         if (actionEnCours !=ActionEnCours.defausser) {
             if("fin de tour".equals(msg.contenu)){
