@@ -492,13 +492,13 @@ public class Controleur implements Observateur{
         }
     }
     
-    public void selectAventurierHeli(Joueur j){
+    public void selectAventurierHeli(Joueur j){ //FIXME: surligner les bons equipers est casse.
         if (aventurierPassagers.size() > 0) {
             if (aventurierPassagers.get(0).getNeighbors().contains(j.getPersonnage())) {
                 if (aventurierPassagers.contains(j.getPersonnage())) {
                     ihm.getVueEquipe().selectionner(j, false);
                     aventurierPassagers.remove(j.getPersonnage());
-                    if (aventurierPassagers.size() == 0) {
+                    if (aventurierPassagers.isEmpty()) {
                         ihm.getVueEquipe().surligner(true, listeDesJoueurs);
                         ihm.getGrille().stopSurligner();
                     }
