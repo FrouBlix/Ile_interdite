@@ -608,7 +608,7 @@ public class Controleur implements Observateur{
         if (this.mde.getCompteur() > 9){
             indicateurDefaite = ConditionsFin.MDE;
         }
-        if (indicateurDefaite == ConditionsFin.aucun ){
+        if (indicateurDefaite != ConditionsFin.aucun ){
             terminerPartie(indicateurDefaite);
         }
         else{
