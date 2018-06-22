@@ -297,8 +297,11 @@ public class Controleur implements Observateur{
                 }
             }
         }else{
-            this.piocherCartesInondation();
+        this.piocherCartesInondation();
         }
+        
+    
+        
     }
     
     public void piocherCartesInondation(){
@@ -313,14 +316,13 @@ public class Controleur implements Observateur{
             }
             else{
                 tuile.setEtat(EtatsTuiles.sombree);
-                for (Aventurier aventurier : tuile.getAventuriers()){
-                    
-                }
             }
             this.piocheInondation.remove(carte);
         }
+        this.verifieDefaite();
         this.prochainJoueur();
-
+        
+        
     }
     
     public void remettreCarteInondationEnPioche(){
@@ -442,13 +444,7 @@ public class Controleur implements Observateur{
 //                    terminerPartie();
                 }
                 else{
-                    ArrayList<Aventurier> aventuriers = new ArrayList<>();
-                    for (Aventurier aventurier : listeDesJoueurs){
-                        if (aventurier != this.aventurierEnCours){
-                            aventuriers.add(aventurier);
-                        }
-                    }
-                    ihm.getVueEquipe().surligner(true,aventuriers);
+                    ihm.getVueEquipe().surligner(true,listeDesJoueurs);
                 }
                 break;
             default:
@@ -487,7 +483,26 @@ public class Controleur implements Observateur{
         return this.nombreDeJoueurs == nbJoueur;
     }
     
-    public void verifieDefaite(ArrayList<Tuile> tuileInondees){
+    public void verifieDefaite(){
+        int indicateurDefaite = 0;
+        for (Aventurier aventurier : listeDesJoueurs){
+            Tuile tuile = aventurier.getTuileOccupee();
+            if (tuile.getEtat() == EtatsTuiles.sombree){
+                if (tuile.echapperPossible(grille)){
+                    HashMap<Tuile,Integer> tuiles = new HashMap<>();
+                    for (Tuile tuileAdjacente : tuile.getTuilesAdjacentes(grille)){
+                        if (tuileAdjacente.getEtat() != EtatsTuiles.sombree){
+                            tuiles.put(tuileAdjacente,0);
+                        }
+                    }
+                    aventurier.setSaveDP(tuiles);
+                    ihm.getGrille().surligner(tuiles);
+                }
+                else{
+                    indicateurDefaite = 1;
+                }
+            }
+        }
     }
     
     

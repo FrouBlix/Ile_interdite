@@ -312,8 +312,6 @@ public abstract class Aventurier extends Observe{
         return pouvoirDispo && this.getPointsAction() > 0;
     }
     
-    
-    
     @Override
     public String toString() {
         return "Aventurier{\n" + "pointsAction=" + pointsAction + ", \ntuileOccupee=" + tuileOccupee + '}';
