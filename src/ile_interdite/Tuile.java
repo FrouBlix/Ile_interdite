@@ -70,7 +70,26 @@ public class Tuile extends Observe{
     public String getNom(){
         return this.nom;
     }
+    
+    public ArrayList<Tuile> getTuilesAdjacentes(Grille grille){
+        ArrayList<Tuile> tuiles = new ArrayList<>();
+        Coordonnees coords = this.getCoordonnees();
+        tuiles.add(grille.getTuile(coords.getPlus(-1, 0)));
+        tuiles.add(grille.getTuile(coords.getPlus(1, 0)));
+        tuiles.add(grille.getTuile(coords.getPlus(0, 1)));
+        tuiles.add(grille.getTuile(coords.getPlus(0, -1)));
+        return tuiles;
+    }
 
+    public boolean echapperPossible(Grille grille){
+        boolean possible = false;
+        for (Tuile tuile : getTuilesAdjacentes(grille)){
+            if (tuile.getEtat() != EtatsTuiles.sombree){
+                possible = true;
+            }
+        }
+        return possible;
+    }
 
        @Override
     public String toString() {
