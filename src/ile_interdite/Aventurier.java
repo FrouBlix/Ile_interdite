@@ -69,7 +69,7 @@ public abstract class Aventurier extends Observe{
         this.tuileOccupee.addAventurier(this);
 
     }
-
+    
     public HashMap<Tuile, Integer> getSaveAP(){
         return this.saveAP;
     }
@@ -216,6 +216,7 @@ public abstract class Aventurier extends Observe{
                 break;
             }
         }
+        this.cartesMain.remove(carte);
         mainExcede = this.cartesMain.size() > 5;
         notifierObservateur(new Message("update"));
     }
@@ -243,7 +244,7 @@ public abstract class Aventurier extends Observe{
     }
     
     public void utiliseCarte(CarteTirage carte){
-        this.removeCarteMain(carte);
+        //TODO: removeCarte
     }
     
     public boolean donneCarte(CarteTirage carte, Aventurier a){
@@ -310,17 +311,6 @@ public abstract class Aventurier extends Observe{
     public boolean isPouvoirDispo() {
         return pouvoirDispo && this.getPointsAction() > 0;
     }
-    
-    public boolean hasNeighbors(){
-        return this.getTuileOccupee().getAventuriers().size() > 1;
-    }
-    
-    public ArrayList<Aventurier> getNeighbors(){
-        ArrayList<Aventurier> ret = this.getTuileOccupee().getAventuriers();
-        ret.remove(this);
-        return ret;
-    }
-    
     
     @Override
     public String toString() {

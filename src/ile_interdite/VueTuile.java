@@ -69,7 +69,7 @@ public class VueTuile extends Observe implements Observateur{
                 this.labelTuile.setForeground(Color.white);
                 break;
             case heliport:
-                this.panelTop.setBackground(Color.decode("#FF00FF"));
+                this.panelTop.setBackground(Color.CYAN);
                 break;
             default:
                 this.panelTop.setOpaque(false);

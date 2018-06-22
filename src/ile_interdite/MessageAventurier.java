@@ -9,11 +9,11 @@ package ile_interdite;
  *
  * @author billo
  */
-public class MessageDeJoueur extends Message{
-    public Joueur joueur;
-    public MessageDeJoueur(String contenu, Joueur j) {
+public class MessageAventurier extends Message{
+    public Aventurier aventurier;
+    public MessageAventurier(String contenu, Aventurier a) {
         super(contenu);
-        this.joueur = j;
+        this.aventurier = a;
     }
     
 }

@@ -33,13 +33,10 @@ public class Controleur implements Observateur{
     private CarteTresor carteADonner;
     private ArrayList<CarteTirage> cartesADefausser;
     private int nbCarteADefausser;
-    private int cartesRegardees = -1; //l'indice de l'aventurier dont les cartes sont regardees
+    private int cartesRegardees; //l'indice de l'aventurier dont les cartes sont regardees
     private boolean defausseEnFinDeTour = false;
     private Aventurier aventurierEnCoursDeDefausse;
     private HashMap<Special, Boolean> tresorsRecup;
-    private CarteTirage carteAUtiliser;
-    private Aventurier aventurierPossesseur;
-    private ArrayList<Aventurier> aventurierPassagers;
     
     public Controleur() {
         this.listeDesJoueurs = new ArrayList<>();
@@ -151,7 +148,7 @@ public class Controleur implements Observateur{
         //debug
         
         for (Aventurier aventurier : listeDesJoueurs) {
-            joueurs.add(new Joueur(aventurier, "saucisse"));
+            joueurs.add(new Joueur(aventurier, ""));
         }
         
 
@@ -165,22 +162,16 @@ public class Controleur implements Observateur{
         this.prochainJoueur();
         this.mde.setCompteur(1);
         
+        for(CarteTirage carte : aventurierEnCours.getCartesMain()){
+            this.aventurierEnCours.removeCarteMain(carte);
+        }
         
-        //debug
+        for (int i = 0; i < 4; i++) {
+            this.aventurierEnCours.addCarteMain(new CarteTresor("DEBUG", Special.calice));
+            this.tousLesAventuriers.get(1).addCarteMain(new CarteTresor("DEBUG", Special.cristal));
+
+        }
         
-        
-        aventurierEnCours.addCarteMain(new CarteHelico("DEBUG", Special.helico));
-        
-//        for(CarteTirage carte : aventurierEnCours.getCartesMain()){
-//            this.aventurierEnCours.removeCarteMain(carte);
-//        }
-//        
-//        for (int i = 0; i < 4; i++) {
-//            this.aventurierEnCours.addCarteMain(new CarteSacSable("DEBUG", Special.sacSable));
-//            this.tousLesAventuriers.get(1).addCarteMain(new CarteTresor("DEBUG", Special.cristal));
-//
-//        }
-//        
         
     }
     
@@ -215,7 +206,7 @@ public class Controleur implements Observateur{
             a.pouvoirDispo = true;
         }
         this.resetAction();
-        this.afficherCartesAventurier(true);
+        this.ihm.getVueAventurier().afficherCartes(a);
         return a;
     }
     
@@ -342,7 +333,7 @@ public class Controleur implements Observateur{
         defausseInondation = new ArrayList<>();
     }
     
-    public void reinitialisePiocheTirage(){
+    public void renitialisePiocheTirage(){
         System.out.println(defausseTirage);
         Collections.shuffle(piocheTirage);
         for (CarteTirage carte : defausseTirage){
@@ -353,7 +344,7 @@ public class Controleur implements Observateur{
     
     public CarteTirage getCarteTirageHaut(){
         if (this.piocheTirage.isEmpty()){
-            reinitialisePiocheTirage();
+            renitialisePiocheTirage();
         }
         return this.piocheTirage.get(this.piocheTirage.size()-1);
     }
@@ -446,14 +437,7 @@ public class Controleur implements Observateur{
     public void utiliseCarte(CarteTirage carteTirage){
         switch(carteTirage.getType()){
             case sacSable:
-                this.resetAction();
-                this.actionEnCours = ActionEnCours.sacDeSable;
-                carteAUtiliser = carteTirage;
-                aventurierPossesseur = listeDesJoueurs.get(cartesRegardees);
-                HashMap<Tuile, Integer> tuilesinondees = this.grille.getTuilesInondees();
-                ihm.getGrille().surligner(tuilesinondees);
-                this.aventurierEnCours.setSaveAP(tuilesinondees);
-                ihm.getVueAventurier().surlignerCarte(carteTirage);
+                ihm.getGrille().surligner(this.grille.getTuilesInondees());
                 break;
             case helico:
                 if (toutLesTresorsPosede() && tousSurHeliport()){
@@ -467,54 +451,6 @@ public class Controleur implements Observateur{
                 break;
         }
     }
-    
-    public void selectAventurierHeli(Joueur j){
-        if (aventurierPassagers.size() > 0) {
-            if (aventurierPassagers.get(0).getNeighbors().contains(j.getPersonnage())) {
-                if (aventurierPassagers.contains(j.getPersonnage())) {
-                    ihm.getVueEquipe().selectionner(j, false);
-                    aventurierPassagers.remove(j.getPersonnage());
-                    if (aventurierPassagers.size() == 0) {
-                        ihm.getVueEquipe().surligner(true, listeDesJoueurs);
-                        ihm.getGrille().stopSurligner();
-                    }
-                }else {
-                    ihm.getVueEquipe().selectionner(j, true);
-                    aventurierPassagers.add(j.getPersonnage());
-                }
-            }
-        }else{
-            ihm.getVueEquipe().surligner(false, listeDesJoueurs);
-            ihm.getVueEquipe().surligner(true, j.getPersonnage().getNeighbors());
-            ihm.getVueEquipe().selectionner(j, true);
-            ihm.getGrille().surlignerAll();
-        }
-    }
-    
-    public void selectTuileHeli(Tuile t){
-        if (t.getEtat() != EtatsTuiles.sombree) {
-            HashMap<Tuile, Integer> dp = new HashMap<>();
-            dp.put(t, 0);
-            for (Aventurier a : aventurierPassagers) {
-                a.setSaveDP(dp);
-                a.seDeplacer(t);
-            }
-            resetAction();
-            aventurierPossesseur.utiliseCarte(carteAUtiliser);
-            ihm.getVueAventurier().afficherCartes(listeDesJoueurs.get(cartesRegardees));
-            //TODO retirer la tuile de la fenetre defausser
-            ihm.getGrille().updateAll();
-        }
-    }
-    
-    public void selectSacDeSable(Tuile t){
-        aventurierPossesseur.utiliseCarte(carteAUtiliser);
-        t.setEtat(EtatsTuiles.seche);
-        ihm.getVueAventurier().afficherCartes(listeDesJoueurs.get(cartesRegardees));
-                //TODO: retirer la carte de la fenetre defausser.
-        this.resetAction();
-    }
-    
     
     public void actionPrendre(){
         Special type = aventurierEnCours.getTuileOccupee().getSpecial();
@@ -630,11 +566,6 @@ public class Controleur implements Observateur{
                         break;
                     case pouvoir: this.selectPouvoir(msgDT.tuileDOrigine);
                         break;
-                    case sacDeSable:
-                        this.selectSacDeSable(msgDT.tuileDOrigine);
-                        break;
-                    case helicoptere:
-                        this.selectTuileHeli(msgDT.tuileDOrigine);
                     default: break;
                 }
             }
@@ -648,31 +579,25 @@ public class Controleur implements Observateur{
                         if (msgDC.carte instanceof CarteTresor) {
                             this.selectCarteADonner((CarteTresor)msgDC.carte);
                         }
-                        break;
+                        break;//on ne fait rien si l'utilisateur clique sur une carte speciale donc c'est bon
                     case defausser:
 //                        System.out.println("ping");
                         this.selectCarteDefausse(msgDC.carte);
                         break;
-                    case sacDeSable:
-                    case helicoptere:
-                        this.resetAction();
-                        break;
                     default:
                         utiliseCarte(msgDC.carte);
-                        break;
+                        break; // TODO: activer cartes speciales
                 }
             }
         }
         
-        if (msg instanceof MessageDeJoueur) { //le polymorphisme c'est VRAIMENT chouette
-            MessageDeJoueur msgJ = (MessageDeJoueur) msg;
-            if ("clic".equals(msgJ.contenu)) {
+        if (msg instanceof MessageAventurier) { //le polymorphisme c'est VRAIMENT chouette
+            MessageAventurier msgA = (MessageAventurier) msg;
+            if ("clic".equals(msgA.contenu)) {
                 switch(actionEnCours){
                     case donner:
-                        this.finishDonneCarte(msgJ.joueur.getPersonnage());
+                        this.finishDonneCarte(msgA.aventurier);
                         break;
-                    case helicoptere:
-                        this.selectAventurierHeli(msgJ.joueur);
                     default:
                         break;
                 }

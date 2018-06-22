@@ -93,7 +93,7 @@ public class Grille {
             Tuile value = entry.getValue();
             if (value != null){
                 if (value.getEtat() == EtatsTuiles.inondee){
-                    tuilesInondees.put(value,0);
+                    tuilesInondees.put(value,1);
                 }
             }
         }
