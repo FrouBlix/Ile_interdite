@@ -225,7 +225,7 @@ public class IHM extends Observe{
                 break;
                 
             case heliport:
-                messageFin = new JLabel("L'Héliport a sombré avec l'île ,\nvous ne pouvez plus vous échapper.\nVous êtes comdamner.");
+                messageFin = new JLabel("L'Héliport a sombré avec l'île ,\nvous ne pouvez plus vous échapper.\nVous êtes comdamnes.");
                 break;
                 
             case noyade:
