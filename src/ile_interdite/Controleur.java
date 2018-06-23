@@ -48,6 +48,9 @@ public class Controleur implements Observateur{
     
     public void commencerPartie(int nbJoueur, int compteur){
         
+        cartesRegardees = -1;
+        
+        
         this.listeDesJoueurs = new ArrayList<>();
         this.joueurs = new ArrayList<>();
         this.grille = new Grille();
