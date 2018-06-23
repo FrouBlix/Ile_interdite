@@ -146,7 +146,7 @@ public class VueTuile extends Observe implements Observateur{
             this.panelPions.setOpaque(false);
             for (Aventurier aventurier : this.tuile.getAventuriers()) {
                 this.panelPions.add(aventurier.getPion());
-                aventurier.getPion().revalidate(); //ouais au fait c'est REpaint
+                aventurier.getPion().revalidate();
                 aventurier.getPion().repaint();
             }
 

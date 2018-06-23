@@ -440,7 +440,7 @@ public class Controleur implements Observateur{
         if (cartesRegardees <0) {
             cartesRegardees = nombreDeJoueurs -1;
         }
-        System.out.println("cartes regardees : " + cartesRegardees);
+//        System.out.println("cartes regardees : " + cartesRegardees);
         ihm.getVueAventurier().afficherCartes(listeDesJoueurs.get(cartesRegardees));
     }
     
