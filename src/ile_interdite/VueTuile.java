@@ -109,16 +109,6 @@ public class VueTuile extends Observe implements Observateur{
 
     public void stopSurligner(){
         this.panelTuile.setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
-        switch(this.tuile.getEtat()){
-            case seche: this.panelTuile.setBackground(Color.decode("#008800"));
-                this.labelCout.setForeground(Color.white);
-                break;
-            case inondee: this.panelTuile.setBackground(Color.decode("#000088"));
-                this.labelCout.setForeground(Color.white);
-                break;
-            case sombree: this.panelTuile.setBackground(Color.decode("#202020"));
-        }
-        this.labelCout.setForeground(Color.white);
         this.labelCout.setText("");
         this.panelTuile.repaint();
         this.labelCout.revalidate();
@@ -137,6 +127,8 @@ public class VueTuile extends Observe implements Observateur{
                     break;
                 case sombree: this.panelTuile.setBackground(Color.decode("#202020"));
                     this.labelCout.setForeground(Color.white);
+
+
             }
         }else if("update players".equals(msg.contenu)){
             if (panelPions != null) {
