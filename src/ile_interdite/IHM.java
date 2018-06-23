@@ -205,31 +205,31 @@ public class IHM extends Observe{
         return vueStatut;
     }
     
-    public void finirPartie(int cas){
+    public void finirPartie(ConditionsFin cas){
         fenetreJeu.setVisible(false);
         fenetreFin = new JFrame("Fin de Partie");
         fenetreFin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        fenetreFin.setSize(1300, cas < 5 ? 390 : 460);
+        fenetreFin.setSize(1300, cas != ConditionsFin.victoire ? 390 : 460);
         
         switch (cas){
-            case 5:
+            case victoire:
                 messageFin = new JLabel("Félicitatons vous avez récuperé tous les trésors\net vous avez réussi à quitter l'île !!\nVotre mission est un succès.");
             break;
             
-            case 4:
+            case MDE:
                 messageFin = new JLabel("Le compteur de la montée des eaux a atteint son paroxysme,\nvous avez échoué.");
                 break;
                 
-            case 3:
+            case tresor:
                 messageFin = new JLabel("L'un des Trésor a sombré avec l'île,\nvous ne pouvez donc plus le récupérer.\nVotre mission est un échec.");
                 break;
                 
-            case 2:
+            case heliport:
                 messageFin = new JLabel("L'Héliport a sombré avec l'île ,\nvous ne pouvez plus vous échapper.\nVous êtes comdamner.");
                 break;
                 
-            case 1:
-                messageFin = new JLabel("L'un des aventurier s'est noyer, vous avez échoué.\nVotre mission est un échec.");
+            case noyade:
+                messageFin = new JLabel("L'un des aventurier s'est noye, vous avez échoué.\nVotre mission est un échec.");
                 break;
                 
             default:
@@ -247,8 +247,8 @@ public class IHM extends Observe{
         JLabel boutons = new JLabel();
         boutons.setLayout(new GridLayout(1,2));
         
-        imageFin = new ImagePanel(cas < 5 ? "image-de-Défaite.jpg" : "image-de-Victoire.jpg", cas < 5 ? 1.25 : 1.50);
-        titreMessage = new JLabel(cas < 5 ? "DEFAITE" : "VICTOIRE");
+        imageFin = new ImagePanel(cas != ConditionsFin.victoire ? "image-de-Défaite.jpg" : "image-de-Victoire.jpg", cas != ConditionsFin.victoire ? 1.25 : 1.50);
+        titreMessage = new JLabel(cas != ConditionsFin.victoire ? "DEFAITE" : "VICTOIRE");
         information.setBackground(Color.pink);
         fenetreFin.setBackground(Color.PINK);
         
