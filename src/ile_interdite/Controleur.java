@@ -154,6 +154,14 @@ public class Controleur implements Observateur{
             joueurs.add(new Joueur(aventurier, "saucisse"));
         }
         
+        System.out.println(mde.getNbCarteInodation());
+        
+        for (int i = 1 ; i <= mde.getNbCarteInodation(); i++){
+            CarteInondation carte = carteInondationHaut();
+            grille.getTuilebyName(carte.getNom()).setEtat(EtatsTuiles.inondee);
+            this.defausseInondation.add(carte);
+            this.piocheInondation.remove(carte);
+         }
         //debug
         
         
@@ -599,7 +607,7 @@ public class Controleur implements Observateur{
             }
                 
         }
-        if (this.mde.getCompteur() > 9){
+        if (this.mde.isInondationTotal()){
             indicateurDefaite = 4;
         }
         if (indicateurDefaite > 0){
