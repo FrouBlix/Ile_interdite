@@ -64,7 +64,7 @@ public class IHMDefausse extends Observe{
         fenetre.add(panelTop, BorderLayout.NORTH);
         fenetre.add(panelCenter, BorderLayout.CENTER);
         fenetre.add(panelBot, BorderLayout.SOUTH);
-        
+        fenetre.setAlwaysOnTop(true);
         fenetre.setVisible(true);
         
         

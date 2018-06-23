@@ -210,9 +210,11 @@ public class Controleur implements Observateur{
 //        }
 
 
-
-
-        commandThread.start();
+        
+    
+        if (!commandThread.isAlive()) {
+            commandThread.start();
+        }
 
         this.ihm.jouer(this, grille, joueurs, mde);
 
@@ -598,6 +600,7 @@ public class Controleur implements Observateur{
                 tresorsRecup.put(type, true);
                 ihm.getVueStatut().getVueTresor().acquerirTrophee(type);
                 this.resetAction();
+                ihm.getVueAventurier().afficherCartes(aventurierEnCours);
             }
         }
     }
