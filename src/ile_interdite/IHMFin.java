@@ -58,7 +58,10 @@ public class IHMFin extends JFrame{
         }
         
         messageFin.setLineWrap(true);
-        messageFin.setBackground(Color.LIGHT_GRAY);
+        messageFin.setBackground(Color.pink);
+        messageFin.setTabSize(32);
+        
+        
         this.setLayout(new GridLayout(1,2));
 
         JLabel information = new JLabel();
@@ -69,7 +72,7 @@ public class IHMFin extends JFrame{
         
         image = new ImagePanel(cas < 5 ? "image-de-Défaite.jpg" : "image-de-Victoire.jpg", cas < 5 ? 1.25 : 1.50);
         titreMessage = new JLabel(cas < 5 ? "DEFAITE" : "VICTOIRE");
-        information.setBackground(Color.LIGHT_GRAY);
+        information.setBackground(Color.pink);
         this.setBackground(Color.PINK);
         
         quitter = new JButton("QUITTER");

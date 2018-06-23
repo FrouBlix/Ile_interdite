@@ -15,7 +15,8 @@ import javax.swing.JLabel;
  * @author senno
  */
 public class IHM extends Observe{
-    
+   
+    private IHMMenu fenetreMenu;
     private JFrame fenetreJeu;
     private IHMFin fenetreFin;
     private VueGrille grille;
@@ -26,6 +27,7 @@ public class IHM extends Observe{
 
     public IHM(Observateur observateur, Grille grilleaAfficher, ArrayList<Joueur> joueurs, MonteeDesEaux mde) {
         
+        fenetreMenu = new IHMMenu();
         fenetreJeu = new JFrame();
         fenetreJeu.setTitle("Jeu");
         fenetreJeu.setSize(1000, 900);
@@ -45,9 +47,7 @@ public class IHM extends Observe{
         vueStatut = new VueStatut(mde);
         fenetreJeu.add(vueStatut, BorderLayout.EAST);
         
-        fenetreJeu.setVisible(true);
-        
-        fenetreFin = new IHMFin();
+        fenetreMenu.setVisible(true);
         
         this.addObservateur(observateur);
     }
@@ -97,8 +97,9 @@ public class IHM extends Observe{
         return vueStatut;
     }
     
-    public void finirPartie(){
+    public void finirPartie(int cas){
         fenetreJeu.setVisible(false);
+        fenetreFin = new IHMFin(cas);
         fenetreFin.setVisible(true);
     }
     

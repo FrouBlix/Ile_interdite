@@ -48,10 +48,10 @@ public class Controleur implements Observateur{
         this.cartesADefausser = new ArrayList<>();
         this.tousLesAventuriers = new ArrayList<>();
         this.tresorsRecup = new HashMap<>();
-        tresorsRecup.put(Special.calice, false);
-        tresorsRecup.put(Special.cristal, false);
-        tresorsRecup.put(Special.griffon, false);
-        tresorsRecup.put(Special.pierre, false);
+        tresorsRecup.put(Special.calice, true);
+        tresorsRecup.put(Special.cristal, true);
+        tresorsRecup.put(Special.griffon, true);
+        tresorsRecup.put(Special.pierre, true);
         
         
         
@@ -616,8 +616,8 @@ public class Controleur implements Observateur{
         }
     }
     
-    public void terminerPartie(int indicateurDefaite){
-        switch (indicateurDefaite){
+    public void terminerPartie(int cas){
+        switch (cas){
             case 1:
                 System.out.println("un aventurier s'est noyer vous avez perdu");
                 break;
@@ -636,7 +636,7 @@ public class Controleur implements Observateur{
             default:
                 break;
         }
-        ihm.finirPartie();
+        ihm.finirPartie(cas);
     }
     
     
