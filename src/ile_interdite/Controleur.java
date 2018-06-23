@@ -446,7 +446,7 @@ public class Controleur implements Observateur{
         ihm.getVueAventurier().afficherCartes(listeDesJoueurs.get(cartesRegardees));
     }
     
-    public void utiliseCarte(CarteTirage carteTirage){
+    public void utiliseCarte(CarteTirage carteTirage){ 
         switch(carteTirage.getType()){
             case sacSable:
                 this.resetAction();
@@ -465,7 +465,7 @@ public class Controleur implements Observateur{
                 }
                 
                 if (toutLesTresorsPosede() & tousSurHeliport()) {
-                    terminerPartie(5);
+                    terminerPartie(ConditionsFin.victoire);
                 }
                 else{
                 
@@ -494,27 +494,39 @@ public class Controleur implements Observateur{
         }
     }
     
-    public void selectAventurierHeli(Joueur j){
-        if (aventurierPassagers.size() > 0) {
-            if (aventurierPassagers.get(0).getNeighbors().contains(j.getPersonnage())) {
-                if (aventurierPassagers.contains(j.getPersonnage())) {
-                    ihm.getVueEquipe().selectionner(j, false);
-                    aventurierPassagers.remove(j.getPersonnage());
-                    if (aventurierPassagers.size() == 0) {
-                        ihm.getVueEquipe().surligner(true, listeDesJoueurs);
-                        ihm.getGrille().stopSurligner();
-                    }
-                }else {
-                    ihm.getVueEquipe().selectionner(j, true);
-                    aventurierPassagers.add(j.getPersonnage());
-                }
+    public void selectAventurierHeli(Joueur j){ //FIXME: surligner les bons equipers est casse.
+        
+        if (aventurierPassagers.contains(j.getPersonnage())) {
+            //on a deja select le perso
+            //le retirer
+            aventurierPassagers.remove(j.getPersonnage());
+            //stop le surligner
+            ihm.getVueEquipe().selectionner(j, false);
+            //si y'a plus de perso surligner tout le monde
+            if (aventurierPassagers.isEmpty()) {
+                ihm.getVueEquipe().surligner(true, listeDesJoueurs);
+                ihm.getGrille().stopSurligner();
             }
         }else{
-            ihm.getVueEquipe().surligner(false, listeDesJoueurs);
-            ihm.getVueEquipe().surligner(true, j.getPersonnage().getNeighbors());
-            ihm.getVueEquipe().selectionner(j, true);
-            ihm.getGrille().surlignerAll();
+            //le perso n'est pas select
+            //test si on a le droit de le select etant donne la selection actuelle et le rajouter si possible
+            if (!aventurierPassagers.isEmpty()) {
+                // tester si on a le droit de select
+                if (aventurierPassagers.get(0).getNeighbors().contains(j.getPersonnage())) {
+                    //on a le droit
+                    aventurierPassagers.add(j.getPersonnage());
+                    ihm.getVueEquipe().selectionner(j, true);
+                }
+            }else{
+                //premiere selection: ajouter l'aventurier a la liste
+                aventurierPassagers.add(j.getPersonnage());
+                ihm.getVueEquipe().surligner(false, listeDesJoueurs);
+                ihm.getVueEquipe().surligner(true, j.getPersonnage().getNeighbors());
+                ihm.getVueEquipe().selectionner(j, true);
+                ihm.getGrille().surlignerAll();
+            }
         }
+        
     }
     
     public void selectTuileHeli(Tuile t){
@@ -574,7 +586,7 @@ public class Controleur implements Observateur{
     }
     
     public void verifieDefaite(){
-        int indicateurDefaite = 0;
+        ConditionsFin indicateurDefaite = ConditionsFin.aucun;
         for (Aventurier aventurier : listeDesJoueurs){
             Tuile tuile = aventurier.getTuileOccupee();
             if (tuile.getEtat() == EtatsTuiles.sombree){
@@ -586,12 +598,12 @@ public class Controleur implements Observateur{
                     aventurier.setSaveDP(tuiles);
                 }
                 else {
-                    indicateurDefaite = 1;
+                    indicateurDefaite = ConditionsFin.noyade;
                 }
             }
         }
         if (grille.getTuilebyName("Heliport").getEtat() == EtatsTuiles.sombree){
-            indicateurDefaite = 2;
+            indicateurDefaite = ConditionsFin.heliport;
         }
         for (Map.Entry<Special,Boolean> tresor : tresorsRecup.entrySet()){
             if (tresor.getValue() == false){
@@ -602,7 +614,7 @@ public class Controleur implements Observateur{
                    }
                }
                if (nbTuilesTesorInondees == 2){
-                   indicateurDefaite = 3;
+                   indicateurDefaite = ConditionsFin.tresor;
                }
             }
                 
@@ -610,7 +622,7 @@ public class Controleur implements Observateur{
         if (this.mde.isInondationTotal()){
             indicateurDefaite = 4;
         }
-        if (indicateurDefaite > 0){
+        if (indicateurDefaite != ConditionsFin.aucun ){
             terminerPartie(indicateurDefaite);
         }
         else{
@@ -623,16 +635,16 @@ public class Controleur implements Observateur{
             case 1:
                 System.out.println("un aventurier s'est noyer vous avez perdu");
                 break;
-            case 2:
+            case heliport:
                 System.out.println("L'Héliport à sombrée vous avez perdu");
                 break;
-            case 3:
+            case tresor:
                 System.out.println("L'un des Trésor est devenu irrécupérable vous avez perdu");
                 break;
-            case 4:
+            case MDE:
                 System.out.println("Le compteur de la montée des Eaux à atteint son paroxysme vous avez perdu");
                 break;
-            case 5:
+            case victoire:
                 System.out.println("ouais ouais ouais c'est gagné");
                 break;
             default:
