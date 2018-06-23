@@ -442,7 +442,7 @@ public class Controleur implements Observateur{
         if (cartesRegardees <0) {
             cartesRegardees = nombreDeJoueurs -1;
         }
-        System.out.println("cartes regardees : " + cartesRegardees);
+//        System.out.println("cartes regardees : " + cartesRegardees);
         ihm.getVueAventurier().afficherCartes(listeDesJoueurs.get(cartesRegardees));
     }
     
@@ -620,7 +620,7 @@ public class Controleur implements Observateur{
                 
         }
         if (this.mde.isInondationTotal()){
-            indicateurDefaite = 4;
+            indicateurDefaite = ConditionsFin.MDE;
         }
         if (indicateurDefaite != ConditionsFin.aucun ){
             terminerPartie(indicateurDefaite);
@@ -630,9 +630,9 @@ public class Controleur implements Observateur{
         }
     }
     
-    public void terminerPartie(int cas){
+    public void terminerPartie(ConditionsFin cas){
         switch (cas){
-            case 1:
+            case noyade:
                 System.out.println("un aventurier s'est noyer vous avez perdu");
                 break;
             case heliport:
