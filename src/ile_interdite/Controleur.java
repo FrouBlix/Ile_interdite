@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 /**
  *
@@ -40,10 +41,38 @@ public class Controleur implements Observateur{
     private CarteTirage carteAUtiliser;
     private Aventurier aventurierPossesseur;
     private ArrayList<Aventurier> aventurierPassagers;
+    private Thread commandThread;
     
     public Controleur() {
  
         this.ihm = new IHM(this);
+        commandThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Scanner sc = new Scanner(System.in);
+                String str = new String();
+                System.out.println("Les commandes disponibles: \n"
+                        + "\theli: donne un helicoptere\n"
+                        + "\tsds: donne un sac de sable\n"
+                        + "\ttrcalice / trgriffon / trcristal / trpierre:\n"
+                        + "\t\tdonne une carte de tresor specifiee");
+                while(true){
+                    str = sc.next();
+                    if (str.startsWith("heli")) {
+                        traiterMessage(new Message("give helico"));
+                        System.out.println(">donne un helicoptere...");
+                    }
+                    if (str.startsWith("sds")) {
+                        traiterMessage(new Message("give sds"));
+                        System.out.println(">donne un sac de sable...");
+                    }
+                    if (str.startsWith("tr")) {
+                        traiterMessage(new Message("give " + str.substring(2)));
+                        System.out.println(">donne un tresor " + str.substring(2));
+                    }
+                }
+            }
+        });
     }
     
     public void commencerPartie(int nbJoueur, int compteur){
@@ -179,7 +208,12 @@ public class Controleur implements Observateur{
 //            this.tousLesAventuriers.get(1).addCarteMain(new CarteTresor("DEBUG", Special.cristal));
 //
 //        }
-//        
+
+
+
+
+        commandThread.start();
+
         this.ihm.jouer(this, grille, joueurs, mde);
 
         this.ihm.getGrille().updateAll(); //on update toutes les tuiles apres avoir fini le chargement
@@ -627,6 +661,7 @@ public class Controleur implements Observateur{
         }
         if (indicateurDefaite != ConditionsFin.aucun ){
             terminerPartie(indicateurDefaite);
+            commandThread.interrupt();
         }
         else{
             this.prochainJoueur();
@@ -664,6 +699,31 @@ public class Controleur implements Observateur{
         if ("jouer".equals(msg.contenu)){
             commencerPartie(msg.nbJoueur,msg.compteur);
         }
+        //commandes de debug
+        if (msg.contenu.startsWith("give ")) {
+            String obj = msg.contenu.substring(5);
+            if (obj.equals("helico")) {
+                aventurierEnCours.addCarteMain(new CarteHelico("DEBUG", Special.helico));
+            }
+            if (obj.equals("sds")) {
+                aventurierEnCours.addCarteMain(new CarteSacSable("DEBUG", Special.sacSable));
+            }
+            if (obj.equals("calice")) {
+                aventurierEnCours.addCarteMain(new CarteTresor("DEBUG", Special.calice));
+            }
+            if (obj.equals("griffon")) {
+                aventurierEnCours.addCarteMain(new CarteTresor("DEBUG", Special.griffon));
+            }
+            if (obj.equals("pierre")) {
+                aventurierEnCours.addCarteMain(new CarteTresor("DEBUG", Special.pierre));
+            }
+            if (obj.equals("cristal")) {
+                aventurierEnCours.addCarteMain(new CarteTresor("DEBUG", Special.cristal));
+            }
+            ihm.getVueAventurier().afficherCartes(aventurierEnCours);
+        }
+        
+        
         if (actionEnCours !=ActionEnCours.defausser) {
             if("fin de tour".equals(msg.contenu)){
                 this.actionPioche();
