@@ -42,22 +42,22 @@ public class Controleur implements Observateur{
     private ArrayList<Aventurier> aventurierPassagers;
     
     public Controleur() {
+ 
+        this.ihm = new IHM(this);
+    }
+    
+    public void commencerPartie(int nbJoueur, int compteur){
+        
         this.listeDesJoueurs = new ArrayList<>();
         this.joueurs = new ArrayList<>();
         this.grille = new Grille();
         this.cartesADefausser = new ArrayList<>();
         this.tousLesAventuriers = new ArrayList<>();
         this.tresorsRecup = new HashMap<>();
-        tresorsRecup.put(Special.calice, true);
-        tresorsRecup.put(Special.cristal, true);
-        tresorsRecup.put(Special.griffon, true);
-        tresorsRecup.put(Special.pierre, true);
-        
-        
-        
-        
-        //demo
-        
+        tresorsRecup.put(Special.calice, false);
+        tresorsRecup.put(Special.cristal, false);
+        tresorsRecup.put(Special.griffon, false);
+        tresorsRecup.put(Special.pierre, false);
         
         Ingenieur ingenieur = new Ingenieur(this.grille.getTuilebyName("La Porte de Bronze"));
         Navigateur navigateur = new Navigateur(this.grille.getTuilebyName("La Porte d’Or"));
@@ -75,7 +75,7 @@ public class Controleur implements Observateur{
         
         Collections.shuffle(tousLesAventuriers);
         
-        initialiserPartie(4);
+        initialiserPartie(nbJoueur);
         
         // initialisation des pioches et des défausses de cartes
         
@@ -147,29 +147,17 @@ public class Controleur implements Observateur{
         
         Collections.shuffle(piocheTirage); // mélange la pioche Tirage avec les carte mde ajouté
         
-        mde = new MonteeDesEaux(1);
+        mde = new MonteeDesEaux(compteur);
         //debug
         
         for (Aventurier aventurier : listeDesJoueurs) {
             joueurs.add(new Joueur(aventurier, "saucisse"));
         }
         
-
-        //fin de la demo
-        
-        
-        this.ihm = new IHM(this, grille, joueurs, mde);
-
-        this.ihm.getGrille().updateAll(); //on update toutes les tuiles apres avoir fini le chargement
-        this.joueurEnCours = nombreDeJoueurs -1;
-        this.prochainJoueur();
-        this.mde.setCompteur(1);
-        
-        
         //debug
         
         
-        aventurierEnCours.addCarteMain(new CarteHelico("DEBUG", Special.helico));
+//        aventurierEnCours.addCarteMain(new CarteHelico("DEBUG", Special.helico));
         
 //        for(CarteTirage carte : aventurierEnCours.getCartesMain()){
 //            this.aventurierEnCours.removeCarteMain(carte);
@@ -181,6 +169,12 @@ public class Controleur implements Observateur{
 //
 //        }
 //        
+        this.ihm.Jouer(this, grille, joueurs, mde);
+
+        this.ihm.getGrille().updateAll(); //on update toutes les tuiles apres avoir fini le chargement
+        this.joueurEnCours = nombreDeJoueurs -1;
+        this.prochainJoueur();
+        this.mde.setCompteur(compteur);
         
     }
     
@@ -644,7 +638,10 @@ public class Controleur implements Observateur{
     public void traiterMessage(Message msg) {
 //        System.out.println("message: " + msg.contenu);
 //        System.out.println(this.aventurierEnCours.getPointsAction());
-        
+        if ("jouer".equals(msg.contenu)){
+            commencerPartie(msg.nbJoueur,1);
+            ihm.Jouer(this, grille, joueurs, mde);
+        }
         if (actionEnCours !=ActionEnCours.defausser) {
             if("fin de tour".equals(msg.contenu)){
                 this.actionPioche();
