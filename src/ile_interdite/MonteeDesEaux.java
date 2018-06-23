@@ -33,7 +33,7 @@ public class MonteeDesEaux extends Observe{
         else if (compteur > 7 & compteur < 10){
             this.nbCarteInondation = 5;
         }
-        else if (compteur == 10){
+        else if (compteur >= 10){
             this.inondationTotal = true;
         }
     }
@@ -54,5 +54,9 @@ public class MonteeDesEaux extends Observe{
     
     public int getCompteur(){
         return this.compteur;
+    }
+    
+    public boolean isInondationTotal(){
+        return this.inondationTotal;
     }
 }

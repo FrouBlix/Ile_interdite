@@ -42,6 +42,12 @@ public class Controleur implements Observateur{
     private ArrayList<Aventurier> aventurierPassagers;
     
     public Controleur() {
+ 
+        this.ihm = new IHM(this);
+    }
+    
+    public void commencerPartie(int nbJoueur, int compteur){
+        
         this.listeDesJoueurs = new ArrayList<>();
         this.joueurs = new ArrayList<>();
         this.grille = new Grille();
@@ -52,12 +58,6 @@ public class Controleur implements Observateur{
         tresorsRecup.put(Special.cristal, false);
         tresorsRecup.put(Special.griffon, false);
         tresorsRecup.put(Special.pierre, false);
-        
-        
-        
-        
-        //demo
-        
         
         Ingenieur ingenieur = new Ingenieur(this.grille.getTuilebyName("La Porte de Bronze"));
         Navigateur navigateur = new Navigateur(this.grille.getTuilebyName("La Porte d’Or"));
@@ -75,7 +75,7 @@ public class Controleur implements Observateur{
         
         Collections.shuffle(tousLesAventuriers);
         
-        initialiserPartie(4);
+        initialiserPartie(nbJoueur);
         
         // initialisation des pioches et des défausses de cartes
         
@@ -147,29 +147,25 @@ public class Controleur implements Observateur{
         
         Collections.shuffle(piocheTirage); // mélange la pioche Tirage avec les carte mde ajouté
         
-        mde = new MonteeDesEaux(1);
+        mde = new MonteeDesEaux(compteur);
         //debug
         
         for (Aventurier aventurier : listeDesJoueurs) {
             joueurs.add(new Joueur(aventurier, "saucisse"));
         }
         
-
-        //fin de la demo
+        System.out.println(mde.getNbCarteInodation());
         
-        
-        this.ihm = new IHM(this, grille, joueurs, mde);
-
-        this.ihm.getGrille().updateAll(); //on update toutes les tuiles apres avoir fini le chargement
-        this.joueurEnCours = nombreDeJoueurs -1;
-        this.prochainJoueur();
-        this.mde.setCompteur(1);
-        
-        
+        for (int i = 1 ; i <= mde.getNbCarteInodation(); i++){
+            CarteInondation carte = carteInondationHaut();
+            grille.getTuilebyName(carte.getNom()).setEtat(EtatsTuiles.inondee);
+            this.defausseInondation.add(carte);
+            this.piocheInondation.remove(carte);
+         }
         //debug
         
         
-        aventurierEnCours.addCarteMain(new CarteHelico("DEBUG", Special.helico));
+//        aventurierEnCours.addCarteMain(new CarteHelico("DEBUG", Special.helico));
         
 //        for(CarteTirage carte : aventurierEnCours.getCartesMain()){
 //            this.aventurierEnCours.removeCarteMain(carte);
@@ -181,6 +177,12 @@ public class Controleur implements Observateur{
 //
 //        }
 //        
+        this.ihm.jouer(this, grille, joueurs, mde);
+
+        this.ihm.getGrille().updateAll(); //on update toutes les tuiles apres avoir fini le chargement
+        this.joueurEnCours = nombreDeJoueurs -1;
+        this.prochainJoueur();
+        this.mde.setCompteur(compteur);
         
     }
     
@@ -617,8 +619,8 @@ public class Controleur implements Observateur{
             }
                 
         }
-        if (this.mde.getCompteur() > 9){
-            indicateurDefaite = ConditionsFin.MDE;
+        if (this.mde.isInondationTotal()){
+            indicateurDefaite = 4;
         }
         if (indicateurDefaite != ConditionsFin.aucun ){
             terminerPartie(indicateurDefaite);
@@ -628,9 +630,9 @@ public class Controleur implements Observateur{
         }
     }
     
-    public void terminerPartie(ConditionsFin condition){
-        switch (condition){
-            case noyade:
+    public void terminerPartie(int cas){
+        switch (cas){
+            case 1:
                 System.out.println("un aventurier s'est noyer vous avez perdu");
                 break;
             case heliport:
@@ -648,7 +650,7 @@ public class Controleur implements Observateur{
             default:
                 break;
         }
-        ihm.finirPartie();
+        ihm.finirPartie(cas);
     }
     
     
@@ -656,10 +658,9 @@ public class Controleur implements Observateur{
     public void traiterMessage(Message msg) {
 //        System.out.println("message: " + msg.contenu);
 //        System.out.println(this.aventurierEnCours.getPointsAction());
-        if ("fenetre de fin fermee".equals(msg.contenu)) {
-            ihm.getFenetreJeu().dispose(); // la fenetre existait toujours juqu'ici, juste invisible.
+        if ("jouer".equals(msg.contenu)){
+            commencerPartie(msg.nbJoueur,msg.compteur);
         }
-        
         if (actionEnCours !=ActionEnCours.defausser) {
             if("fin de tour".equals(msg.contenu)){
                 this.actionPioche();
