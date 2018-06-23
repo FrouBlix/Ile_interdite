@@ -7,6 +7,7 @@ package ile_interdite;
 
 import GraphicsUtil.ImagePanel;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /**
@@ -23,7 +25,6 @@ import javax.swing.JTextField;
  */
 public class IHM extends Observe{
     private JFrame fenetreJeu;
-    private IHMFin fenetreFin;
     private VueGrille grille;
     private VueAventurier vueAventurier;
     private VueEquipe vueEquipe;
@@ -31,7 +32,7 @@ public class IHM extends Observe{
     private VueStatut vueStatut;
     
     private JFrame fenetreMenu;
-    private ImagePanel image;
+    private ImagePanel imageMenu;
     private JLabel informations;
     private JLabel nbJoueur;
     private JComboBox choixNbJoueur;
@@ -45,14 +46,23 @@ public class IHM extends Observe{
     private JLabel boutons;
     private JButton jouer;
     private JButton aide;
-    private JButton quitter;
+    private JButton quitterMenu;
 
+    private JFrame fenetreFin;
+    private JLabel messageFin;
+    private JLabel titreMessage;
+    private ImagePanel imageFin;
+    private JButton quitterFin;
+    private JButton menu;
+    
+    
     public IHM(Observateur observateur) {
         fenetreMenu = new JFrame("Ile interdite");
+        fenetreMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         fenetreMenu.setSize(1000,670);
         
         fenetreMenu.setLayout(new GridLayout(1,2));
-        image = new ImagePanel("image-Menu.jpg",1.80);
+        imageMenu = new ImagePanel("image-Menu.jpg",1.80);
         
         this.informations = new JLabel();
         this.informations.setLayout(new GridLayout(6,2));
@@ -111,15 +121,15 @@ public class IHM extends Observe{
         
         aide = new JButton("AIDE");
         
-        quitter = new JButton("QUITTER");
+        quitterMenu = new JButton("QUITTER");
         
         boutons.add(jouer);
         boutons.add(aide);
-        boutons.add(quitter);
+        boutons.add(quitterMenu);
         
         this.informations.add(boutons);
         
-        fenetreMenu.add(image, BorderLayout.WEST);
+        fenetreMenu.add(imageMenu, BorderLayout.WEST);
         fenetreMenu.add(this.informations);
         
         fenetreMenu.setVisible(true);
@@ -149,6 +159,10 @@ public class IHM extends Observe{
         vueStatut = new VueStatut(mde);
         fenetreJeu.add(vueStatut, BorderLayout.EAST);
         fenetreJeu.setVisible(true);
+    }
+    
+    public void afficherMenu(){
+        fenetreMenu.setVisible(true);
     }
 
     public void setFenetreJeu(JFrame fenetreJeu) {
@@ -198,7 +212,74 @@ public class IHM extends Observe{
     
     public void finirPartie(int cas){
         fenetreJeu.setVisible(false);
-        fenetreFin = new IHMFin(cas);
+        fenetreFin = new JFrame("Fin de Partie");
+        fenetreFin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        fenetreFin.setSize(1300, cas < 5 ? 390 : 460);
+        
+        switch (cas){
+            case 5:
+                messageFin = new JLabel("Félicitatons vous avez récuperé tous les trésors\net vous avez réussi à quitter l'île !!\nVotre mission est un succès.");
+            break;
+            
+            case 4:
+                messageFin = new JLabel("Le compteur de la montée des eaux a atteint son paroxysme,\nvous avez échoué.");
+                break;
+                
+            case 3:
+                messageFin = new JLabel("L'un des Trésor a sombré avec l'île,\nvous ne pouvez donc plus le récupérer.\nVotre mission est un échec.");
+                break;
+                
+            case 2:
+                messageFin = new JLabel("L'Héliport a sombré avec l'île ,\nvous ne pouvez plus vous échapper.\nVous êtes comdamner.");
+                break;
+                
+            case 1:
+                messageFin = new JLabel("L'un des aventurier s'est noyer, vous avez échoué.\nVotre mission est un échec.");
+                break;
+                
+            default:
+                break;
+            
+        }
+        messageFin.setBackground(Color.pink);
+        
+        
+        fenetreFin.setLayout(new GridLayout(1,2));
+
+        JLabel information = new JLabel();
+        information.setLayout(new GridLayout(3,1));
+
+        JLabel boutons = new JLabel();
+        boutons.setLayout(new GridLayout(1,2));
+        
+        imageFin = new ImagePanel(cas < 5 ? "image-de-Défaite.jpg" : "image-de-Victoire.jpg", cas < 5 ? 1.25 : 1.50);
+        titreMessage = new JLabel(cas < 5 ? "DEFAITE" : "VICTOIRE");
+        information.setBackground(Color.pink);
+        fenetreFin.setBackground(Color.PINK);
+        
+        quitterFin = new JButton("QUITTER");
+        
+        menu = new JButton("MENU");
+        menu.addActionListener(
+            new ActionListener(){
+            @Override
+                public void actionPerformed(ActionEvent e) {
+                    afficherMenu();
+                    fenetreFin.setVisible(false);
+                }
+                
+            });
+
+        boutons.add(menu, BorderLayout.WEST);
+        boutons.add(quitterFin, BorderLayout.EAST);
+
+        information.add(titreMessage, BorderLayout.NORTH);
+        information.add(messageFin, BorderLayout.CENTER);
+        information.add(boutons, BorderLayout.SOUTH);
+
+        
+        fenetreFin.add(imageFin);
+        fenetreFin.add(information);
         fenetreFin.setVisible(true);
     }
     
