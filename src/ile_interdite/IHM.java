@@ -117,7 +117,12 @@ public class IHM extends Observe{
         aide = new JButton("AIDE");
         
         quitterMenu = new JButton("QUITTER");
-        
+        quitterMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
         boutons.add(jouer);
         boutons.add(aide);
         boutons.add(quitterMenu);
@@ -253,6 +258,12 @@ public class IHM extends Observe{
         fenetreFin.setBackground(Color.PINK);
         
         quitterFin = new JButton("QUITTER");
+        quitterFin.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
         
         menu = new JButton("MENU");
         menu.addActionListener(
