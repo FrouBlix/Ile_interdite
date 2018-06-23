@@ -169,7 +169,7 @@ public class Controleur implements Observateur{
 //
 //        }
 //        
-        this.ihm.Jouer(this, grille, joueurs, mde);
+        this.ihm.jouer(this, grille, joueurs, mde);
 
         this.ihm.getGrille().updateAll(); //on update toutes les tuiles apres avoir fini le chargement
         this.joueurEnCours = nombreDeJoueurs -1;
@@ -639,8 +639,7 @@ public class Controleur implements Observateur{
 //        System.out.println("message: " + msg.contenu);
 //        System.out.println(this.aventurierEnCours.getPointsAction());
         if ("jouer".equals(msg.contenu)){
-            commencerPartie(msg.nbJoueur,1);
-            ihm.Jouer(this, grille, joueurs, mde);
+            commencerPartie(msg.nbJoueur,msg.compteur);
         }
         if (actionEnCours !=ActionEnCours.defausser) {
             if("fin de tour".equals(msg.contenu)){

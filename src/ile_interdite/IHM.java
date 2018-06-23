@@ -31,54 +31,77 @@ public class IHM extends Observe{
     private VueStatut vueStatut;
     
     private JFrame fenetreMenu;
-    private JLabel menu;
+    private ImagePanel image;
+    private JLabel informations;
     private JLabel nbJoueur;
-    private JLabel[] joueur = new JLabel[4];
-    private JLabel difficulte;
-    private JTextField[] champJoueur = new JTextField[4];
     private JComboBox choixNbJoueur;
     private String[] nombre = new String[3];
-    private ImagePanel image;
-    private JLabel information;
-    private JLabel joueurs;
+    private JLabel[] joueur = new JLabel[4];
+    private JTextField[] champJoueur = new JTextField[4];
+    private JLabel infoDifficulte;
+    private JComboBox choixDeLaDifficulte;
+    private String[] nomDifficulte = new String[4]; 
+    private JLabel difficulte;
+    private JLabel boutons;
     private JButton jouer;
+    private JButton aide;
+    private JButton quitter;
 
     public IHM(Observateur observateur) {
-        
-        
         fenetreMenu = new JFrame("Ile interdite");
         fenetreMenu.setSize(1000,670);
         
         fenetreMenu.setLayout(new GridLayout(1,2));
         image = new ImagePanel("image-Menu.jpg",1.80);
         
-        this.joueurs = new JLabel();
-        this.joueurs.setLayout(new GridLayout(6,2));
+        this.informations = new JLabel();
+        this.informations.setLayout(new GridLayout(6,2));
         
         nbJoueur = new JLabel("Nombre de joueur :");
-        this.joueurs.add(nbJoueur);
+        this.informations.add(nbJoueur);
         
         for (int i = 0; i < 3 ; i++){
             nombre[i] = ""+(i+2);
         }
         choixNbJoueur = new JComboBox(nombre);
         choixNbJoueur.setSelectedIndex(0);
-        this.joueurs.add(choixNbJoueur);
+        this.informations.add(choixNbJoueur);
         
         for (int i = 0; i < 4; i++){
             joueur[i] = new JLabel("Joueur " + (i+1) + " :");
-            this.joueurs.add(joueur[i]);
+            this.informations.add(joueur[i]);
             champJoueur[i] = new JTextField();
             champJoueur[i].setColumns(30);
-            this.joueurs.add(champJoueur[i]);
+            this.informations.add(champJoueur[i]);
         }
+        
+        infoDifficulte = new JLabel();
+        infoDifficulte.setLayout(new GridLayout(2,1));
+        
+        difficulte = new JLabel("DIfficulté");
+        
+        nomDifficulte[0]= "1 - Novice";
+        nomDifficulte[1]= "2 - Normal";
+        nomDifficulte[2]= "3 - Elite";
+        nomDifficulte[3]= "4 - Légendaire";
+        
+        choixDeLaDifficulte = new JComboBox(nomDifficulte);
+        choixDeLaDifficulte.setSelectedIndex(0);
+        
+        this.infoDifficulte.add(difficulte);
+        this.infoDifficulte.add(choixDeLaDifficulte);
+        
+        this.informations.add(infoDifficulte);
+        
+        boutons = new JLabel();
+        boutons.setLayout(new GridLayout(3,1));
         
         jouer = new JButton("JOUER");
         jouer.addActionListener(
             new ActionListener(){
             @Override
                 public void actionPerformed(ActionEvent e) {
-                    Message m = new Message("jouer",choixNbJoueur.getSelectedIndex()+2);
+                    Message m = new Message("jouer", choixNbJoueur.getSelectedIndex()+2, choixDeLaDifficulte.getSelectedIndex()+1);
                     for (int i = 0; i < m.nbJoueur; i++){
                         m.nomJoueur[i] = champJoueur[i].getText();
                     }
@@ -86,17 +109,25 @@ public class IHM extends Observe{
                 }
             });
         
-        joueurs.add(jouer);
+        aide = new JButton("AIDE");
+        
+        quitter = new JButton("QUITTER");
+        
+        boutons.add(jouer);
+        boutons.add(aide);
+        boutons.add(quitter);
+        
+        this.informations.add(boutons);
         
         fenetreMenu.add(image, BorderLayout.WEST);
-        fenetreMenu.add(this.joueurs);
+        fenetreMenu.add(this.informations);
         
         fenetreMenu.setVisible(true);
         
         this.addObservateur(observateur);
     }
     
-    public void Jouer(Observateur observateur, Grille grilleaAfficher, ArrayList<Joueur> joueurs, MonteeDesEaux mde){
+    public void jouer(Observateur observateur, Grille grilleaAfficher, ArrayList<Joueur> joueurs, MonteeDesEaux mde){
         fenetreMenu.setVisible(false);
         
         fenetreJeu = new JFrame();
