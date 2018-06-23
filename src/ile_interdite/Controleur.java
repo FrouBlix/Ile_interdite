@@ -492,27 +492,39 @@ public class Controleur implements Observateur{
         }
     }
     
-    public void selectAventurierHeli(Joueur j){
-        if (aventurierPassagers.size() > 0) {
-            if (aventurierPassagers.get(0).getNeighbors().contains(j.getPersonnage())) {
-                if (aventurierPassagers.contains(j.getPersonnage())) {
-                    ihm.getVueEquipe().selectionner(j, false);
-                    aventurierPassagers.remove(j.getPersonnage());
-                    if (aventurierPassagers.size() == 0) {
-                        ihm.getVueEquipe().surligner(true, listeDesJoueurs);
-                        ihm.getGrille().stopSurligner();
-                    }
-                }else {
-                    ihm.getVueEquipe().selectionner(j, true);
-                    aventurierPassagers.add(j.getPersonnage());
-                }
+    public void selectAventurierHeli(Joueur j){ //FIXME: surligner les bons equipers est casse.
+        
+        if (aventurierPassagers.contains(j.getPersonnage())) {
+            //on a deja select le perso
+            //le retirer
+            aventurierPassagers.remove(j.getPersonnage());
+            //stop le surligner
+            ihm.getVueEquipe().selectionner(j, false);
+            //si y'a plus de perso surligner tout le monde
+            if (aventurierPassagers.isEmpty()) {
+                ihm.getVueEquipe().surligner(true, listeDesJoueurs);
+                ihm.getGrille().stopSurligner();
             }
         }else{
-            ihm.getVueEquipe().surligner(false, listeDesJoueurs);
-            ihm.getVueEquipe().surligner(true, j.getPersonnage().getNeighbors());
-            ihm.getVueEquipe().selectionner(j, true);
-            ihm.getGrille().surlignerAll();
+            //le perso n'est pas select
+            //test si on a le droit de le select etant donne la selection actuelle et le rajouter si possible
+            if (!aventurierPassagers.isEmpty()) {
+                // tester si on a le droit de select
+                if (aventurierPassagers.get(0).getNeighbors().contains(j.getPersonnage())) {
+                    //on a le droit
+                    aventurierPassagers.add(j.getPersonnage());
+                    ihm.getVueEquipe().selectionner(j, true);
+                }
+            }else{
+                //premiere selection: ajouter l'aventurier a la liste
+                aventurierPassagers.add(j.getPersonnage());
+                ihm.getVueEquipe().surligner(false, listeDesJoueurs);
+                ihm.getVueEquipe().surligner(true, j.getPersonnage().getNeighbors());
+                ihm.getVueEquipe().selectionner(j, true);
+                ihm.getGrille().surlignerAll();
+            }
         }
+        
     }
     
     public void selectTuileHeli(Tuile t){
@@ -608,7 +620,7 @@ public class Controleur implements Observateur{
         if (this.mde.getCompteur() > 9){
             indicateurDefaite = ConditionsFin.MDE;
         }
-        if (indicateurDefaite == ConditionsFin.aucun ){
+        if (indicateurDefaite != ConditionsFin.aucun ){
             terminerPartie(indicateurDefaite);
         }
         else{
