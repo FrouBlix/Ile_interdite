@@ -247,6 +247,7 @@ public class Controleur implements Observateur{
         ihm.getVueAventurier().setPrendreRelique(aventurierEnCours.peutAcquerirTresor());
         ihm.getVueAventurier().enableAssecher(aventurierEnCours.isAssechementPossible());
         ihm.getVueAventurier().setPouvoirAActiver(aventurierEnCours.isPouvoirDispo());
+        ihm.getVueStatut().getVueTresor().updatePointAction(aventurierEnCours.getPointsAction());
     }
     
     public Aventurier prochainJoueur(){

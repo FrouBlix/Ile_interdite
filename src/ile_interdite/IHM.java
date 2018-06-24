@@ -157,6 +157,15 @@ public class IHM extends Observe{
         fenetreJeu.add(vueEquipe.asJPanel(), BorderLayout.WEST);
         
         vueStatut = new VueStatut(mde);
+        vueStatut.getMenu().addActionListener(
+            new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                afficherMenu();
+                fenetreJeu.setVisible(false);
+            }
+                
+            });
         fenetreJeu.add(vueStatut, BorderLayout.EAST);
         fenetreJeu.setVisible(true);
     }
