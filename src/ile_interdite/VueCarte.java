@@ -5,6 +5,7 @@
  */
 package ile_interdite;
 
+import GraphicsUtil.ImagePanel;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -17,34 +18,32 @@ import javax.swing.JPanel;
  * @author senno
  */
 public class VueCarte extends Observe{
-    private JPanel panel;
+    private ImagePanel panel;
     private CarteTirage carte;
     private JLabel nom;
 
     public VueCarte(Observateur o, CarteTirage c){
         this.addObservateur(o);
-
-        panel = new JPanel();
         carte = c;
         nom = new JLabel(carte.getNom());
         switch(carte.getType()){
             case cristal:
-                panel.setBackground(Color.red);
+                panel = new ImagePanel("cartecristal.png", 0.1);
                 break;
             case calice:
-                panel.setBackground(Color.cyan);
+                panel = new ImagePanel("cartecalice.png", 0.1);
                 break;
             case pierre:
-                panel.setBackground(Color.blue);
+                panel = new ImagePanel("cartepierre.png", 0.1);
                 break;
             case griffon:
-                panel.setBackground(Color.yellow);
+                panel = new ImagePanel("cartegriffon.png", 0.1);
                 break;
             case sacSable:
-                panel.setBackground(Color.decode("#FFA500"));
+                panel = new ImagePanel("SacsDeSable.png", 0.1);
                 break;
             case helico:
-                panel.setBackground(Color.decode("#FF00FF"));
+                panel = new ImagePanel("Helicoptere.png", 0.1);
         }
         
         
