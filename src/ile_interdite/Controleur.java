@@ -267,6 +267,7 @@ public class Controleur implements Observateur{
         }
         this.resetAction();
         this.afficherCartesAventurier(true);
+        ihm.getVueStatut().getVueTresor().updateJoueurEncours(a.getClass().getSimpleName());
         return a;
     }
     

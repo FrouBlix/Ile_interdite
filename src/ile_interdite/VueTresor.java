@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 public class VueTresor extends JPanel{
     private HashMap<Special, ImagePanel> tresors;
     private JLabel pointAction;
+    private JLabel aventurier;
 
     public VueTresor() {
         super(new BorderLayout());
@@ -42,6 +43,8 @@ public class VueTresor extends JPanel{
         tresor.add(panel);
         this.add(tresor, BorderLayout.PAGE_START);
         pointAction = new JLabel("PA restants :");
+        aventurier = new JLabel();
+        this.add(aventurier, BorderLayout.CENTER);
         this.add(pointAction, BorderLayout.PAGE_END);
     }
     
@@ -59,6 +62,8 @@ public class VueTresor extends JPanel{
         this.pointAction.setText("PA restant : " + pointAction);
     }
     
-    
+    public void updateJoueurEncours(String nom){
+        this.aventurier.setText("Tour en cours : " + nom);
+    }
     
 }
