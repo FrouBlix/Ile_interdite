@@ -8,9 +8,12 @@ package ile_interdite;
 import GraphicsUtil.ImagePanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -114,7 +117,24 @@ public class IHM extends Observe{
                 }
             });
         
+        
+        File file = new File("regle.pdf");
+        
         aide = new JButton("AIDE");
+        
+        aide.addActionListener(
+            new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Desktop regle = Desktop.getDesktop();
+                try{
+                    regle.open(file);
+                } catch (IOException err){
+                    System.out.println("impossible de lire le fichhier des règle");
+                }
+            }
+                
+            });
         
         quitterMenu = new JButton("QUITTER");
         quitterMenu.addActionListener(new ActionListener() {
