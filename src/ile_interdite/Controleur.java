@@ -247,13 +247,19 @@ public class Controleur implements Observateur{
         ihm.getVueAventurier().setPrendreRelique(aventurierEnCours.peutAcquerirTresor());
         ihm.getVueAventurier().enableAssecher(aventurierEnCours.isAssechementPossible());
         ihm.getVueAventurier().setPouvoirAActiver(aventurierEnCours.isPouvoirDispo());
+        ihm.getVueStatut().getVueTresor().updatePointAction(aventurierEnCours.getPointsAction());
     }
     
     public Aventurier prochainJoueur(){
         this.joueurEnCours ++;
         this.joueurEnCours %= this.nombreDeJoueurs;
         Aventurier a = this.listeDesJoueurs.get(joueurEnCours);
-        a.setPointsAction(3);
+        if (a instanceof Navigateur) {
+            a.setPointsAction(4);
+        }else{
+            a.setPointsAction(3);
+
+        }
         this.setAventurierEnCours(a);
         this.ihm.getVueAventurier().setPouvoirAActiver(a.pouvoirAActiver);
         if (a.isPouvoirAActiver()) {
@@ -261,6 +267,7 @@ public class Controleur implements Observateur{
         }
         this.resetAction();
         this.afficherCartesAventurier(true);
+        ihm.getVueStatut().getVueTresor().updateJoueurEncours(a.getClass().getSimpleName());
         return a;
     }
     
@@ -337,7 +344,7 @@ public class Controleur implements Observateur{
         }
         aventurierEnCours.piocheCartes(cartesTirees);   // ajout des cartes tirées dans la main du joueur;
         
-        if (aventurierEnCours.isMainExcede()){
+        if (aventurierEnCours.isMainExcede()){ 
             this.cartesADefausser = new ArrayList<>();
             this.actionEnCours = ActionEnCours.defausser;
             aventurierEnCoursDeDefausse = aventurierEnCours;
