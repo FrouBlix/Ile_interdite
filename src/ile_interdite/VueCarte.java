@@ -18,6 +18,8 @@ import javax.swing.JPanel;
  * @author senno
  */
 public class VueCarte extends Observe{
+    
+    private JPanel panel2;
     private ImagePanel panel;
     private CarteTirage carte;
     private JLabel nom;
@@ -26,6 +28,7 @@ public class VueCarte extends Observe{
         this.addObservateur(o);
         carte = c;
         nom = new JLabel(carte.getNom());
+        panel2 = new JPanel();
         switch(carte.getType()){
             case cristal:
                 panel = new ImagePanel("cartecristal.png", 0.1);
@@ -77,11 +80,12 @@ public class VueCarte extends Observe{
         });
         
         panel.setBorder(BorderFactory.createLineBorder(Color.black, 1, true));
-        
+        panel2.add(panel);
+        panel2.setOpaque(false);
     }
     
     public JPanel asJPanel() {
-        return panel;
+        return panel2;
     }
  
     public void surligner(boolean surligner){
