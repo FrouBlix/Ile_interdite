@@ -12,7 +12,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
-import javax.naming.OperationNotSupportedException;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -220,6 +219,7 @@ public class VueAventurier extends Observe{
             panelCartesCentral.add(vue.asJPanel());
             cartes.put(carte, vue);
         }
+        panelCartesCentral.setBackground(a.getPion().getColor());
         panelCartesCentral.revalidate();
         panelCartesCentral.repaint();
     }
