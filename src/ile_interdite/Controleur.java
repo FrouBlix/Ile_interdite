@@ -182,8 +182,12 @@ public class Controleur implements Observateur{
         mde = new MonteeDesEaux(compteur);
         //debug
         
+        ArrayList<String> noms = ihm.getNoms();
+        int c = 0;
+        
         for (Aventurier aventurier : listeDesJoueurs) {
-            joueurs.add(new Joueur(aventurier, "saucisse"));
+            joueurs.add(new Joueur(aventurier, noms.get(c)));
+            c++; //heh
         }
         
         System.out.println(mde.getNbCarteInodation());

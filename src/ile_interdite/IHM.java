@@ -289,6 +289,12 @@ public class IHM extends Observe{
         fenetreFin.setVisible(true);
     }
     
-    
+    public ArrayList<String> getNoms(){
+        ArrayList<String> ret = new ArrayList<>();
+        for (JTextField field : champJoueur) {
+            ret.add(field.getText());
+        }
+        return ret;
+    }
     
 }
