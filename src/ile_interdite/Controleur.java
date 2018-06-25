@@ -55,7 +55,9 @@ public class Controleur implements Observateur{
                         + "\theli: donne un helicoptere\n"
                         + "\tsds: donne un sac de sable\n"
                         + "\ttrcalice / trgriffon / trcristal / trpierre:\n"
-                        + "\t\tdonne une carte de tresor specifiee");
+                        + "\t\tdonne une carte de tresor specifiee\n"
+                        + "\twin: gagner instantanement\n"
+                        + "\ttresors: gagner tous les tresors");
                 while(true){
                     str = sc.next();
                     if (str.startsWith("heli")) {
@@ -69,6 +71,14 @@ public class Controleur implements Observateur{
                     if (str.startsWith("tr")) {
                         traiterMessage(new Message("give " + str.substring(2)));
                         System.out.println(">donne un tresor " + str.substring(2));
+                    }
+                    if (str.startsWith("win")) {
+                        traiterMessage(new Message("give win"));
+                        System.out.println(">gg");
+                    }
+                    if (str.startsWith("tresors")) {
+                        traiterMessage(new Message("give tresors"));
+                        System.out.println(">donne tous les tresors...");
                     }
                 }
             }
@@ -733,6 +743,17 @@ public class Controleur implements Observateur{
             }
             if (obj.equals("cristal")) {
                 aventurierEnCours.addCarteMain(new CarteTresor("DEBUG", Special.cristal));
+            }
+            if (obj.equals("win")) {
+                terminerPartie(ConditionsFin.victoire);
+            }
+            if (obj.equals("tresors")) {
+                for (Map.Entry<Special, Boolean> entry : tresorsRecup.entrySet()) {
+                    Special key = entry.getKey();
+                    Boolean value = entry.getValue();
+                    tresorsRecup.put(key, true);
+                    ihm.getVueStatut().getVueTresor().acquerirTrophee(key);
+                }
             }
             ihm.getVueAventurier().afficherCartes(aventurierEnCours);
         }
